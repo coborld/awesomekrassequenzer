@@ -1,4 +1,6 @@
 ﻿using krassequenzer;
+using krassequenzer.GenerationStuff;
+using krassequenzer.MusicModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;

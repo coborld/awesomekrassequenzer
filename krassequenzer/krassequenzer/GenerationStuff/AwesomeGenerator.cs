@@ -1,10 +1,11 @@
-﻿using System;
+﻿using krassequenzer.MusicModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace krassequenzer
+namespace krassequenzer.GenerationStuff
 {
 	public class AwesomeGenerator
 	{
