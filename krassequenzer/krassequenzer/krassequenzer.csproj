@@ -57,12 +57,15 @@
     <Compile Include="MusicModel\TempoChange.cs" />
     <Compile Include="MusicModel\TempoTrack.cs" />
     <Compile Include="MusicModel\MusicalTime.cs" />
+    <Compile Include="MusicModel\TimeSignature.cs" />
+    <Compile Include="MusicModel\TimeSignatureChange.cs" />
+    <Compile Include="MusicModel\TimeSignatureTrack.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MusicModel\Tempo.cs" />
     <Compile Include="Stuff\ExtUtil.cs" />
     <Compile Include="Stuff\Interpolator.cs" />
-    <Compile Include="Stuff\OrderedList.cs" />
+    <Compile Include="Stuff\OrderedCollection.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
