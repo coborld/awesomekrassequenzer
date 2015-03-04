@@ -12,7 +12,9 @@ namespace krassequenzer.MusicModel
 	/// </summary>
 	public struct MusicalTime
 	{
-		public const int TicksPerQuarter = 128;
+		// this is so that 16th notes are evenly divisble by
+		// 2, 3, 4, 5, 6, 8, 10
+		public const int TicksPerQuarter = 4 * 120;
 
 		public MusicalTime(long ticks)
 		{

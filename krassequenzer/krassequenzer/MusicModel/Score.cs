@@ -8,8 +8,10 @@ namespace krassequenzer.MusicModel
 {
 	public class Score
 	{
-		private readonly List<Part> _parts = new List<Part>();
-		public List<Part> Parts { get { return this._parts; } }
+		public string Title { get; set; }
+
+		private readonly List<Track> _tracks = new List<Track>();
+		public List<Track> Tracks { get { return this._tracks; } }
 
 		private readonly TempoTrack _tempoTrack = new TempoTrack();
 		public TempoTrack TempoTrack { get { return this._tempoTrack; } }

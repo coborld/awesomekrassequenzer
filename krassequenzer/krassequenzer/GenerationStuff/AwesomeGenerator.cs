@@ -20,7 +20,7 @@ namespace krassequenzer.GenerationStuff
 
 		//public Beat Beat;
 
-		public void Generate(Part part)
+		public void Generate(Track part)
 		{
 			Random rnd = new Random(0);
 			// !! cool:
@@ -28,7 +28,7 @@ namespace krassequenzer.GenerationStuff
 			for (int i = 0; i < NrNotesToGenerate; i++)
 			{
 				int rndDur = rnd.Next(1, MaxDuration);
-				part.Notes.Add(new Note() { Duration = rndDur, Rest = false });
+				part.Notes.Add(new Note() { Duration = new MusicalTime(rndDur) });
 			}
 		}
 	}

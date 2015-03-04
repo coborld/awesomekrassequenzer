@@ -17,6 +17,7 @@ namespace krassequenzer.MusicModel
 		public TempoTrack()
 		{
 			this._tempoChanges = new OrderedCollection<TempoChange>((x, y) => MusicalTime.Comparison(x.Position, y.Position));
+			this.InitialTempo = 120.0;
 		}
 
 		/// <summary>

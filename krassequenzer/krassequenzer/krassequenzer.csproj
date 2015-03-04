@@ -52,7 +52,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="MusicModel\Part.cs" />
+    <Compile Include="MusicModel\Track.cs" />
     <Compile Include="MusicModel\Score.cs" />
     <Compile Include="MusicModel\TempoChange.cs" />
     <Compile Include="MusicModel\TempoTrack.cs" />

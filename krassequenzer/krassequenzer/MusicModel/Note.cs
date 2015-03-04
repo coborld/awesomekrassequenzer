@@ -13,10 +13,10 @@ namespace krassequenzer.MusicModel
         /// </summary>
         public const int Quarter = 128;
 
-        public int Duration { get; set; }
+        public MusicalTime Duration { get; set; }
 
-        public bool Rest { get; set; }
+		public MusicalTime StartPosition { get; set; }
 
-        
+		public int Voice { get; set; }
     }
 }
