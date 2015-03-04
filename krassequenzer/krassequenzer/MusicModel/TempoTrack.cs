@@ -82,12 +82,12 @@ namespace krassequenzer.MusicModel
 			// time is between previous and next
 			if (next.LinearInterpolation)
 			{
-				return previous.NewTempo;
+				var tempoValue = Interpolator.Interp2(time.Ticks, previous.Position.Ticks, previous.NewTempo.TempoValue, next.Position.Ticks, next.NewTempo.TempoValue);
+				return new Tempo(tempoValue);
 			}
 			else
 			{
-				var tempoValue = Interpolator.Interp2(time.Ticks, previous.Position.Ticks, previous.NewTempo.TempoValue, next.Position.Ticks, next.NewTempo.TempoValue);
-				return new Tempo(tempoValue);
+				return previous.NewTempo;
 			}
 		}
 	}
