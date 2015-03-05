@@ -30,7 +30,7 @@ namespace krassequenzer.GenerationStuff
 		
 		// the following should be the in range [0-100]
 #warning TODO: validate the probabilitiess
-		public int Syncopation { get; set; }
+		public int Offbeat { get; set; }
 		public int Dotting { get; set; }
 		public int Triplet { get; set; }
 

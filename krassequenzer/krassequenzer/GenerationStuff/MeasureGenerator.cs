@@ -31,28 +31,32 @@ namespace krassequenzer.GenerationStuff
 			MusicalTime measureLength = new MusicalTime(timeSignature.Beats * MusicalTime.getByBeatUnit(timeSignature.BeatUnit).Ticks);
 
 			// find the longest note, that fits in the measure
-			Note biggestFit = null;
-			foreach( Note note in Note.StandardNotes){
+#warning CheckUseful: once the generator is working, check if biggestFitIndex is used
+			int biggestFitIndex = -1;
+			List<Note> fittingNotes = new List<Note>();
+			for (int i = 0; i < Note.StandardNotes.Count; i++)
+			{
+				Note note = Note.StandardNotes[i];
 				if (note.Duration <= measureLength)
 				{
-					biggestFit = note;
+					fittingNotes.Add(note.Clone());
+					biggestFitIndex = i;
 					break;
 				}
 			}
-			if (biggestFit == null)
+			
+			if (biggestFitIndex < 0)
 			{
 				/* 
 				 * At this point the TimeSignature was so small, that there wasn't a note that
 				 * would fit in there.
 				 * This shouldn't happen because we check the TimeSignature in the constructor.
-				 */ 
+				 */
 				// throw new WeFuckedUpException();
 			}
 
-			int probOfBiggest = probConfig.NoteProbs.getProbabilityByRelativeNodeLength(biggestFit.RelativeNoteLength);
-
 			bool measureIsFull = false;
-			
+
 #warning TODO: implement generation of notes that span over multiple measures
 			// Indication if the next note would fall on the beat set by the TimeSignature.
 			// Currently a measure starts with a note on the beat, since there is no knowledge about previous measures.
@@ -61,21 +65,21 @@ namespace krassequenzer.GenerationStuff
 			while (!measureIsFull)
 			{
 				Note nextNote;
-				// check if we are in syncopation
+				// check if we are currently in offbeat
 				if (atRythm)
 				{
-					// we are not in syncopation, so let's check if we should start one
-					if (!(rnd.Next(100) < probConfig.Syncopation))
+					// we are not in offbeat, so let's check if we should start one
+					if (!(rnd.Next(100) < probConfig.Offbeat))
 					{
-						// no new syncopation, so add to the beat
+						// no new offbeat, so add to the beat
 						nextNote = new Note(timeSignature.BeatUnit);
 
 					}
 					else
 					{
-						// start a syncopation
+						// start an offbeat
 
-						// let's decide what syncopation-method we choose
+						// let's decide what offbeat-method we choose
 						if (rnd.Next(100) < probConfig.Dotting)
 						{
 							throw new NotImplementedException();
@@ -83,7 +87,7 @@ namespace krassequenzer.GenerationStuff
 						else
 						{
 							bool nextIsOnBeat = false;
-							bool nextFits;
+							bool nextFits = false;
 						}
 					}
 				}
@@ -100,6 +104,6 @@ namespace krassequenzer.GenerationStuff
 			return generatedNotes;
 		}
 
-		
+
 	}
 }
