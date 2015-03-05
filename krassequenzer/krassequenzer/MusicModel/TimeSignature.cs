@@ -7,7 +7,7 @@ using krassequenzer.Stuff;
 
 namespace krassequenzer.MusicModel
 {
-	public struct TimeSignature
+	public class TimeSignature
 	{
 		public TimeSignature(int beats, int beatUnit)
 		{

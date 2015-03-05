@@ -45,6 +45,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GenerationStuff\AwesomeGenerator.cs" />
+    <Compile Include="GenerationStuff\NoteProbabilites.cs" />
+    <Compile Include="GenerationStuff\NoteProbabilityConfigurationException.cs" />
+    <Compile Include="GenerationStuff\ProbabilityConfiguration.cs" />
+    <Compile Include="GenerationStuff\Generator.cs" />
+    <Compile Include="GenerationStuff\MeasureGenerator.cs" />
     <Compile Include="MusicModel\Note.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

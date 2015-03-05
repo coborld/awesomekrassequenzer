@@ -26,6 +26,16 @@ namespace krassequenzer.MusicModel
 
 		public long Ticks { get { return this._ticks; } }
 
+		/// <summary>
+		/// Accepts a notes relative length (e.g. 2,4,8 for a half, quarter, eigth note)
+		/// and converts it to an instance of MusicalTime.
+		/// </summary>
+		/// <param name="beatUnit"></param>
+		/// <returns></returns>
+		public static MusicalTime getByBeatUnit(int beatUnit){
+			return new MusicalTime(4 / beatUnit * TicksPerQuarter);
+		}
+
 		public static int Comparison(MusicalTime x, MusicalTime y)
 		{
 			return Math.Sign(x.Ticks - y.Ticks);

@@ -14,7 +14,6 @@ namespace KrassequenzerTester
 		static void Main(string[] args)
 		{
 			var test = new AwesomeGenerator();
-			test.MaxDuration = 8 * Note.Quarter;
 			test.NrNotesToGenerate = 10;
 
 			var part = new Track();

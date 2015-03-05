@@ -16,8 +16,6 @@ namespace krassequenzer.GenerationStuff
 
 		public int NrNotesToGenerate { get; set; }
 
-		public int MaxDuration { get; set; }
-
 		//public Beat Beat;
 
 		public void Generate(Track part)
@@ -27,8 +25,8 @@ namespace krassequenzer.GenerationStuff
 			// part.Notes.AddRange(Enumerable.Repeat(0, this.NrNotesToGenerate).Select(x => new Note() { Duration = rnd.Next(1, this.MaxDuration)}));
 			for (int i = 0; i < NrNotesToGenerate; i++)
 			{
-				int rndDur = rnd.Next(1, MaxDuration);
-				part.Notes.Add(new Note() { Duration = new MusicalTime(rndDur) });
+				int rndNoteIndex = rnd.Next( Note.StandardNotes.Count );
+				part.Notes.Add( Note.StandardNotes[rndNoteIndex].Clone() );
 			}
 		}
 	}
