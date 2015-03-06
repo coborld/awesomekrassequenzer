@@ -16,6 +16,8 @@ namespace krassequenzer.MusicModel
 		// 2, 3, 4, 5, 6, 8, 10
 		public const int TicksPerQuarter = 4 * 120;
 
+		public static MusicalTime Zero = new MusicalTime(0);
+
 		public MusicalTime(long ticks)
 		{
 			if (ticks < 0) throw new ArgumentOutOfRangeException("ticks");
@@ -69,6 +71,16 @@ namespace krassequenzer.MusicModel
 		public static bool operator !=(MusicalTime l, MusicalTime r)
 		{
 			return l.Ticks != r.Ticks;
+		}
+
+		public static MusicalTime operator -(MusicalTime l, MusicalTime r)
+		{
+			return new MusicalTime(l.Ticks - r.Ticks);
+		}
+
+		public static MusicalTime operator +(MusicalTime l, MusicalTime r)
+		{
+			return new MusicalTime(l.Ticks + r.Ticks);
 		}
 
 		public override int GetHashCode()

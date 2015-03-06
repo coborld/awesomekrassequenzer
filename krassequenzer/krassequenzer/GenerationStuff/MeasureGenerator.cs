@@ -1,4 +1,5 @@
 ﻿using krassequenzer.MusicModel;
+using krassequenzer.Randomisation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,62 +48,122 @@ namespace krassequenzer.GenerationStuff
 			
 			if (biggestFitIndex < 0)
 			{
-				/* 
-				 * At this point the TimeSignature was so small, that there wasn't a note that
-				 * would fit in there.
-				 * This shouldn't happen because we check the TimeSignature in the constructor.
-				 */
+				// 
+				// At this point the TimeSignature was so small, that there wasn't a note that
+				// would fit in there.
+				// This shouldn't happen because we check the TimeSignature in the constructor.
+				//
 				// throw new WeFuckedUpException();
 			}
 
-			bool measureIsFull = false;
+			MusicalTime remainingTimeInMeasure = measureLength;
+			MusicalTime nextOnBeat = remainingTimeInMeasure;
+			MusicalTime smallestPossibleDuration = Note.StandardNotes.Last().Duration;
 
 #warning TODO: implement generation of notes that span over multiple measures
 			// Indication if the next note would fall on the beat set by the TimeSignature.
 			// Currently a measure starts with a note on the beat, since there is no knowledge about previous measures.
 			bool atRythm = true;
 
-			while (!measureIsFull)
+			
+
+			List<ObjectWithProbability<Note>> notesSmallerThanBeatsUnit = new List<ObjectWithProbability<Note>>();
+			foreach (Note note in fittingNotes)
 			{
-				Note nextNote;
-				// check if we are currently in offbeat
-				if (atRythm)
+				if (note.RelativeNoteLength < timeSignature.BeatUnit)
 				{
-					// we are not in offbeat, so let's check if we should start one
-					if (!(rnd.Next(100) < probConfig.Offbeat))
-					{
-						// no new offbeat, so add to the beat
-						nextNote = new Note(timeSignature.BeatUnit);
+					int probOfNote = probConfig.NoteProbs.getProbabilityByRelativeNodeLength(note.RelativeNoteLength);
+					notesSmallerThanBeatsUnit.Add(new ObjectWithProbability<Note>(probOfNote, note));
+				}
+			}
+			ObjectWithProbability<Object> offbeatPlayer = new ObjectWithProbability<object>(probConfig.Offbeat, null);
+			ObjectWithProbability<Object> dottingPlayer = new ObjectWithProbability<object>(probConfig.Dotting, null);
+			ObjectWithProbability<Object> tripletPlayer = new ObjectWithProbability<object>(probConfig.Triplet, null);
+			while (remainingTimeInMeasure > MusicalTime.Zero)
+			{
+				Note nextNote; // to be generated
 
-					}
-					else
-					{
-						// start an offbeat
-
-						// let's decide what offbeat-method we choose
-						if (rnd.Next(100) < probConfig.Dotting)
-						{
-							throw new NotImplementedException();
-						}
-						else
-						{
-							bool nextIsOnBeat = false;
-							bool nextFits = false;
-						}
-					}
+				if (remainingTimeInMeasure < smallestPossibleDuration)
+				// we don't have a small enough note to put in the measure
+				{
+					// problem in the algorithm
+					throw new NotImplementedException();
+				}
+				else if (remainingTimeInMeasure == smallestPossibleDuration)
+				// there is just enough space for the smallest note we have
+				{
+					nextNote = new Note(Note.StandardNotes.Last().RelativeNoteLength);
+					nextOnBeat = nextOnBeat - nextNote.Duration; // should be 0
 				}
 				else
 				{
-#warning TODO: how get out of the syncopation
-				}
 
-#warning FIXME: calculate measureIsFull and atRythm
-				// measureIsFull = ...
-				// atRythm = ...
+					// check if we are currently in offbeat
+					if (atRythm)
+					{
+						// we are not in offbeat, so let's check if we should start one
+						if (!(offbeatPlayer.Play(rnd)))
+						{
+							// no new offbeat, so add to the beat
+							nextNote = new Note(timeSignature.BeatUnit);
+
+							nextOnBeat = nextOnBeat - nextNote.Duration;
+
+						}
+						else
+						{
+							//
+							// start an offbeat
+							//
+
+							// let's decide what offbeat-method we choose
+							if (dottingPlayer.Play(rnd))
+							{
+								throw new NotImplementedException();
+							}
+							else
+							{
+								// 
+								// Insert a note that is shorter than the beats' unit.
+								// There could be a longer note as well, but that would require
+								// the next measure to know about it, which is not implemented
+								// yet.
+								// 
+
+								// choose a Note
+								nextNote = RandomUtil.PlayMultiple<Note>(notesSmallerThanBeatsUnit, rnd).Clone();
+
+								// indicate that the next note will be offbeat
+								atRythm = false;
+								nextOnBeat = nextOnBeat - MusicalTime.getByBeatUnit(timeSignature.BeatUnit);
+								
+							}
+						}
+
+					}
+					else
+					// not atRythm
+					{
+#warning TODO: how get out of the offbeat
+						nextNote = null; // just for the compiler; replace with real code!
+
+
+					}
+
+					//
+					// now really add the nextNote to the measure
+					//
+
+					generatedNotes.Add(nextNote);
+
+					remainingTimeInMeasure -= nextNote.Duration;
+
+				}
 			}
 
 			return generatedNotes;
 		}
+
 
 
 	}
