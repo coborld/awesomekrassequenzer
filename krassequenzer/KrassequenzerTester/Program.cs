@@ -13,6 +13,9 @@ namespace KrassequenzerTester
 	{
 		static void Main(string[] args)
 		{
+			MidiPlaybackTest.Run();
+
+#if false
 			var test = new AwesomeGenerator();
 			test.NrNotesToGenerate = 10;
 
@@ -22,6 +25,7 @@ namespace KrassequenzerTester
 
 			Console.Write(part.ToString());
 			Console.ReadLine();
+#endif
 		}
 
 		static void CreateTestScore()
