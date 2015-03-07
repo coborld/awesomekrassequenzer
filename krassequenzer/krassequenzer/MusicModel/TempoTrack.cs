@@ -9,16 +9,25 @@ namespace krassequenzer.MusicModel
 {
 	/// <summary>
 	/// The <see cref="TempoTrack"/> represents a unique, continuous
-	/// part of a score and contains tempo changes, that affect all
+	/// part of a score and contains tempo changes that affect all
 	/// parts simultaneously.
 	/// </summary>
 	public class TempoTrack
 	{
+		/// <summary>
+		/// Initializes a new instance.
+		/// </summary>
 		public TempoTrack()
 		{
 			this._tempoChanges = new OrderedCollection<TempoChange>((x, y) => MusicalTime.Comparison(x.Position, y.Position));
-			this.InitialTempo = 120.0;
+			this.InitialTempo = DefaultInitialTempo;
 		}
+
+		/// <summary>
+		/// Gets the default value of the <see cref="InitialTempo"/> property that is used
+		/// for new instances.
+		/// </summary>
+		public const double DefaultInitialTempo = 120.0;
 
 		/// <summary>
 		/// Gets or sets the initial tempo of the track.

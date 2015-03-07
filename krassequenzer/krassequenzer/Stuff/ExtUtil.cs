@@ -28,5 +28,25 @@ namespace krassequenzer.Stuff
 			i >>= 1;
 			return i == 0;
 		}
+
+		public static string ToStringIv(this int i)
+		{
+			return i.ToString(System.Globalization.CultureInfo.InvariantCulture);
+		}
+
+		public static string ToStringIv(this double d)
+		{
+			return d.ToString(System.Globalization.CultureInfo.InvariantCulture);
+		}
+
+		public static string ToStringIv(this double d, string format)
+		{
+			return d.ToString(format, System.Globalization.CultureInfo.InvariantCulture);
+		}
+
+		public static string ToStringIv(this long l)
+		{
+			return l.ToString(System.Globalization.CultureInfo.InvariantCulture);
+		}
 	}
 }
