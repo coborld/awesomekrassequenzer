@@ -14,10 +14,19 @@ namespace krassequenzer.MusicModel
 	{
 		// this is so that 16th notes are evenly divisble by
 		// 2, 3, 4, 5, 6, 8, 10
+		// so we can construct 2, 3, 5 and 6-tuplets prefectly.
+		/// <summary>
+		/// Gets the number of ticks that make up one quarter note.
+		/// </summary>
 		public const int TicksPerQuarter = 4 * 120;
 
 		public static MusicalTime Zero = new MusicalTime(0);
 
+		/// <summary>
+		/// Initializes a new instance.
+		/// </summary>
+		/// <param name="ticks">The number of ticks since the start of the
+		/// track.</param>
 		public MusicalTime(long ticks)
 		{
 			if (ticks < 0) throw new ArgumentOutOfRangeException("ticks");
@@ -26,6 +35,9 @@ namespace krassequenzer.MusicModel
 
 		private readonly long _ticks;
 
+		/// <summary>
+		/// Gets the number of ticks since the start of the track.
+		/// </summary>
 		public long Ticks { get { return this._ticks; } }
 
 		/// <summary>
@@ -96,6 +108,15 @@ namespace krassequenzer.MusicModel
 			}
 			var o = (MusicalTime)obj;
 			return this.Ticks == o.Ticks;
+		}
+
+		/// <summary>
+		/// Returns a string representation containing the number of ticks
+		/// in this instance.
+		/// </summary>
+		public override string ToString()
+		{
+			return this.Ticks.ToStringIv();
 		}
 	}
 }

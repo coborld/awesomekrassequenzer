@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C190AB21-69C2-46F9-85F2-62C9642EB6C6}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{D3E59029-5EC5-4284-A8CD-79AB1A1CB465}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>KrassequenzerTester</RootNamespace>
-    <AssemblyName>KrassequenzerTester</AssemblyName>
+    <RootNamespace>krassequenzer.MidiPlayback</RootNamespace>
+    <AssemblyName>krassequenzer.MidiPlayback</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,33 +22,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -61,22 +39,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MidiPlaybackTest.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Class1.cs" />
+    <Compile Include="IMidiOutDevice.cs" />
+    <Compile Include="Low\MemorySafeHandle.cs" />
+    <Compile Include="Low\MidiSafeHandle.cs" />
+    <Compile Include="Low\UnmanagedMemory.cs" />
+    <Compile Include="MidiException.cs" />
+    <Compile Include="MidiOutClient.cs" />
+    <Compile Include="MidiOutStream.cs" />
+    <Compile Include="MidiOutDevice.cs" />
+    <Compile Include="MidiSystemInfo.cs" />
+    <Compile Include="Low\NativeMethods.cs" />
+    <Compile Include="Low\TimerResolution.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\krassequenzer.MidiPlayback\krassequenzer.MidiPlayback.csproj">
-      <Project>{d3e59029-5ec5-4284-a8cd-79ab1a1cb465}</Project>
-      <Name>krassequenzer.MidiPlayback</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\krassequenzer\krassequenzer.csproj">
-      <Project>{2f6aed99-5164-4e1c-907a-abe903298a79}</Project>
-      <Name>krassequenzer</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -6,14 +6,28 @@ using System.Threading.Tasks;
 
 namespace krassequenzer.MusicModel
 {
+	/// <summary>
+	/// Represents a musical score.
+	/// </summary>
 	public class Score
 	{
+		/// <summary>
+		/// Gets or sets the title of the score.
+		/// </summary>
 		public string Title { get; set; }
 
 		private readonly List<Track> _tracks = new List<Track>();
+		/// <summary>
+		/// Gets a list of tracks, each representing one instrument or instrument
+		/// group.
+		/// </summary>
 		public List<Track> Tracks { get { return this._tracks; } }
 
 		private readonly TempoTrack _tempoTrack = new TempoTrack();
+		/// <summary>
+		/// Gets the tempo track of the score. The tempo track denotes the tempo
+		/// for all other tracks in the score.
+		/// </summary>
 		public TempoTrack TempoTrack { get { return this._tempoTrack; } }
 
 		public string ToString()
