@@ -61,7 +61,7 @@ namespace krassequenzer.MidiPlayback
 			NativeMethods.CheckMidiOutMmsyserr(result);
 		}
 
-		public async Task PlayAsync(IEnumerable<MidiStreamEvent> events, CancellationToken ct)
+		public void Play(IEnumerable<MidiStreamEvent> events, CancellationToken ct)
 		{
 			// prepare the events into memory
 			if (events == null)
@@ -69,12 +69,55 @@ namespace krassequenzer.MidiPlayback
 				throw new ArgumentNullException("events");
 			}
 
-			var bytes = new List<byte>();
+			var bytes = new List<uint>();
 			foreach (var e in events)
 			{
-
+				bytes.Add((uint)e.DeltaTime);
+				bytes.Add(0);
+				bytes.Add((uint)e.Data);
 			}
-			
+
+			var requiredMemory = bytes.Count * 4;
+			using (var memoryManager = new UnmanagedMemoryManager())
+			{
+				var headerMemory = memoryManager.Alloc(InteropStructSizes.SizeOfMidiHeader);
+				var eventBufferMemory = memoryManager.Alloc(requiredMemory);
+
+				MidiHeader header = new MidiHeader();
+				header.Data = eventBufferMemory;
+				header.BufferLength = (uint)requiredMemory;
+				header.BytesRecorded = (uint)requiredMemory;
+
+				Marshal.StructureToPtr(header, headerMemory, false);
+				for (int i = 0; i < bytes.Count; ++i)
+				{
+					Marshal.WriteInt32(eventBufferMemory, i * 4, (int)bytes[i]);
+				}
+
+				int mmsyserr;
+
+				if (this.mre.WaitOne(0))
+				{
+					Debug.WriteLine("??");
+				}
+
+				mmsyserr = NativeMethods.midiOutPrepareHeader(this.currentHandle, headerMemory, (uint)InteropStructSizes.SizeOfMidiHeader);
+				NativeMethods.CheckMidiOutMmsyserr(mmsyserr);
+
+				if (this.mre.WaitOne(0))
+				{
+					Debug.WriteLine("??");
+				}
+				
+				mmsyserr = NativeMethods.midiStreamOut(this.currentHandle, headerMemory, (uint)InteropStructSizes.SizeOfMidiHeader);
+				NativeMethods.CheckMidiOutMmsyserr(mmsyserr);
+
+				this.mre.WaitOne();
+
+				mmsyserr = NativeMethods.midiOutUnprepareHeader(this.currentHandle, headerMemory, (uint)InteropStructSizes.SizeOfMidiHeader);
+				NativeMethods.CheckMidiOutMmsyserr(mmsyserr);
+			}
+
 #if false
 			var bytes = new byte[24];
 			IntPtr bufferMem = Marshal.AllocHGlobal(bytes.Length);

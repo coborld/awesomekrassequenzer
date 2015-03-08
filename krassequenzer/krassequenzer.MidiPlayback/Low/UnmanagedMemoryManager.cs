@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32.SafeHandles;
 using System;
+using System.Collections.Generic;
 using System.Runtime.ConstrainedExecution;
 using System.Runtime.InteropServices;
 
@@ -42,16 +43,13 @@ namespace krassequenzer.MidiPlayback.Low
 		/// <param name="cb">Number of bytes to allocate</param>
 		public IntPtr Alloc(int cb)
 		{
-			if (this.memory != null)
-			{
-				throw new InvalidOperationException("Unmanaged memory is already allocated.");
-			}
-			this.memory = LocalAlloc(0, cb);
-			if (this.memory.IsInvalid)
+			var memory = LocalAlloc(0, cb);
+			if (memory.IsInvalid)
 			{
 				throw new OutOfMemoryException("Memory allocation failed (out of memory).");
 			}
-			var handle = this.memory.DangerousGetHandle();
+			var handle = memory.DangerousGetHandle();
+			this.memoryList.Add(memory);
 			return handle;
 		}
 
@@ -62,13 +60,13 @@ namespace krassequenzer.MidiPlayback.Low
 		/// </summary>
 		public void Dispose()
 		{
-			if (this.memory != null)
+			foreach (var memory in this.memoryList)
 			{
-				this.memory.Dispose();
-				this.memory = null;
+				memory.Dispose();
 			}
+			memoryList.Clear();
 		}
 
-		private MemorySafeHandle memory;
+		private readonly List<MemorySafeHandle> memoryList = new List<MemorySafeHandle>();
 	}
 }
