@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 
-namespace ConsoleApplication1
+namespace krassequenzer.MidiPlayback.Low
 {
 	/// <summary>
 	/// Allows the user to manipulate the system timer.

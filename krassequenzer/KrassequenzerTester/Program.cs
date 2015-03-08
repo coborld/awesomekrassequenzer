@@ -11,6 +11,7 @@ namespace KrassequenzerTester
 {
 	class Program
 	{
+		[STAThread]
 		static void Main(string[] args)
 		{
 			MidiPlaybackTest.Run();

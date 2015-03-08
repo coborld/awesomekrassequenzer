@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32.SafeHandles;
+using System;
 
-namespace ConsoleApplication1
+namespace krassequenzer.MidiPlayback.Low
 {
 	/// <summary>
 	/// The MidiSafeHandle represents a handle to a midi device/port.

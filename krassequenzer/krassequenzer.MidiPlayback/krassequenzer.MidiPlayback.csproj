@@ -41,7 +41,9 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="IMidiOutDevice.cs" />
+    <Compile Include="Low\MemorySafeHandle.cs" />
     <Compile Include="Low\MidiSafeHandle.cs" />
+    <Compile Include="Low\UnmanagedMemory.cs" />
     <Compile Include="MidiException.cs" />
     <Compile Include="MidiOutClient.cs" />
     <Compile Include="MidiOutStream.cs" />

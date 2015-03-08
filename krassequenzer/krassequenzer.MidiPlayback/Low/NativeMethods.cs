@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
 
-namespace ConsoleApplication1
+namespace krassequenzer.MidiPlayback.Low
 {
 
 	/// <summary>
@@ -14,6 +14,12 @@ namespace ConsoleApplication1
 	/// </summary>
 	internal static class NativeMethods
 	{
+		[DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+		public static extern MemorySafeHandle LocalAlloc(uint flags, int size);
+
+		[DllImport("kernel32.dll", SetLastError = true)]
+		public static extern IntPtr LocalFree(IntPtr handle);
+
 		/// <summary>
 		/// Represents the method that handles messages from the midi driver.
 		/// </summary>
@@ -208,7 +214,7 @@ namespace ConsoleApplication1
 		/// <returns>Returns zero when successful.</returns>
 		[SuppressMessage("Microsoft.Security", "CA2118:ReviewSuppressUnmanagedCodeSecurityUsage", Justification = "Performance")]
 		[DllImport("winmm.dll")]
-		public static extern int midiOutPrepareHeader(MidiSafeHandle handle, IntPtr header, uint sizeOfmidiHeader);
+		public static extern int midiOutPrepareHeader(MidiSafeHandle handle, MemorySafeHandle header, uint sizeOfmidiHeader);
 
 		/// <summary>
 		/// Undoes the preparation of the buffer memory.
@@ -219,7 +225,7 @@ namespace ConsoleApplication1
 		/// <returns>Returns zero when successful.</returns>
 		[SuppressMessage("Microsoft.Security", "CA2118:ReviewSuppressUnmanagedCodeSecurityUsage", Justification = "Performance")]
 		[DllImport("winmm.dll")]
-		public static extern int midiOutUnprepareHeader(MidiSafeHandle handle, IntPtr header, uint sizeOfmidiHeader);
+		public static extern int midiOutUnprepareHeader(MidiSafeHandle handle, MemorySafeHandle header, uint sizeOfmidiHeader);
 
 		/// <summary>
 		/// Outputs a long midi message to the midi out port.
@@ -294,7 +300,7 @@ namespace ConsoleApplication1
 		/// <returns>Returns zero when successful.</returns>
 		[SuppressMessage("Microsoft.Security", "CA2118:ReviewSuppressUnmanagedCodeSecurityUsage", Justification = "Performance")]
 		[DllImport("winmm.dll")]
-		public static extern int midiStreamOut(MidiSafeHandle handle, IntPtr header, uint sizeOfmidiHeader);
+		public static extern int midiStreamOut(MidiSafeHandle handle, MemorySafeHandle header, uint sizeOfmidiHeader);
 
 		/// <summary>
 		/// Pauses playback of the midi stream port.
@@ -647,34 +653,26 @@ namespace ConsoleApplication1
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	internal struct MidiHeader
+	public struct MidiHeader
 	{
-		/// <summary>Midi header property.</summary>
 		public IntPtr Data;
-
-		/// <summary>Midi header property.</summary>
 		public uint BufferLength;
-
-		/// <summary>Midi header property.</summary>
 		public uint BytesRecorded;
-
-		/// <summary>Midi header property.</summary>
-		public uint User;
-
-		/// <summary>Midi header property.</summary>
+		public IntPtr UserData;
 		public uint Flags;
-
-		/// <summary>Midi header property.</summary>
-		public IntPtr Successor;
-
-		/// <summary>Midi header property.</summary>
+		public IntPtr Next;
 		public uint Reserved;
-
-		/// <summary>Midi header property.</summary>
 		public uint Offset;
+		//[MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
+		//public IntPtr[] Reserved2;
 
-		/// <summary>Midi header property.</summary>
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
-		public IntPtr[] ReservedArray;
+		public IntPtr Reserved0;
+		public IntPtr Reserved1;
+		public IntPtr Reserved2;
+		public IntPtr Reserved3;
+		public IntPtr Reserved4;
+		public IntPtr Reserved5;
+		public IntPtr Reserved6;
+		public IntPtr Reserved7;
 	}
 }

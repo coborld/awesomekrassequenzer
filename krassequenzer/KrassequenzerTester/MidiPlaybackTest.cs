@@ -15,10 +15,11 @@ namespace KrassequenzerTester
 			var systemInfo = MidiSystemInfo.Query();
 			var msSynth = systemInfo.OutDeviceInfo.Single(x => x.Name.Contains("Microsoft"));
 			
+#if false
 			using (var device = new MidiOutDevice(msSynth))
 			{
 				device.Open();
-				
+
 				var client = new MidiOutClient(device);
 
 				client.ProgramChange(0, 49);
@@ -36,12 +37,15 @@ namespace KrassequenzerTester
 			}
 
 			Debug.WriteLine("midi playback test ended");
+#endif
 
 			using (var stream = new MidiOutStream(msSynth))
 			{
-				stream.Open();
+				//stream.Open();
 				stream.Play();
 			}
+
+			Debug.WriteLine("midi stream test ended");
 		}
 	}
 }
