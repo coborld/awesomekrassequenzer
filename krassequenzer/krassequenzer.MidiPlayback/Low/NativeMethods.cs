@@ -14,12 +14,6 @@ namespace krassequenzer.MidiPlayback.Low
 	/// </summary>
 	internal static class NativeMethods
 	{
-		[DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-		public static extern MemorySafeHandle LocalAlloc(uint flags, int size);
-
-		[DllImport("kernel32.dll", SetLastError = true)]
-		public static extern IntPtr LocalFree(IntPtr handle);
-
 		/// <summary>
 		/// Represents the method that handles messages from the midi driver.
 		/// </summary>
@@ -214,7 +208,7 @@ namespace krassequenzer.MidiPlayback.Low
 		/// <returns>Returns zero when successful.</returns>
 		[SuppressMessage("Microsoft.Security", "CA2118:ReviewSuppressUnmanagedCodeSecurityUsage", Justification = "Performance")]
 		[DllImport("winmm.dll")]
-		public static extern int midiOutPrepareHeader(MidiSafeHandle handle, MemorySafeHandle header, uint sizeOfmidiHeader);
+		public static extern int midiOutPrepareHeader(MidiSafeHandle handle, IntPtr header, uint sizeOfmidiHeader);
 
 		/// <summary>
 		/// Undoes the preparation of the buffer memory.
@@ -225,7 +219,7 @@ namespace krassequenzer.MidiPlayback.Low
 		/// <returns>Returns zero when successful.</returns>
 		[SuppressMessage("Microsoft.Security", "CA2118:ReviewSuppressUnmanagedCodeSecurityUsage", Justification = "Performance")]
 		[DllImport("winmm.dll")]
-		public static extern int midiOutUnprepareHeader(MidiSafeHandle handle, MemorySafeHandle header, uint sizeOfmidiHeader);
+		public static extern int midiOutUnprepareHeader(MidiSafeHandle handle, IntPtr header, uint sizeOfmidiHeader);
 
 		/// <summary>
 		/// Outputs a long midi message to the midi out port.
@@ -300,7 +294,7 @@ namespace krassequenzer.MidiPlayback.Low
 		/// <returns>Returns zero when successful.</returns>
 		[SuppressMessage("Microsoft.Security", "CA2118:ReviewSuppressUnmanagedCodeSecurityUsage", Justification = "Performance")]
 		[DllImport("winmm.dll")]
-		public static extern int midiStreamOut(MidiSafeHandle handle, MemorySafeHandle header, uint sizeOfmidiHeader);
+		public static extern int midiStreamOut(MidiSafeHandle handle, IntPtr header, uint sizeOfmidiHeader);
 
 		/// <summary>
 		/// Pauses playback of the midi stream port.

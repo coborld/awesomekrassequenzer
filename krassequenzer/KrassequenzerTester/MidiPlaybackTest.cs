@@ -41,8 +41,10 @@ namespace KrassequenzerTester
 
 			using (var stream = new MidiOutStream(msSynth))
 			{
+				stream.Test();
 				//stream.Open();
-				stream.Play();
+				//stream.RestartPlayback();
+				//stream.PlayAsync(null, System.Threading.CancellationToken.None).Wait();
 			}
 
 			Debug.WriteLine("midi stream test ended");
