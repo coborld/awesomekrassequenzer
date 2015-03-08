@@ -15,5 +15,24 @@ namespace krassequenzer.MusicModel
 
 		private readonly TempoTrack _tempoTrack = new TempoTrack();
 		public TempoTrack TempoTrack { get { return this._tempoTrack; } }
+
+		public string ToString()
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.Append("\"");
+			sb.Append(Title);
+			sb.Append("\"");
+			sb.Append(Environment.NewLine);
+			
+			foreach (var track in Tracks)
+			{
+				sb.Append(Environment.NewLine);
+				sb.Append(track.ToString());
+			}
+
+			sb.Append(TempoTrack.ToString());
+
+			return sb.ToString();
+		}
 	}
 }

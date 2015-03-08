@@ -34,13 +34,14 @@ namespace krassequenzer.GenerationStuff
 			// find the longest note, that fits in the measure
 #warning CheckUseful: once the generator is working, check if biggestFitIndex is used
 			int biggestFitIndex = -1;
-			List<Note> fittingNotes = new List<Note>();
+			List<ObjectWithProbability<Note>> fittingNotes = new List<ObjectWithProbability<Note>>();
 			for (int i = 0; i < Note.StandardNotes.Count; i++)
 			{
 				Note note = Note.StandardNotes[i];
 				if (note.Duration <= measureLength)
 				{
-					fittingNotes.Add(note.Clone());
+					int noteProb = probConfig.NoteProbs.getProbabilityByRelativeNodeLength(note.RelativeNoteLength);
+					fittingNotes.Add(new ObjectWithProbability<Note>(noteProb, note));
 					biggestFitIndex = i;
 					break;
 				}
@@ -68,12 +69,11 @@ namespace krassequenzer.GenerationStuff
 			
 
 			List<ObjectWithProbability<Note>> notesSmallerThanBeatsUnit = new List<ObjectWithProbability<Note>>();
-			foreach (Note note in fittingNotes)
+			foreach (ObjectWithProbability<Note> note in fittingNotes)
 			{
-				if (note.RelativeNoteLength < timeSignature.BeatUnit)
+				if (note.TheObject.RelativeNoteLength < timeSignature.BeatUnit)
 				{
-					int probOfNote = probConfig.NoteProbs.getProbabilityByRelativeNodeLength(note.RelativeNoteLength);
-					notesSmallerThanBeatsUnit.Add(new ObjectWithProbability<Note>(probOfNote, note));
+					notesSmallerThanBeatsUnit.Add(note);
 				}
 			}
 			ObjectWithProbability<Object> offbeatPlayer = new ObjectWithProbability<object>(probConfig.Offbeat, null);
@@ -147,7 +147,7 @@ namespace krassequenzer.GenerationStuff
 #warning TODO: how get out of the offbeat
 						nextNote = null; // just for the compiler; replace with real code!
 
-
+						
 					}
 
 					//
