@@ -1,4 +1,5 @@
-﻿using System;
+﻿using krassequenzer.Stuff;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,32 @@ namespace krassequenzer.MusicModel
 	{
 		public string Name { get; set; }
 
-		private readonly List<Note> _notes = new List<Note>();
-		public List<Note> Notes { get { return this._notes; } }
+		private readonly OrderedCollection<Note> _notes = new OrderedCollection<Note>((x, y) => Note.Comparison(x, y));
+		public OrderedCollection<Note> Notes { get { return this._notes; } }
+
+		public String toString()
+		{
+			MusicalTime prevEnd = MusicalTime.Zero;
+			StringBuilder sb = new StringBuilder();
+			sb.Append("\"");
+			sb.Append(Name);
+			sb.Append("\"");
+			sb.Append(Environment.NewLine);
+			sb.Append("   ");
+			string sep = " ";
+			foreach (Note note in Notes)
+			{
+				sb.Append(sep);
+				if (note.StartPosition > prevEnd)
+				{
+					sb.Append("[");
+					sb.Append(((note.StartPosition - prevEnd).Ticks).ToString());
+					sb.Append(" ticks]");
+					sb.Append(sep);
+				}
+				sb.Append(note);
+			}
+			return sb.ToString();
+		}
 	}
 }

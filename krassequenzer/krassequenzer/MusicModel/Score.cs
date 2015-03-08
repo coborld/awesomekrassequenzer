@@ -29,5 +29,24 @@ namespace krassequenzer.MusicModel
 		/// for all other tracks in the score.
 		/// </summary>
 		public TempoTrack TempoTrack { get { return this._tempoTrack; } }
+
+		public string ToString()
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.Append("\"");
+			sb.Append(Title);
+			sb.Append("\"");
+			sb.Append(Environment.NewLine);
+			
+			foreach (var track in Tracks)
+			{
+				sb.Append(Environment.NewLine);
+				sb.Append(track.ToString());
+			}
+
+			sb.Append(TempoTrack.ToString());
+
+			return sb.ToString();
+		}
 	}
 }

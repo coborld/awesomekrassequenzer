@@ -19,6 +19,27 @@ namespace krassequenzer.MusicModel
 			this.RelativeNoteLength = relativeNoteLength;
 		}
 
+		public MusicalTime Duration { get; set; }
+
+		public MusicalTime StartPosition { get; set; }
+
+		public int Voice { get; set; }
+
+		public Pitch Pitch { get; set; }
+
+		public static List<Note> StandardNotes = new List<Note>(
+			new Note[]{
+				new Note(1),
+				new Note(2),
+				new Note(4),
+				new Note(8),
+				new Note(16),
+				new Note(32)
+			});
+
+
+
+
 		private int _relativeNoteLength = 0;
 		public int RelativeNoteLength
 		{
@@ -38,20 +59,16 @@ namespace krassequenzer.MusicModel
 			return (Note)this.MemberwiseClone();
 		}
 
-		public MusicalTime Duration { get; set; }
 
-		public MusicalTime StartPosition { get; set; }
+		public String toString()
+		{
+			string sep = ";";
+			return "(" + Pitch + sep + RelativeNoteLength + ")";
+		}
 
-		public int Voice { get; set; }
-
-		public static List<Note> StandardNotes = new List<Note>(
-			new Note[]{
-				new Note(1),
-				new Note(2),
-				new Note(4),
-				new Note(8),
-				new Note(16),
-				new Note(32)
-			});
+		public static int Comparison(Note l, Note r)
+		{
+			return MusicalTime.Comparison(l.StartPosition, r.StartPosition);
+		}
 	}
 }
