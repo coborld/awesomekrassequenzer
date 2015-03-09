@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using krassequenzer.Stuff;
+using krassequenzer.MusicModel;
 
 namespace krassequenzer.ClassicalNotation
 {
@@ -18,7 +19,7 @@ namespace krassequenzer.ClassicalNotation
 		public static NoteValue ThirtySecond	= new NoteValue(32);
 		public static NoteValue SixtyFourth		= new NoteValue(64);
 
-		public static readonly IEnumerable<NoteValue> Supported
+		public static IEnumerable<NoteValue> Supported
 		{
 			get{
 				yield return Whole;
@@ -32,19 +33,32 @@ namespace krassequenzer.ClassicalNotation
 		}
 
 		private int _noteValue = 0;
+		public int Denominator
+		{
+			get
+			{
+				return this._noteValue;
+			}
+		}
 		private NoteValue(int noteValue)
 		{
 			// as long as the constructor stays private there is no need to check the validity of the input
 			this._noteValue = noteValue;
 		}
 
-		public bool isValid()
+
+		public bool IsValid()
 		{
 			return this._noteValue.IsPowerOf2();
 		}
 
 		public static bool operator ==(NoteValue l, NoteValue r){
 			return l == r;
+		}
+
+		public static bool operator !=(NoteValue l, NoteValue r)
+		{
+			return l != r;
 		}
 
 		public static bool operator >(NoteValue l, NoteValue r)

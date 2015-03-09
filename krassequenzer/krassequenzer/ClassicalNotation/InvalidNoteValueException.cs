@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace krassequenzer.ClassicalNotation
 {
-	enum Dotting
+	class InvalidNoteValueException : Exception
 	{
-		None,
-		Single,
-		Double,
-		Tripple
+
 	}
 }

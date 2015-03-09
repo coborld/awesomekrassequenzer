@@ -1,4 +1,5 @@
-﻿using System;
+﻿using krassequenzer.MusicModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,19 +12,32 @@ namespace krassequenzer.ClassicalNotation
 		public ClassicalPitch Pitch { get; set; }
 		public NoteValue NoteValue { get; set; }
 
-		public Dotting Dotting { get; set; }
+		public Modifier Modifier { get; set; }
 
 		/// <summary>
-		/// Links to the preceding note, that it is tied to (if it is).
+		/// Links to the preceding note, that it is tied to (optional).
 		/// </summary>
 		public ClassicalNote TiedTo { get; set; }
 
+		public int Voice { get; set; }
 
 		public bool isTied()
 		{
 			return TiedTo != null;
 		}
 
-		
+		public MusicalTime getAsDuration()
+		{
+			if (!NoteValue.IsValid())
+			{
+				throw new InvalidNoteValueException();
+			}
+
+			MusicalTime baseValue = new MusicalTime(4 / NoteValue.Denominator * MusicalTime.TicksPerQuarter);
+
+			MusicalTime modified = Modifier.Apply(baseValue);
+
+			return modified;
+		}
 	}
 }
