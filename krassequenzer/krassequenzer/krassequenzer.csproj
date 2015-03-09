@@ -44,6 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClassicalNotation\ClassicalNote.cs" />
+    <Compile Include="ClassicalNotation\ClassicalPitch.cs" />
+    <Compile Include="ClassicalNotation\Dotting.cs" />
+    <Compile Include="ClassicalNotation\NoteValue.cs" />
     <Compile Include="GenerationStuff\AwesomeGenerator.cs" />
     <Compile Include="GenerationStuff\NoteProbabilites.cs" />
     <Compile Include="GenerationStuff\NoteProbabilityConfigurationException.cs" />

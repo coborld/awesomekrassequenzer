@@ -29,7 +29,7 @@ namespace krassequenzer.GenerationStuff
 			List<Note> generatedNotes = new List<Note>();
 			Random rnd = new Random();
 
-			MusicalTime measureLength = new MusicalTime(timeSignature.Beats * MusicalTime.getByBeatUnit(timeSignature.BeatUnit).Ticks);
+			MusicalTime measureLength = new MusicalTime(timeSignature.Beats * MusicalTime.getByRelativeNoteLength(timeSignature.BeatUnit).Ticks);
 
 			// find the longest note, that fits in the measure
 #warning CheckUseful: once the generator is working, check if biggestFitIndex is used
@@ -135,7 +135,7 @@ namespace krassequenzer.GenerationStuff
 
 								// indicate that the next note will be offbeat
 								atRythm = false;
-								nextOnBeat = nextOnBeat - MusicalTime.getByBeatUnit(timeSignature.BeatUnit);
+								nextOnBeat = nextOnBeat - MusicalTime.getByRelativeNoteLength(timeSignature.BeatUnit);
 								
 							}
 						}

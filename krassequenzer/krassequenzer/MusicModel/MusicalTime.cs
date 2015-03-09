@@ -46,7 +46,7 @@ namespace krassequenzer.MusicModel
 		/// </summary>
 		/// <param name="beatUnit"></param>
 		/// <returns></returns>
-		public static MusicalTime getByBeatUnit(int beatUnit){
+		public static MusicalTime getByRelativeNoteLength(int beatUnit){
 			return new MusicalTime(4 / beatUnit * TicksPerQuarter);
 		}
 

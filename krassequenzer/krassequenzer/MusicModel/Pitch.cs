@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace krassequenzer.MusicModel
 {
-	class Pitch
+	public class Pitch
 	{
 		public static readonly int c = 60;
 
