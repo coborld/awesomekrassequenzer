@@ -10,6 +10,11 @@ using System.Threading.Tasks;
 
 namespace krassequenzer.MidiPlayback
 {
+	/// <summary>
+	/// Represents an output device that can play a continuous stream
+	/// of midi messages.
+	/// This class is not thread-safe.
+	/// </summary>
 	public class MidiOutStream : IMidiOutDevice, IDisposable
 	{
 		public MidiOutStream(MidiOutDeviceInfo info)
@@ -22,7 +27,16 @@ namespace krassequenzer.MidiPlayback
 
 		public MidiOutDeviceInfo Info { get { return this._info; } }
 
-		private MidiOutStreamSafeHandle currentHandle;
+		private MidiOutStreamSafeHandle _currentHandle;
+
+		/// <summary>
+		/// Gets a value indicating whether the device associated with this
+		/// instance is open.
+		/// </summary>
+		public bool IsOpen
+		{
+			get { return this._currentHandle != null; }
+		}
 
 		public void Dispose()
 		{
@@ -35,33 +49,81 @@ namespace krassequenzer.MidiPlayback
 			{
 				return;
 			}
-			if (this.currentHandle != null)
-			{
-				Debug.WriteLine("Disposing midi out stream safe handle...");
-				this.currentHandle.Dispose();
-				Debug.WriteLine("Midi out stream safe handle disposed.");
-				this.currentHandle = null;
-			}
+			this.Close();
 		}
 
 		public void Open()
 		{
+			if (this._currentHandle != null)
+			{
+				throw new InvalidOperationException(this.GetType().Name + " cannot be opened: The instance is already open.");
+			}
+
 			MidiOutStreamSafeHandle handle;
 			Debug.WriteLine("Opening midi stream...");
 			var deviceId = this.Info.Id;
 			var result = NativeMethods.midiStreamOpen(out handle, ref deviceId, 1, this.MidiProc, IntPtr.Zero, NativeMethods.CALLBACK_FUNCTION);
 			NativeMethods.CheckMidiOutMmsyserr(result);
-			Debug.WriteLine("Midi stream opened.");
-			this.currentHandle = handle;
+			this._currentHandle = handle;
+			Debug.WriteLine("Midi stream opened successfully.");
+		}
+
+		public void Close()
+		{
+			if (this._currentHandle != null)
+			{
+				Debug.WriteLine("Disposing midi out stream safe handle...");
+				this._currentHandle.Dispose();
+				Debug.WriteLine("Midi out stream safe handle disposed.");
+				this._currentHandle = null;
+			}
+		}
+
+		private MidiOutStreamSafeHandle GetHandleOrThrow()
+		{
+			var handle = this._currentHandle;
+			if (handle == null)
+			{
+				throw new InvalidOperationException("Cannot complete the operation because the " + this.GetType().Name + " is not open.");
+			}
+			return handle;
 		}
 
 		public void RestartPlayback()
 		{
-			var result = NativeMethods.midiStreamRestart(this.currentHandle);
+			var handle = this.GetHandleOrThrow();
+			var result = NativeMethods.midiStreamRestart(handle);
 			NativeMethods.CheckMidiOutMmsyserr(result);
 		}
 
 		private const int MaximumBufferSize = 16; // 16000 = 64k / 4 in ints
+
+		private uint GetStreamProperty(uint propMask)
+		{
+			var handle = this.GetHandleOrThrow();
+			var prop = new MidiOutStreamPortProperty(0);
+			var result = NativeMethods.midiStreamProperty(handle, ref prop, NativeMethods.MIDIPROP_GET | propMask);
+			NativeMethods.CheckMidiOutMmsyserr(result);
+			return prop.PropertyValue;
+		}
+
+		private void SetStreamProperty(uint propMask, uint value)
+		{
+			var handle = this.GetHandleOrThrow();
+			var prop = new MidiOutStreamPortProperty(value);
+			var result = NativeMethods.midiStreamProperty(handle, ref prop, NativeMethods.MIDIPROP_SET | propMask);
+			NativeMethods.CheckMidiOutMmsyserr(result);
+		}
+
+		public uint GetTimeDiv()
+		{
+			return this.GetStreamProperty(NativeMethods.MIDIPROP_TIMEDIV);
+		}
+
+		public void SetTimeDiv(uint value)
+		{
+			this.SetStreamProperty(NativeMethods.MIDIPROP_TIMEDIV, value);
+		}
 
 		public async Task Play(IEnumerable<MidiStreamEvent> events, CancellationToken ct)
 		{
@@ -70,6 +132,8 @@ namespace krassequenzer.MidiPlayback
 			{
 				throw new ArgumentNullException("events");
 			}
+
+			var handle = this.GetHandleOrThrow();
 
 			var bytes = new List<uint>();
 			foreach (var e in events)
@@ -98,12 +162,12 @@ namespace krassequenzer.MidiPlayback
 
 				int mmsyserr;
 
-				mmsyserr = NativeMethods.midiOutPrepareHeader(this.currentHandle, headerMemory, (uint)InteropStructSizes.SizeOfMidiHeader);
+				mmsyserr = NativeMethods.midiOutPrepareHeader(handle, headerMemory, (uint)InteropStructSizes.SizeOfMidiHeader);
 				NativeMethods.CheckMidiOutMmsyserr(mmsyserr);
 
 				this.mre.Reset();
 
-				mmsyserr = NativeMethods.midiStreamOut(this.currentHandle, headerMemory, (uint)InteropStructSizes.SizeOfMidiHeader);
+				mmsyserr = NativeMethods.midiStreamOut(handle, headerMemory, (uint)InteropStructSizes.SizeOfMidiHeader);
 				NativeMethods.CheckMidiOutMmsyserr(mmsyserr);
 
 				bool canceled = false;
@@ -122,15 +186,29 @@ namespace krassequenzer.MidiPlayback
 
 				if (canceled)
 				{
-					mmsyserr = NativeMethods.midiStreamStop(this.currentHandle);
+					mmsyserr = NativeMethods.midiStreamStop(handle);
 					NativeMethods.CheckMidiOutMmsyserr(mmsyserr);
 				}
 
-				mmsyserr = NativeMethods.midiOutUnprepareHeader(this.currentHandle, headerMemory, (uint)InteropStructSizes.SizeOfMidiHeader);
+				mmsyserr = NativeMethods.midiOutUnprepareHeader(handle, headerMemory, (uint)InteropStructSizes.SizeOfMidiHeader);
 				NativeMethods.CheckMidiOutMmsyserr(mmsyserr);
 			}
 		}
 
+		private readonly ManualResetEventSlim mre = new ManualResetEventSlim(false);
+
+		private void MidiProc(IntPtr handle, uint msg, IntPtr instance, IntPtr param1, IntPtr param2)
+		{
+			if (msg == 0x3C9)
+			{
+				Debug.WriteLine("MOM_DONE");
+				mre.Set();
+			}
+			Debug.WriteLine("midi proc?");
+		}
+
+#warning TODO remove
+#if false
 		public void Test()
 		{
 			int mmsyserr;
@@ -218,17 +296,7 @@ namespace krassequenzer.MidiPlayback
 				}
 			}
 		}
+#endif
 
-		private readonly ManualResetEventSlim mre = new ManualResetEventSlim(false);
-
-		private void MidiProc(IntPtr handle, uint msg, IntPtr instance, IntPtr param1, IntPtr param2)
-		{
-			if (msg == 0x3C9)
-			{
-				Debug.WriteLine("MOM_DONE");
-				mre.Set();
-			}
-			Debug.WriteLine("midi proc?");
-		}
 	}
 }
