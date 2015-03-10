@@ -27,14 +27,14 @@ namespace krassequenzer.MusicModel
 			foreach (Note note in Notes)
 			{
 				sb.Append(sep);
-				if (note.StartPosition > prevEnd)
+				if (note.ScoreStartPosition > prevEnd)
 				{
 					sb.Append("[");
-					sb.Append(((note.StartPosition - prevEnd).Ticks).ToString());
+					sb.Append(((note.ScoreStartPosition - prevEnd).Ticks).ToString());
 					sb.Append(" ticks]");
 					sb.Append(sep);
 				}
-				prevEnd = note.StartPosition + note.Duration;
+				prevEnd = note.ScoreStartPosition + note.ScoreDuration;
 				sb.Append(note);
 			}
 			return sb.ToString();
