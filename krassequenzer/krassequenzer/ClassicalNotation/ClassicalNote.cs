@@ -26,7 +26,7 @@ namespace krassequenzer.ClassicalNotation
 			return TiedTo != null;
 		}
 
-		public MusicalTime getAsDuration()
+		public MusicalTime getDuration()
 		{
 			if (!NoteValue.IsValid())
 			{
@@ -38,6 +38,11 @@ namespace krassequenzer.ClassicalNotation
 			MusicalTime modified = Modifier.Apply(baseValue);
 
 			return modified;
+		}
+
+		public Pitch getPitch()
+		{
+			return (Pitch)this.Pitch;
 		}
 	}
 }

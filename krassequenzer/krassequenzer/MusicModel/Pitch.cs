@@ -10,7 +10,7 @@ namespace krassequenzer.MusicModel
 	{
 		public static readonly int c = 60;
 
-		int Absolute { get; set; }
+		public int Absolute { get; set; }
 
 		public String toString()
 		{
