@@ -61,7 +61,9 @@ namespace krassequenzer.MidiPlayback
 			NativeMethods.CheckMidiOutMmsyserr(result);
 		}
 
-		public void Play(IEnumerable<MidiStreamEvent> events, CancellationToken ct)
+		private const int MaximumBufferSize = 16; // 16000 = 64k / 4 in ints
+
+		public async Task Play(IEnumerable<MidiStreamEvent> events, CancellationToken ct)
 		{
 			// prepare the events into memory
 			if (events == null)
@@ -96,83 +98,37 @@ namespace krassequenzer.MidiPlayback
 
 				int mmsyserr;
 
-				if (this.mre.WaitOne(0))
-				{
-					Debug.WriteLine("??");
-				}
-
 				mmsyserr = NativeMethods.midiOutPrepareHeader(this.currentHandle, headerMemory, (uint)InteropStructSizes.SizeOfMidiHeader);
 				NativeMethods.CheckMidiOutMmsyserr(mmsyserr);
 
-				if (this.mre.WaitOne(0))
-				{
-					Debug.WriteLine("??");
-				}
-				
+				this.mre.Reset();
+
 				mmsyserr = NativeMethods.midiStreamOut(this.currentHandle, headerMemory, (uint)InteropStructSizes.SizeOfMidiHeader);
 				NativeMethods.CheckMidiOutMmsyserr(mmsyserr);
 
-				this.mre.WaitOne();
+				bool canceled = false;
+
+				await Task.Run(() =>
+					{
+						try
+						{
+							this.mre.Wait(ct);
+						}
+						catch (OperationCanceledException)
+						{
+							canceled = true;
+						}
+					});
+
+				if (canceled)
+				{
+					mmsyserr = NativeMethods.midiStreamStop(this.currentHandle);
+					NativeMethods.CheckMidiOutMmsyserr(mmsyserr);
+				}
 
 				mmsyserr = NativeMethods.midiOutUnprepareHeader(this.currentHandle, headerMemory, (uint)InteropStructSizes.SizeOfMidiHeader);
 				NativeMethods.CheckMidiOutMmsyserr(mmsyserr);
 			}
-
-#if false
-			var bytes = new byte[24];
-			IntPtr bufferMem = Marshal.AllocHGlobal(bytes.Length);
-			try
-			{
-				MidiHeader header = new MidiHeader();
-				header.Data = bufferMem; // TODO
-				header.BufferLength = 24;
-				header.BytesRecorded = 24;
-				header.UserData = IntPtr.Zero;
-				header.Flags = 0;
-				header.Next = IntPtr.Zero;
-				header.Reserved = 0;
-				header.Offset = 0;
-				//header.Reserved2 = new IntPtr[8];
-				//for (int i = 0; i < header.Reserved2.Length; ++i)
-				//{
-				//	header.Reserved2[i] = IntPtr.Zero;
-				//}
-
-				// flags and event code
-				bytes[8] = 0x90;
-				bytes[9] = 63;
-				bytes[10] = 0x55;
-				bytes[11] = 0;
-				// next event
-				bytes[12] = 96; // delta time?
-				bytes[20] = 0x80;
-				bytes[21] = 63;
-				bytes[22] = 0x55;
-				bytes[23] = 0;
-
-				Marshal.Copy(bytes, 0, bufferMem, bytes.Length);
-
-				var headerMem = UnmanagedMemory.AllocFixed(InteropStructSizes.SizeOfMidiHeader);
-				Marshal.StructureToPtr(header, headerMem.DangerousGetHandle(), false);
-
-				int mmsyserr;
-
-				mmsyserr = NativeMethods.midiOutPrepareHeader(this.currentHandle, headerMem, (uint)InteropStructSizes.SizeOfMidiHeader);
-				NativeMethods.CheckMidiOutMmsyserr(mmsyserr);
-
-				mmsyserr = NativeMethods.midiStreamOut(this.currentHandle, headerMem, (uint)InteropStructSizes.SizeOfMidiHeader);
-				NativeMethods.CheckMidiOutMmsyserr(mmsyserr);
-
-				await Task.Run(() => this.mre.WaitOne());
-
-				mmsyserr = NativeMethods.midiOutUnprepareHeader(this.currentHandle, headerMem, (uint)InteropStructSizes.SizeOfMidiHeader);
-				NativeMethods.CheckMidiOutMmsyserr(mmsyserr);
-			}
-			finally
-			{
-				Marshal.FreeHGlobal(bufferMem);
-			}
-#endif
 		}
 
 		public void Test()
@@ -245,7 +201,7 @@ namespace krassequenzer.MidiPlayback
 					mmsyserr = NativeMethods.midiStreamOut(this.currentHandle, headerMem, (uint)InteropStructSizes.SizeOfMidiHeader);
 					NativeMethods.CheckMidiOutMmsyserr(mmsyserr);
 
-					if (!this.mre.WaitOne(5000))
+					if (!this.mre.Wait(5000))
 					{
 						Debug.WriteLine("??");
 					}
@@ -263,7 +219,7 @@ namespace krassequenzer.MidiPlayback
 			}
 		}
 
-		private readonly ManualResetEvent mre = new ManualResetEvent(false);
+		private readonly ManualResetEventSlim mre = new ManualResetEventSlim(false);
 
 		private void MidiProc(IntPtr handle, uint msg, IntPtr instance, IntPtr param1, IntPtr param2)
 		{

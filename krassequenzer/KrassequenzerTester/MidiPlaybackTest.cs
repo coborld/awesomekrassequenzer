@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace KrassequenzerTester
@@ -46,9 +47,12 @@ namespace KrassequenzerTester
 				stream.RestartPlayback();
 				var events = new List<MidiStreamEvent>();
 				events.Add(new MidiStreamEvent(0, 0x553f90));
-				events.Add(new MidiStreamEvent(48, 0x553f80));
-				var cts = new System.Threading.CancellationTokenSource();
-				stream.Play(events, cts.Token);
+				events.Add(new MidiStreamEvent(96, 0x553f80));
+				var cts = new CancellationTokenSource();
+				var task = stream.Play(events, cts.Token);
+				Thread.Sleep(500);
+				cts.Cancel();
+				task.Wait();
 			}
 
 			Debug.WriteLine("midi stream test ended");
