@@ -30,7 +30,7 @@ namespace krassequenzer.MusicModel
 		/// </summary>
 		public TempoTrack TempoTrack { get { return this._tempoTrack; } }
 
-		public string ToString()
+		public override string ToString()
 		{
 			StringBuilder sb = new StringBuilder();
 			sb.Append("\"");
