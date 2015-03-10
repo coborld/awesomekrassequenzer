@@ -11,7 +11,7 @@ namespace krassequenzer.MidiPlayback
 		public MidiOutClient(MidiOutDevice device)
 		{
 			if (device == null) throw new ArgumentNullException("device");
-#warning TODO change ot IMidiOutDevice
+#warning TODO change to IMidiOutDevice
 			this.device = device;
 		}
 

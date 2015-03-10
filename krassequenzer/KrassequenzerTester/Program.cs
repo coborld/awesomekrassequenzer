@@ -14,7 +14,8 @@ namespace KrassequenzerTester
 		[STAThread]
 		static void Main(string[] args)
 		{
-			MidiPlaybackTest.Run();
+			ParseTheShit.Run();
+			//MidiPlaybackTest.Run();
 
 #if false
 			var test = new AwesomeGenerator();

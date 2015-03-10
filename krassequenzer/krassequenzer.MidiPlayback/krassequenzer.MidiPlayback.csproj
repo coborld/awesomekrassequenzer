@@ -39,19 +39,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="IMidiOutDevice.cs" />
-    <Compile Include="Low\MemorySafeHandle.cs" />
     <Compile Include="Low\MidiSafeHandle.cs" />
     <Compile Include="Low\UnmanagedMemoryManager.cs" />
     <Compile Include="MidiException.cs" />
+    <Compile Include="MidiMessageBuilder.cs" />
     <Compile Include="MidiOutClient.cs" />
     <Compile Include="MidiOutStream.cs" />
     <Compile Include="MidiOutDevice.cs" />
-    <Compile Include="MidiStreamEvent.cs" />
+    <Compile Include="OutputStreaming\MidiStreamEvent.cs" />
     <Compile Include="MidiSystemInfo.cs" />
     <Compile Include="Low\NativeMethods.cs" />
     <Compile Include="Low\TimerResolution.cs" />
+    <Compile Include="OutputStreaming\MidiStreamEventFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
