@@ -115,6 +115,8 @@ namespace krassequenzer.MidiPlayback
 			NativeMethods.CheckMidiOutMmsyserr(result);
 		}
 
+		// TODO use better return values and stuff for all these methods
+
 		public uint GetTimeDiv()
 		{
 			return this.GetStreamProperty(NativeMethods.MIDIPROP_TIMEDIV);
@@ -123,6 +125,16 @@ namespace krassequenzer.MidiPlayback
 		public void SetTimeDiv(uint value)
 		{
 			this.SetStreamProperty(NativeMethods.MIDIPROP_TIMEDIV, value);
+		}
+
+		public uint GetTempo()
+		{
+			return this.GetStreamProperty(NativeMethods.MIDIPROP_TEMPO);
+		}
+
+		public void SetTempo(uint value)
+		{
+			this.SetStreamProperty(NativeMethods.MIDIPROP_TEMPO, value);
 		}
 
 		public async Task Play(IEnumerable<MidiStreamEvent> events, CancellationToken ct)
@@ -298,5 +310,74 @@ namespace krassequenzer.MidiPlayback
 		}
 #endif
 
+	}
+
+	public struct MidiStreamEvent
+	{
+		public MidiStreamEvent(uint deltaTime, uint data)
+		{
+			this._deltaTime = deltaTime;
+			this._data = data;
+		}
+
+		private readonly uint _deltaTime;
+		private readonly uint _data;
+
+		public uint DeltaTime { get { return this._deltaTime; } }
+		public uint Data { get { return this._data; } }
+	}
+
+	public class MidiStreamEventFactory
+	{
+		public MidiStreamEventFactory()
+		{
+			this.events = new List<MidiStreamEvent>();
+		}
+
+		private readonly List<MidiStreamEvent> events;
+
+		public IEnumerable<MidiStreamEvent> Events { get { return this.events; } }
+
+		public void NoteOn(uint deltaTime, int channel, int key, int velocity)
+		{
+			uint u = MidiMessageBuilder.NoteOn(channel, key, velocity);
+			var e = new MidiStreamEvent(deltaTime, u);
+			this.events.Add(e);
+		}
+
+		public void NoteOff(uint deltaTime, int channel, int key, int velocity)
+		{
+			uint u = MidiMessageBuilder.NoteOff(channel, key, velocity);
+			var e = new MidiStreamEvent(deltaTime, u);
+			this.events.Add(e);
+		}
+
+		public void ProgramChange(uint deltaTime, int channel, int program)
+		{
+			uint u = MidiMessageBuilder.ProgramChange(channel, program);
+			var e = new MidiStreamEvent(deltaTime, u);
+			this.events.Add(e);
+		}
+
+		public void ControlChange(uint deltaTime, int channel, int controller, int value)
+		{
+			uint u = MidiMessageBuilder.ControlChange(channel, controller, value);
+			var e = new MidiStreamEvent(deltaTime, u);
+			this.events.Add(e);
+		}
+
+		public void ChannelPressure(uint deltaTime, int channel, int value)
+		{
+			uint u = MidiMessageBuilder.ChannelPressure(channel, value);
+			var e = new MidiStreamEvent(deltaTime, u);
+			this.events.Add(e);
+		}
+
+		public void PolyphonicKeyPressure(uint deltaTime, int channel, int key, int value)
+		{
+			uint u = MidiMessageBuilder.PolyphonicKeyPressure(channel, key, value);
+			var e = new MidiStreamEvent(deltaTime, u);
+			this.events.Add(e);
+		}
 	}
 }

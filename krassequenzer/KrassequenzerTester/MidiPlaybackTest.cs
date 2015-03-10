@@ -44,15 +44,89 @@ namespace KrassequenzerTester
 			{
 				//stream.Test();
 				stream.Open();
-				stream.RestartPlayback();
-				var events = new List<MidiStreamEvent>();
-				events.Add(new MidiStreamEvent(0, 0x553f90));
-				events.Add(new MidiStreamEvent(96, 0x553f80));
+
+				var f = new MidiStreamEventFactory();
+
+				const int timeDiv = 24;
+
+				const int c = 60;
+				f.ProgramChange(0, 0, (int)MidiGMInstrumentSet.String_Ensemble_1);
+				f.ProgramChange(0, 1, (int)MidiGMInstrumentSet.String_Ensemble_1);
+				
+				f.NoteOn(0, 0, c + 0, 80);
+				f.NoteOff(24, 0, c + 0, 80);
+				f.NoteOn(0, 0, c + 5, 80);
+				f.NoteOff(24, 0, c + 5, 80);
+				f.NoteOn(0, 0, c + 12, 80);
+				f.NoteOff(24, 0, c + 12, 80);
+
+				f.NoteOn(0, 0, c + 12, 80);
+				f.NoteOn(0, 1, c - 23, 64);
+				f.NoteOn(0, 1, c - 16, 64);
+				f.NoteOff(24, 0, c + 12, 80);
+				f.NoteOff(0, 1, c - 23, 80);
+				f.NoteOff(0, 1, c - 16, 80);
+				f.NoteOn(0, 0, c + 10, 80);
+				f.NoteOn(0, 1, c - 11, 64);
+				f.NoteOn(0, 1, c - 7, 64);
+				f.NoteOn(0, 1, c - 4, 64);
+				f.NoteOff(24, 1, c - 11, 80);
+				f.NoteOff(0, 1, c - 7, 80);
+				f.NoteOff(0, 1, c - 4, 80);
+				f.NoteOn(0, 1, c - 9, 64);
+				f.NoteOn(0, 1, c - 5, 64);
+				f.NoteOn(0, 1, c - 2, 64);
+
+				f.NoteOff(24, 0, c + 10, 80);
+				f.NoteOn(0, 0, c + 8, 80);
+				f.NoteOff(12, 0, c + 8, 80);
+				f.NoteOn(0, 0, c + 7, 80);
+				f.NoteOff(12, 0, c + 7, 80);
+				f.NoteOff(0, 1, c - 9, 80);
+				f.NoteOff(0, 1, c - 5, 80);
+				f.NoteOff(0, 1, c - 2, 80);
+
+				f.NoteOn(0, 0, c + 0, 80);
+				f.NoteOn(0, 1, c - 19, 64);
+				f.NoteOn(0, 1, c - 12, 64);
+				f.NoteOff(12, 0, c + 0, 80);
+				f.NoteOn(0, 0, c + 3, 80);
+				f.NoteOff(12, 0, c + 3, 80);
+				f.NoteOff(0, 1, c - 19, 64);
+				f.NoteOff(0, 1, c - 12, 64);
+				f.NoteOn(0, 0, c + 5, 80);
+				f.NoteOn(0, 1, c - 12, 80);
+				f.NoteOn(0, 1, c - 7, 80);
+				f.NoteOn(0, 1, c - 2, 80);
+				f.NoteOff(24, 1, c - 12, 80);
+				f.NoteOff(0, 1, c - 7, 80);
+				f.NoteOff(0, 1, c - 2, 80);
+				f.NoteOn(0, 1, c - 12, 80);
+				f.NoteOn(0, 1, c - 7, 80);
+				f.NoteOn(0, 1, c - 4, 80);
+
+				// the fade is real SO SMOOTH SO GOOD
+				f.ControlChange(12, 0, 7, 90);
+				f.ControlChange(0, 1, 7, 90);
+				f.ControlChange(12, 0, 7, 60);
+				f.ControlChange(0, 1, 7, 60);
+				f.ControlChange(12, 0, 7, 30);
+				f.ControlChange(0, 1, 7, 30);
+
+				f.NoteOff(12, 0, c + 5, 80);
+				f.NoteOff(0, 1, c - 12, 80);
+				f.NoteOff(0, 1, c - 7, 80);
+				f.NoteOff(0, 1, c - 4, 80);
+
+				stream.SetTimeDiv(timeDiv);
+				stream.SetTempo(1000000);
 				var cts = new CancellationTokenSource();
-				var task = stream.Play(events, cts.Token);
+				var playTask = stream.Play(f.Events, cts.Token);
+				stream.RestartPlayback();
+				playTask.Wait();
+
+				// wait for the TAIL
 				Thread.Sleep(500);
-				cts.Cancel();
-				task.Wait();
 			}
 
 			Debug.WriteLine("midi stream test ended");
