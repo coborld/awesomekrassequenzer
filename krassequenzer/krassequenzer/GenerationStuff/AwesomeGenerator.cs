@@ -36,7 +36,7 @@ namespace krassequenzer.GenerationStuff
 				ClassicalNote cn = new ClassicalNote();
 				int rndNoteValueIndex = rnd.Next( NoteValue.Supported.Count() );
 				cn.NoteValue = NoteValue.Supported.ToList()[rndNoteValueIndex];
-				cn.Pitch = new ClassicalPitch{ Absolute = Pitch.c };
+				cn.Pitch = new Pitch( Pitch.c );
 
 				//
 				// create the internal note

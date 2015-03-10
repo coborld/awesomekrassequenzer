@@ -45,7 +45,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClassicalNotation\ClassicalNote.cs" />
-    <Compile Include="ClassicalNotation\ClassicalPitch.cs" />
     <Compile Include="ClassicalNotation\Modifier.cs" />
     <Compile Include="ClassicalNotation\InvalidNoteValueException.cs" />
     <Compile Include="ClassicalNotation\NoteValue.cs" />
