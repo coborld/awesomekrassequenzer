@@ -12,7 +12,7 @@ namespace krassequenzer.MusicModel
 		public string Name { get; set; }
 
 		private readonly OrderedCollection<Note> _notes = new OrderedCollection<Note>((x, y) => Note.Comparison(x, y));
-		public OrderedCollection<Note> Notes { get { return this._notes; } }
+		public List<Note> Notes { get { return this._notes.ToList<Note>(); } }
 
 		public String toString()
 		{

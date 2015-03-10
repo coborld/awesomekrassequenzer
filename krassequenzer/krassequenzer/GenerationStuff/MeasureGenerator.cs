@@ -25,7 +25,7 @@ namespace krassequenzer.GenerationStuff
 
 		public List<Note> Generate()
 		{
-
+			/*
 			List<Note> generatedNotes = new List<Note>();
 			Random rnd = new Random();
 
@@ -162,6 +162,8 @@ namespace krassequenzer.GenerationStuff
 			}
 
 			return generatedNotes;
+			 * */
+			return null;
 		}
 
 
