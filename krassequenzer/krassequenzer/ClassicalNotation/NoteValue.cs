@@ -52,15 +52,6 @@ namespace krassequenzer.ClassicalNotation
 			return this._noteValue.IsPowerOf2();
 		}
 
-		public static bool operator ==(NoteValue l, NoteValue r){
-			return l == r;
-		}
-
-		public static bool operator !=(NoteValue l, NoteValue r)
-		{
-			return l != r;
-		}
-
 		public static bool operator >(NoteValue l, NoteValue r)
 		{
 			return l > r;
@@ -79,6 +70,21 @@ namespace krassequenzer.ClassicalNotation
 		public static NoteValue operator --(NoteValue v)
 		{
 			return new NoteValue(v._noteValue >>= 1);
+		}
+
+		public override bool Equals(object obj)
+		{
+			var o = obj as NoteValue;
+			if (o == null)
+			{
+				return false;
+			}
+			return o._noteValue == this._noteValue;
+		}
+
+		public override int GetHashCode()
+		{
+			return this._noteValue;
 		}
 	}
 }
