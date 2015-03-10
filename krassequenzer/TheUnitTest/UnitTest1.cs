@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using krassequenzer.MusicModel;
 
-namespace TheUnitTest
+namespace KrassequenzerTester
 {
 	[TestClass]
 	public class UnitTest1

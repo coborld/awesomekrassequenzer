@@ -6,7 +6,7 @@
     <ProjectGuid>{BA84E855-3B07-4FF2-854C-A44B2AA66853}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TheUnitTest</RootNamespace>
+    <RootNamespace>KrassequenzerTester</RootNamespace>
     <AssemblyName>TheUnitTest</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

@@ -28,7 +28,7 @@ namespace krassequenzer.MusicModel
 		}
 
 
-		public String toString()
+		public override string ToString()
 		{
 			string sep = "; ";
 			return "(" + this.Pitch + sep + this.Duration + ")";

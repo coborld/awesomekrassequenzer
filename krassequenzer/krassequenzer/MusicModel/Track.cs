@@ -14,7 +14,7 @@ namespace krassequenzer.MusicModel
 		private readonly OrderedCollection<Note> _notes = new OrderedCollection<Note>((x, y) => Note.Comparison(x, y));
 		public ICollection<Note> Notes { get { return this._notes; } }
 
-		public String toString()
+		public override string ToString()
 		{
 			MusicalTime prevEnd = MusicalTime.Zero;
 			StringBuilder sb = new StringBuilder();
@@ -34,6 +34,7 @@ namespace krassequenzer.MusicModel
 					sb.Append(" ticks]");
 					sb.Append(sep);
 				}
+				prevEnd = note.StartPosition + note.Duration;
 				sb.Append(note);
 			}
 			return sb.ToString();
