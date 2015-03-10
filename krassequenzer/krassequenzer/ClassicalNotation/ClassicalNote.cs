@@ -9,7 +9,7 @@ namespace krassequenzer.ClassicalNotation
 {
 	class ClassicalNote
 	{
-		public ClassicalPitch Pitch { get; set; }
+		public Pitch Pitch { get; set; }
 		public NoteValue NoteValue { get; set; }
 
 		public Modifier Modifier { get; set; }
