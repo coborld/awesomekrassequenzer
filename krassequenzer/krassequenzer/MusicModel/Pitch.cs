@@ -12,7 +12,7 @@ namespace krassequenzer.MusicModel
 
 		public int Absolute { get; set; }
 
-		public String toString()
+		public override string ToString()
 		{
 			return (Absolute % 12).ToString();
 		}

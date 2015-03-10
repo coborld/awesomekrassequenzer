@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AwesomeGeneratorTest.cs" />
     <Compile Include="MidiPlaybackTest.cs" />
     <Compile Include="ParseTheShit.cs" />
     <Compile Include="Program.cs" />

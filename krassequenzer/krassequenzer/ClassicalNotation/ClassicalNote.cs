@@ -33,11 +33,15 @@ namespace krassequenzer.ClassicalNotation
 				throw new InvalidNoteValueException();
 			}
 
-			MusicalTime baseValue = new MusicalTime(4 / NoteValue.Denominator * MusicalTime.TicksPerQuarter);
+			MusicalTime duration = new MusicalTime(4 * MusicalTime.TicksPerQuarter / NoteValue.Denominator);
 
-			MusicalTime modified = Modifier.Apply(baseValue);
+			if (Modifier != null)
+			{
+				duration = Modifier.Apply(duration);
+			}
+			
 
-			return modified;
+			return duration;
 		}
 
 		public Pitch getPitch()
