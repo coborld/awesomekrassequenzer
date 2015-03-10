@@ -117,24 +117,26 @@ namespace krassequenzer.MidiPlayback
 
 		// TODO use better return values and stuff for all these methods
 
-		public uint GetTimeDiv()
+		public MidiStreamTimeDivSetting GetTimeDiv()
 		{
-			return this.GetStreamProperty(NativeMethods.MIDIPROP_TIMEDIV);
+			var u = this.GetStreamProperty(NativeMethods.MIDIPROP_TIMEDIV);
+			return new MidiStreamTimeDivSetting((int)u);
 		}
 
-		public void SetTimeDiv(uint value)
+		public void SetTimeDiv(MidiStreamTimeDivSetting value)
 		{
-			this.SetStreamProperty(NativeMethods.MIDIPROP_TIMEDIV, value);
+			this.SetStreamProperty(NativeMethods.MIDIPROP_TIMEDIV, (uint)value.Value);
 		}
 
-		public uint GetTempo()
+		public MidiStreamTempoSetting GetTempo()
 		{
-			return this.GetStreamProperty(NativeMethods.MIDIPROP_TEMPO);
+			var u = this.GetStreamProperty(NativeMethods.MIDIPROP_TEMPO);
+			return new MidiStreamTempoSetting((int)u);
 		}
 
-		public void SetTempo(uint value)
+		public void SetTempo(MidiStreamTempoSetting value)
 		{
-			this.SetStreamProperty(NativeMethods.MIDIPROP_TEMPO, value);
+			this.SetStreamProperty(NativeMethods.MIDIPROP_TEMPO, (uint)value.Value);
 		}
 
 		public async Task Play(IEnumerable<MidiStreamEvent> events, CancellationToken ct)
@@ -310,6 +312,46 @@ namespace krassequenzer.MidiPlayback
 		}
 #endif
 
+	}
+
+	public struct MidiStreamTimeDivSetting
+	{
+		public MidiStreamTimeDivSetting(int value)
+		{
+			if (value < 0 || value > 0x7fff) throw new ArgumentOutOfRangeException("value");
+			this._value = value;
+		}
+
+		private readonly int _value;
+		/// <summary>
+		/// Gets the MIDI time division setting in ticks per beat unit.
+		/// </summary>
+		public int Value { get { return this._value; } }
+
+		public static implicit operator MidiStreamTimeDivSetting(int value)
+		{
+			return new MidiStreamTimeDivSetting(value);
+		}
+	}
+
+	public struct MidiStreamTempoSetting
+	{
+		public MidiStreamTempoSetting(int value)
+		{
+			if (value < 0 || value > 0xffffff) throw new ArgumentOutOfRangeException("value");
+			this._value = value;
+		}
+
+		private readonly int _value;
+		/// <summary>
+		/// Gets the MIDI tempo setting, in microsettings per beat.
+		/// </summary>
+		public int Value { get { return this._value; } }
+
+		public static implicit operator MidiStreamTempoSetting(int value)
+		{
+			return new MidiStreamTempoSetting(value);
+		}
 	}
 
 	public struct MidiStreamEvent

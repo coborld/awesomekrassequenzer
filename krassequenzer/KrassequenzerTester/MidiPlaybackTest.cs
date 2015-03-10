@@ -51,7 +51,9 @@ namespace KrassequenzerTester
 
 				const int c = 60;
 				f.ProgramChange(0, 0, (int)MidiGMInstrumentSet.String_Ensemble_1);
+				f.ControlChange(0, 0, 0xa, 30);
 				f.ProgramChange(0, 1, (int)MidiGMInstrumentSet.String_Ensemble_1);
+				f.ControlChange(0, 1, 0xa, 80);
 				
 				f.NoteOn(0, 0, c + 0, 80);
 				f.NoteOff(24, 0, c + 0, 80);
