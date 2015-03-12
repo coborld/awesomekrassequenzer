@@ -139,7 +139,7 @@ namespace krassequenzer.MidiPlayback
 			this.SetStreamProperty(NativeMethods.MIDIPROP_TEMPO, (uint)value.Value);
 		}
 
-		public async Task Play(IEnumerable<MidiStreamEvent> events, CancellationToken ct)
+		public async Task Play(IEnumerable<IMidiStreamEvent> events, CancellationToken ct)
 		{
 			// prepare the events into memory
 			if (events == null)
@@ -150,11 +150,46 @@ namespace krassequenzer.MidiPlayback
 			var handle = this.GetHandleOrThrow();
 
 			var bytes = new List<uint>();
+
+			// testing tempo
+			//bytes.Add(0);
+			//bytes.Add(0);
+			//bytes.Add(0x80000006);
+			//bytes.Add(0x070351ff);
+			//bytes.Add(0x20a10000);
+			//bytes.Add(0);
+			//bytes.Add(0);
+			//bytes.Add(0x010720a1);
+			//bytes.Add(0);
+			//bytes.Add(0);
+			//bytes.Add(0x80000006);
+			//bytes.Add(0x070351ff);
+			//bytes.Add(0x0000a120);
+
 			foreach (var e in events)
 			{
 				bytes.Add((uint)e.DeltaTime);
 				bytes.Add(0);
-				bytes.Add((uint)e.Data);
+				if (e is MidiStreamEvent)
+				{
+					var e1 = (MidiStreamEvent)e;
+					bytes.Add((uint)e1.Data);
+				}
+				else if (e is MidiStreamEventLong)
+				{
+					var e1 = (MidiStreamEventLong)e;
+					bytes.Add(0x80000000 | ((uint)e1.Length & 0xffffff));
+					for (int i = 0; i < e1.Length; i += 4)
+					{
+						bytes.Add(0);
+					}
+				}
+				else if (e is TempoChangeMidiStreamEvent)
+				{
+					var e1 = (TempoChangeMidiStreamEvent)e;
+					uint u = 0x01000000 | ((uint)e1.Tempo & 0xffffff);
+					bytes.Add(u);
+				}
 			}
 
 			var requiredMemory = bytes.Count * 4;
@@ -354,7 +389,12 @@ namespace krassequenzer.MidiPlayback
 		}
 	}
 
-	public struct MidiStreamEvent
+	public interface IMidiStreamEvent
+	{
+		uint DeltaTime { get; }
+	}
+
+	public struct MidiStreamEvent : IMidiStreamEvent
 	{
 		public MidiStreamEvent(uint deltaTime, uint data)
 		{
@@ -369,16 +409,45 @@ namespace krassequenzer.MidiPlayback
 		public uint Data { get { return this._data; } }
 	}
 
+	public struct MidiStreamEventLong : IMidiStreamEvent
+	{
+		public MidiStreamEventLong(uint deltaTime, byte[] data)
+		{
+			this._deltaTime = deltaTime;
+			this._data = data.ToArray();
+		}
+
+		private readonly uint _deltaTime;
+		private readonly byte[] _data;
+		public uint DeltaTime { get { return this._deltaTime; } }
+		public int Length { get { return this._data.Length; } }
+		public byte[] Data { get { return this._data; } }
+	}
+
+	public struct TempoChangeMidiStreamEvent : IMidiStreamEvent
+	{
+		public TempoChangeMidiStreamEvent(uint deltaTime, int tempo)
+		{
+			this._deltaTime = deltaTime;
+			this._tempo = tempo;
+		}
+
+		private readonly uint _deltaTime;
+		private readonly int _tempo;
+		public uint DeltaTime { get { return this._deltaTime; } }
+		public int Tempo { get { return this._tempo; } }
+	}
+
 	public class MidiStreamEventFactory
 	{
 		public MidiStreamEventFactory()
 		{
-			this.events = new List<MidiStreamEvent>();
+			this.events = new List<IMidiStreamEvent>();
 		}
 
-		private readonly List<MidiStreamEvent> events;
+		private readonly List<IMidiStreamEvent> events;
 
-		public IEnumerable<MidiStreamEvent> Events { get { return this.events; } }
+		public IEnumerable<IMidiStreamEvent> Events { get { return this.events; } }
 
 		public void NoteOn(uint deltaTime, int channel, int key, int velocity)
 		{
@@ -419,6 +488,12 @@ namespace krassequenzer.MidiPlayback
 		{
 			uint u = MidiMessageBuilder.PolyphonicKeyPressure(channel, key, value);
 			var e = new MidiStreamEvent(deltaTime, u);
+			this.events.Add(e);
+		}
+
+		public void TempoChange(uint deltaTime, int newTempo)
+		{
+			var e = new TempoChangeMidiStreamEvent(deltaTime, newTempo);
 			this.events.Add(e);
 		}
 	}

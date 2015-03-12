@@ -46,7 +46,7 @@ namespace KrassequenzerTester
 
 			Func<int, Note> vAdder = x =>
 				{
-					var n = new Note() { StartPosition = new MusicalTime(startPosition), Duration = new MusicalTime(x) };
+					var n = new Note() { StartPositionOffset = new MusicalTime(startPosition), DurationOffset = new MusicalTime(x) };
 					vTrack.Notes.Add(n);
 					startPosition += x;
 					return n;

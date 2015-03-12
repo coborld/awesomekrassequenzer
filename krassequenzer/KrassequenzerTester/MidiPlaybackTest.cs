@@ -50,17 +50,21 @@ namespace KrassequenzerTester
 				const int timeDiv = 24;
 
 				const int c = 60;
-				f.ProgramChange(0, 0, (int)MidiGMInstrumentSet.String_Ensemble_1);
+				f.TempoChange(0, 1000000);
+
+				f.ProgramChange(0, 0, (int)MidiGMInstrumentSet.Lead_1_square);
 				f.ControlChange(0, 0, 0xa, 30);
-				f.ProgramChange(0, 1, (int)MidiGMInstrumentSet.String_Ensemble_1);
+				f.ProgramChange(0, 1, (int)MidiGMInstrumentSet.Lead_2_sawtooth);
 				f.ControlChange(0, 1, 0xa, 80);
+				f.ControlChange(0, 0, 7, 120);
+				f.ControlChange(0, 1, 7, 120);
 				
 				f.NoteOn(0, 0, c + 0, 80);
-				f.NoteOff(24, 0, c + 0, 80);
+				f.NoteOff(16, 0, c + 0, 80);
 				f.NoteOn(0, 0, c + 5, 80);
-				f.NoteOff(24, 0, c + 5, 80);
+				f.NoteOff(16, 0, c + 5, 80);
 				f.NoteOn(0, 0, c + 12, 80);
-				f.NoteOff(24, 0, c + 12, 80);
+				f.NoteOff(16, 0, c + 12, 80);
 
 				f.NoteOn(0, 0, c + 12, 80);
 				f.NoteOn(0, 1, c - 23, 64);
@@ -121,7 +125,7 @@ namespace KrassequenzerTester
 				f.NoteOff(0, 1, c - 4, 80);
 
 				stream.SetTimeDiv(timeDiv);
-				stream.SetTempo(1000000);
+				//stream.SetTempo(1000000);
 				var cts = new CancellationTokenSource();
 				var playTask = stream.Play(f.Events, cts.Token);
 				stream.RestartPlayback();

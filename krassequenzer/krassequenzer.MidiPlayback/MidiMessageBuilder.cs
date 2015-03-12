@@ -85,6 +85,18 @@ namespace krassequenzer.MidiPlayback
 			uint u = EncodeGeneric(ChannelPressureStatus, channel, value, 0);
 			return u;
 		}
+
+		public static byte[] Tempo(int usecPerQuarter)
+		{
+			var bytes = new byte[6];
+			bytes[0] = 0xff;
+			bytes[1] = 0x51;
+			bytes[2] = 0x03;
+			bytes[3] = (byte)((usecPerQuarter >> 16) & 0xff);
+			bytes[4] = (byte)((usecPerQuarter >> 8) & 0xff);
+			bytes[5] = (byte)(usecPerQuarter & 0xff);
+			return bytes;
+		}
 	}
 
 	public enum MidiGMInstrumentSet
