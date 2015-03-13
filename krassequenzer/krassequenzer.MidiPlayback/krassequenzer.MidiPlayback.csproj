@@ -47,6 +47,7 @@
     <Compile Include="MidiOutClient.cs" />
     <Compile Include="MidiOutStream.cs" />
     <Compile Include="MidiOutDevice.cs" />
+    <Compile Include="MidiStreamEventMerger.cs" />
     <Compile Include="MidiSystemInfo.cs" />
     <Compile Include="Low\NativeMethods.cs" />
     <Compile Include="Low\TimerResolution.cs" />

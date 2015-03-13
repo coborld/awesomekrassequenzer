@@ -392,6 +392,7 @@ namespace krassequenzer.MidiPlayback
 	public interface IMidiStreamEvent
 	{
 		uint DeltaTime { get; }
+		IMidiStreamEvent Clone(uint newDeltaTime);
 	}
 
 	public struct MidiStreamEvent : IMidiStreamEvent
@@ -407,6 +408,11 @@ namespace krassequenzer.MidiPlayback
 
 		public uint DeltaTime { get { return this._deltaTime; } }
 		public uint Data { get { return this._data; } }
+
+		public IMidiStreamEvent Clone(uint newDeltaTime)
+		{
+			return new MidiStreamEvent(newDeltaTime, this.Data);
+		}
 	}
 
 	public struct MidiStreamEventLong : IMidiStreamEvent
@@ -422,6 +428,11 @@ namespace krassequenzer.MidiPlayback
 		public uint DeltaTime { get { return this._deltaTime; } }
 		public int Length { get { return this._data.Length; } }
 		public byte[] Data { get { return this._data; } }
+
+		public IMidiStreamEvent Clone(uint newDeltaTime)
+		{
+			return new MidiStreamEventLong(newDeltaTime, this.Data);
+		}
 	}
 
 	public struct TempoChangeMidiStreamEvent : IMidiStreamEvent
@@ -436,6 +447,11 @@ namespace krassequenzer.MidiPlayback
 		private readonly int _tempo;
 		public uint DeltaTime { get { return this._deltaTime; } }
 		public int Tempo { get { return this._tempo; } }
+
+		public IMidiStreamEvent Clone(uint newDeltaTime)
+		{
+			return new TempoChangeMidiStreamEvent(newDeltaTime, this.Tempo);
+		}
 	}
 
 	public class MidiStreamEventFactory

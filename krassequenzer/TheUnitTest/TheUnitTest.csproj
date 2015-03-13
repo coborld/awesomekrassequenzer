@@ -54,6 +54,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\krassequenzer.MidiPlayback\krassequenzer.MidiPlayback.csproj">
+      <Project>{d3e59029-5ec5-4284-a8cd-79ab1a1cb465}</Project>
+      <Name>krassequenzer.MidiPlayback</Name>
+    </ProjectReference>
     <ProjectReference Include="..\krassequenzer\krassequenzer.csproj">
       <Project>{2f6aed99-5164-4e1c-907a-abe903298a79}</Project>
       <Name>krassequenzer</Name>
