@@ -13,7 +13,7 @@ namespace KrassequenzerTester
 		[TestMethod]
 		public void TestMethod1()
 		{
-			var score = new Score();
+			var score = new Composition();
 			var tt = score.TempoTrack;
 			tt.InitialTempo = new Tempo(20);
 			tt.TempoChanges.Add(new TempoChange(new MusicalTime(100), false, 40));

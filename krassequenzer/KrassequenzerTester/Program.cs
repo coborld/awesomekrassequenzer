@@ -32,7 +32,7 @@ namespace KrassequenzerTester
 
 		static void CreateTestScore()
 		{
-			var score = new Score();
+			var score = new Composition();
 
 			score.Title = "test";
 

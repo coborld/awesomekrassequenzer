@@ -44,6 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Stuff\ObservableProperty.cs" />
+    <Compile Include="ViewContext.cs" />
     <Compile Include="ClassicalNotation\ClassicalNote.cs" />
     <Compile Include="ClassicalNotation\Modifier.cs" />
     <Compile Include="ClassicalNotation\InvalidNoteValueException.cs" />
@@ -63,7 +65,7 @@
     </Compile>
     <Compile Include="MusicModel\Pitch.cs" />
     <Compile Include="MusicModel\Track.cs" />
-    <Compile Include="MusicModel\Score.cs" />
+    <Compile Include="MusicModel\Composition.cs" />
     <Compile Include="MusicModel\TempoChange.cs" />
     <Compile Include="MusicModel\TempoTrack.cs" />
     <Compile Include="MusicModel\MusicalTime.cs" />
@@ -79,6 +81,13 @@
     <Compile Include="Stuff\ExtUtil.cs" />
     <Compile Include="Stuff\Interpolator.cs" />
     <Compile Include="Stuff\OrderedCollection.cs" />
+    <Compile Include="Views\CompositionPropertiesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\CompositionPropertiesForm.Designer.cs">
+      <DependentUpon>CompositionPropertiesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ModelessDialogManager.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -91,6 +100,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Views\CompositionPropertiesForm.resx">
+      <DependentUpon>CompositionPropertiesForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 namespace krassequenzer.MusicModel
 {
 	/// <summary>
-	/// Represents a musical score.
+	/// Represents a musical composition.
 	/// </summary>
-	public class Score
+	public class Composition
 	{
 		/// <summary>
-		/// Gets or sets the title of the score.
+		/// Gets or sets the title of the composition.
 		/// </summary>
 		public string Title { get; set; }
 
@@ -25,7 +25,7 @@ namespace krassequenzer.MusicModel
 
 		private readonly TempoTrack _tempoTrack = new TempoTrack();
 		/// <summary>
-		/// Gets the tempo track of the score. The tempo track denotes the tempo
+		/// Gets the tempo track of the composition. The tempo track denotes the tempo
 		/// for all other tracks in the score.
 		/// </summary>
 		public TempoTrack TempoTrack { get { return this._tempoTrack; } }

@@ -28,20 +28,119 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.SuspendLayout();
-            // 
-            // Form1
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(695, 486);
-            this.Name = "Form1";
-            this.Text = "Form1";
-            this.ResumeLayout(false);
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+			this.toolStripButtonUpdate = new System.Windows.Forms.ToolStripButton();
+			this.compositionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItemCompositionProperties = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItemNewComposition = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuStrip1.SuspendLayout();
+			this.toolStrip1.SuspendLayout();
+			this.SuspendLayout();
+			// 
+			// menuStrip1
+			// 
+			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.compositionToolStripMenuItem});
+			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+			this.menuStrip1.Name = "menuStrip1";
+			this.menuStrip1.Size = new System.Drawing.Size(857, 24);
+			this.menuStrip1.TabIndex = 0;
+			this.menuStrip1.Text = "menuStrip1";
+			// 
+			// fileToolStripMenuItem
+			// 
+			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemNewComposition});
+			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+			this.fileToolStripMenuItem.Text = "&File";
+			// 
+			// statusStrip1
+			// 
+			this.statusStrip1.Location = new System.Drawing.Point(0, 419);
+			this.statusStrip1.Name = "statusStrip1";
+			this.statusStrip1.Size = new System.Drawing.Size(857, 22);
+			this.statusStrip1.TabIndex = 1;
+			this.statusStrip1.Text = "statusStrip1";
+			// 
+			// toolStrip1
+			// 
+			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButtonUpdate});
+			this.toolStrip1.Location = new System.Drawing.Point(0, 24);
+			this.toolStrip1.Name = "toolStrip1";
+			this.toolStrip1.Size = new System.Drawing.Size(857, 25);
+			this.toolStrip1.TabIndex = 2;
+			this.toolStrip1.Text = "toolStrip1";
+			// 
+			// toolStripButtonUpdate
+			// 
+			this.toolStripButtonUpdate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolStripButtonUpdate.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonUpdate.Image")));
+			this.toolStripButtonUpdate.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButtonUpdate.Name = "toolStripButtonUpdate";
+			this.toolStripButtonUpdate.Size = new System.Drawing.Size(23, 22);
+			this.toolStripButtonUpdate.Text = "Update";
+			this.toolStripButtonUpdate.Click += new System.EventHandler(this.toolStripButtonUpdate_Click);
+			// 
+			// compositionToolStripMenuItem
+			// 
+			this.compositionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemCompositionProperties});
+			this.compositionToolStripMenuItem.Name = "compositionToolStripMenuItem";
+			this.compositionToolStripMenuItem.Size = new System.Drawing.Size(88, 20);
+			this.compositionToolStripMenuItem.Text = "&Composition";
+			// 
+			// toolStripMenuItemCompositionProperties
+			// 
+			this.toolStripMenuItemCompositionProperties.Name = "toolStripMenuItemCompositionProperties";
+			this.toolStripMenuItemCompositionProperties.Size = new System.Drawing.Size(152, 22);
+			this.toolStripMenuItemCompositionProperties.Text = "&Properties";
+			this.toolStripMenuItemCompositionProperties.Click += new System.EventHandler(this.toolStripMenuItemCompositionProperties_Click);
+			// 
+			// toolStripMenuItemNewComposition
+			// 
+			this.toolStripMenuItemNewComposition.Name = "toolStripMenuItemNewComposition";
+			this.toolStripMenuItemNewComposition.Size = new System.Drawing.Size(170, 22);
+			this.toolStripMenuItemNewComposition.Text = "&New Composition";
+			this.toolStripMenuItemNewComposition.Click += new System.EventHandler(this.toolStripMenuItemNewComposition_Click);
+			// 
+			// Form1
+			// 
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.ClientSize = new System.Drawing.Size(857, 441);
+			this.Controls.Add(this.toolStrip1);
+			this.Controls.Add(this.statusStrip1);
+			this.Controls.Add(this.menuStrip1);
+			this.MainMenuStrip = this.menuStrip1;
+			this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Name = "Form1";
+			this.Text = "Form1";
+			this.menuStrip1.ResumeLayout(false);
+			this.menuStrip1.PerformLayout();
+			this.toolStrip1.ResumeLayout(false);
+			this.toolStrip1.PerformLayout();
+			this.ResumeLayout(false);
+			this.PerformLayout();
 
         }
 
         #endregion
+
+		private System.Windows.Forms.MenuStrip menuStrip1;
+		private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+		private System.Windows.Forms.StatusStrip statusStrip1;
+		private System.Windows.Forms.ToolStrip toolStrip1;
+		private System.Windows.Forms.ToolStripButton toolStripButtonUpdate;
+		private System.Windows.Forms.ToolStripMenuItem compositionToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemCompositionProperties;
+		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemNewComposition;
     }
 }
 
