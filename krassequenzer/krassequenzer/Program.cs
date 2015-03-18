@@ -16,10 +16,7 @@ namespace krassequenzer
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
-			var form = new Form1();
-			form.Context = new ViewContext();
-            Application.Run(form);
+			Application.Run(new Form1());
         }
     }
 }

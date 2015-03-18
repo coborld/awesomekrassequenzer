@@ -6,10 +6,21 @@ using System.Threading.Tasks;
 
 namespace krassequenzer.Stuff
 {
+	/// <summary>
+	/// Represents a property whose value can change.
+	/// When the value changes, an event is raised.
+	/// Instances of this class are intended to be treated as invariants.
+	/// Mutating the <see cref="Value"/> does not raise an event.
+	/// </summary>
 	public sealed class ObservableProperty<T>
 	{
 		private T _value;
 
+		/// <summary>
+		/// Gets or sets the value of the property.
+		/// Changing the value will call event subscribers of this
+		/// instance.
+		/// </summary>
 		public T Value
 		{
 			get
@@ -35,10 +46,25 @@ namespace krassequenzer.Stuff
 			}
 		}
 
-		public EventHandler ValueChanged { get; set; }
+		/// <summary>
+		/// Occurs when the value of this instance changes.
+		/// </summary>
+		public event EventHandler ValueChanged;
 
-		public EventHandler AttachCue { get; set; }
-		public EventHandler DetachCue { get; set; }
+		/// <summary>
+		/// Occurs after the value of this instance changes if it is
+		/// not null.
+		/// Event subscribers can safely attach events to the object in
+		/// <see cref="Value"/>.
+		/// </summary>
+		public event EventHandler AttachCue;
+		/// <summary>
+		/// Occurs before the value of this instance changes if it is
+		/// not null.
+		/// Event subscribers can safely detach events from the object
+		/// in <see cref="Value"/>.
+		/// </summary>
+		public event EventHandler DetachCue;
 
 		private void OnAttachCue()
 		{

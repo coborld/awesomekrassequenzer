@@ -8,9 +8,19 @@ using System.Threading.Tasks;
 
 namespace krassequenzer
 {
+	/// <summary>
+	/// Instances of this class represent a unique, invariant application state
+	/// container.
+	/// The same instance of this class should be passed to all views, ensuring that
+	/// each view has access to the same global state information, such as the
+	/// currently active <see cref="Composition"/>.
+	/// </summary>
 	public class ViewContext
 	{
 		private readonly ObservableProperty<Composition> _currentComposition = new ObservableProperty<Composition>();
+		/// <summary>
+		/// Gets or sets the composition that is currently active in the application.
+		/// </summary>
 		public ObservableProperty<Composition> CurrentComposition { get { return this._currentComposition; } }
 	}
 }

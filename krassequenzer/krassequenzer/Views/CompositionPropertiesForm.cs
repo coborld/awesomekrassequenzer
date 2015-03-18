@@ -24,9 +24,22 @@ namespace krassequenzer.Views
 			get { return this._context; }
 			set
 			{
+				if (this._context != null)
+				{
+					this._context.CurrentComposition.ValueChanged -= this.HandleCurrentCompositionChanged;
+				}
 				this._context = value;
 				this.DisplayContent();
+				if (this._context != null)
+				{
+					this._context.CurrentComposition.ValueChanged += this.HandleCurrentCompositionChanged;
+				}
 			}
+		}
+
+		private void HandleCurrentCompositionChanged(object sender, EventArgs e)
+		{
+			this.DisplayContent();
 		}
 
 		private void DisplayContent()

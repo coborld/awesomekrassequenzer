@@ -31,13 +31,16 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItemNewComposition = new System.Windows.Forms.ToolStripMenuItem();
+			this.compositionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItemCompositionProperties = new System.Windows.Forms.ToolStripMenuItem();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.toolStripButtonUpdate = new System.Windows.Forms.ToolStripButton();
-			this.compositionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItemCompositionProperties = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItemNewComposition = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripStatusLabelStatus = new System.Windows.Forms.ToolStripStatusLabel();
+			this.toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
+			this.statusStrip1.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -55,13 +58,38 @@
 			// fileToolStripMenuItem
 			// 
 			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemNewComposition});
+            this.toolStripMenuItemNewComposition,
+            this.toolStripMenuItemExit});
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
 			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
 			this.fileToolStripMenuItem.Text = "&File";
 			// 
+			// toolStripMenuItemNewComposition
+			// 
+			this.toolStripMenuItemNewComposition.Name = "toolStripMenuItemNewComposition";
+			this.toolStripMenuItemNewComposition.Size = new System.Drawing.Size(170, 22);
+			this.toolStripMenuItemNewComposition.Text = "&New Composition";
+			this.toolStripMenuItemNewComposition.Click += new System.EventHandler(this.toolStripMenuItemNewComposition_Click);
+			// 
+			// compositionToolStripMenuItem
+			// 
+			this.compositionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemCompositionProperties});
+			this.compositionToolStripMenuItem.Name = "compositionToolStripMenuItem";
+			this.compositionToolStripMenuItem.Size = new System.Drawing.Size(88, 20);
+			this.compositionToolStripMenuItem.Text = "&Composition";
+			// 
+			// toolStripMenuItemCompositionProperties
+			// 
+			this.toolStripMenuItemCompositionProperties.Name = "toolStripMenuItemCompositionProperties";
+			this.toolStripMenuItemCompositionProperties.Size = new System.Drawing.Size(152, 22);
+			this.toolStripMenuItemCompositionProperties.Text = "&Properties";
+			this.toolStripMenuItemCompositionProperties.Click += new System.EventHandler(this.toolStripMenuItemCompositionProperties_Click);
+			// 
 			// statusStrip1
 			// 
+			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabelStatus});
 			this.statusStrip1.Location = new System.Drawing.Point(0, 419);
 			this.statusStrip1.Name = "statusStrip1";
 			this.statusStrip1.Size = new System.Drawing.Size(857, 22);
@@ -88,27 +116,18 @@
 			this.toolStripButtonUpdate.Text = "Update";
 			this.toolStripButtonUpdate.Click += new System.EventHandler(this.toolStripButtonUpdate_Click);
 			// 
-			// compositionToolStripMenuItem
+			// toolStripStatusLabelStatus
 			// 
-			this.compositionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemCompositionProperties});
-			this.compositionToolStripMenuItem.Name = "compositionToolStripMenuItem";
-			this.compositionToolStripMenuItem.Size = new System.Drawing.Size(88, 20);
-			this.compositionToolStripMenuItem.Text = "&Composition";
+			this.toolStripStatusLabelStatus.Name = "toolStripStatusLabelStatus";
+			this.toolStripStatusLabelStatus.Size = new System.Drawing.Size(61, 17);
+			this.toolStripStatusLabelStatus.Text = "Initializing";
 			// 
-			// toolStripMenuItemCompositionProperties
+			// toolStripMenuItemExit
 			// 
-			this.toolStripMenuItemCompositionProperties.Name = "toolStripMenuItemCompositionProperties";
-			this.toolStripMenuItemCompositionProperties.Size = new System.Drawing.Size(152, 22);
-			this.toolStripMenuItemCompositionProperties.Text = "&Properties";
-			this.toolStripMenuItemCompositionProperties.Click += new System.EventHandler(this.toolStripMenuItemCompositionProperties_Click);
-			// 
-			// toolStripMenuItemNewComposition
-			// 
-			this.toolStripMenuItemNewComposition.Name = "toolStripMenuItemNewComposition";
-			this.toolStripMenuItemNewComposition.Size = new System.Drawing.Size(170, 22);
-			this.toolStripMenuItemNewComposition.Text = "&New Composition";
-			this.toolStripMenuItemNewComposition.Click += new System.EventHandler(this.toolStripMenuItemNewComposition_Click);
+			this.toolStripMenuItemExit.Name = "toolStripMenuItemExit";
+			this.toolStripMenuItemExit.Size = new System.Drawing.Size(170, 22);
+			this.toolStripMenuItemExit.Text = "E&xit";
+			this.toolStripMenuItemExit.Click += new System.EventHandler(this.toolStripMenuItemExit_Click);
 			// 
 			// Form1
 			// 
@@ -119,11 +138,13 @@
 			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.menuStrip1);
 			this.MainMenuStrip = this.menuStrip1;
-			this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Margin = new System.Windows.Forms.Padding(2);
 			this.Name = "Form1";
 			this.Text = "Form1";
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
+			this.statusStrip1.ResumeLayout(false);
+			this.statusStrip1.PerformLayout();
 			this.toolStrip1.ResumeLayout(false);
 			this.toolStrip1.PerformLayout();
 			this.ResumeLayout(false);
@@ -141,6 +162,8 @@
 		private System.Windows.Forms.ToolStripMenuItem compositionToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemCompositionProperties;
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemNewComposition;
+		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelStatus;
+		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExit;
     }
 }
 

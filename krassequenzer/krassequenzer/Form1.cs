@@ -17,23 +17,44 @@ namespace krassequenzer
         public Form1()
         {
             InitializeComponent();
+
+			// this is the thing that needs to be passed to all other
+			// views which need access to the application state
+			this.context = new ViewContext();
+
 			this.compositionPropertiesFormManager = new ModelessDialogManager(this.CreateCompositionPropertiesForm);
+
+			this.SetApplicationStatus("Ready");
         }
 
 		private readonly ModelessDialogManager compositionPropertiesFormManager;
+		private readonly ViewContext context;
+		
+		/// <summary>
+		/// Gets the invariant <see cref="ViewContext"/> of this application.
+		/// </summary>
+		public ViewContext Context
+		{
+			get { return this.context; }
+		}
+
+		private void SetApplicationStatus(string message)
+		{
+			this.toolStripStatusLabelStatus.Text = message;
+		}
 
 		private Form CreateCompositionPropertiesForm()
 		{
 			var form = new CompositionPropertiesForm();
+			form.Owner = this;
 			form.Context = this.Context;
 			return form;
 		}
 
-		public ViewContext Context { get; set; }
-
 		private void toolStripButtonUpdate_Click(object sender, EventArgs e)
 		{
-
+			// do a manual explicit update of all views
+			// (no manual updates necessary yet)
 		}
 
 		private void CreateAndLoadNewComposition()
@@ -50,6 +71,11 @@ namespace krassequenzer
 		private void toolStripMenuItemNewComposition_Click(object sender, EventArgs e)
 		{
 			this.CreateAndLoadNewComposition();
+		}
+
+		private void toolStripMenuItemExit_Click(object sender, EventArgs e)
+		{
+			this.Close();
 		}
     }
 }

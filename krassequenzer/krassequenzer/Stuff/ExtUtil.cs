@@ -48,5 +48,32 @@ namespace krassequenzer.Stuff
 		{
 			return l.ToString(System.Globalization.CultureInfo.InvariantCulture);
 		}
+
+		/// <summary>
+		/// Applies <paramref name="selector"/> to <paramref name="obj"/> if
+		/// <paramref name="obj"/> is not null.
+		/// </summary>
+		public static TOut Maybe<TIn, TOut>(this TIn obj, Func<TIn, TOut> selector)
+		{
+			selector.NotNull("selector");
+			if (Object.ReferenceEquals(obj, null))
+			{
+				return default(TOut);
+			}
+			return selector(obj);
+		}
+
+		/// <summary>
+		/// Applies <paramref name="action"/> to <paramref name="obj"/> if
+		/// <paramref name="obj"/> is not null.
+		/// </summary>
+		public static void Maybe<TIn>(this TIn obj, Action<TIn> action)
+		{
+			action.NotNull("action");
+			if (!Object.ReferenceEquals(obj, null))
+			{
+				action(obj);
+			}
+		}
 	}
 }
