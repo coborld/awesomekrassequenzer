@@ -33,17 +33,16 @@ namespace krassequenzer.GenerationStuff
 				//
 				// create a classical note
 				//
-				ClassicalNote cn = new ClassicalNote();
 				int rndNoteValueIndex = rnd.Next( NoteValue.Supported.Count() );
-				cn.NoteValue = NoteValue.Supported.ToList()[rndNoteValueIndex];
-				cn.Pitch = new Pitch( Pitch.c );
+				NoteValue nv = NoteValue.Supported.ToList()[rndNoteValueIndex].Clone();
+				Pitch pitch = new Pitch( Pitch.c );
 
 				//
 				// create the internal note
 				//
-				MusicalTime duration = cn.getDuration();
+				MusicalTime duration = nv.getAsMusicalTime();
 				MusicalTime newStart = curStart + duration;
-				part.Notes.Add(new Note { ScoreStartPosition = curStart, ScoreDuration = duration, Pitch = cn.getPitch() });
+				part.Notes.Add(new Note { ScoreStartPosition = curStart, NoteValue = nv, Pitch = pitch });
 				curStart = newStart;
 			}
 		}

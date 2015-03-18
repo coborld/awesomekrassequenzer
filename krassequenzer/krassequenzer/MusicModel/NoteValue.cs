@@ -4,9 +4,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using krassequenzer.Stuff;
-using krassequenzer.MusicModel;
 
-namespace krassequenzer.ClassicalNotation
+namespace krassequenzer.MusicModel
 {
 	public class NoteValue
 	{
@@ -40,6 +39,9 @@ namespace krassequenzer.ClassicalNotation
 				return this._noteValue;
 			}
 		}
+
+		public DurationModifier DurationModifier { get; set; }
+
 		private NoteValue(int noteValue)
 		{
 			// as long as the constructor stays private there is no need to check the validity of the input
@@ -85,6 +87,30 @@ namespace krassequenzer.ClassicalNotation
 		public override int GetHashCode()
 		{
 			return this._noteValue;
+		}
+
+		public MusicalTime getAsMusicalTime()
+		{
+#warning sotix: Why did I built that check?
+			if (!IsValid())
+			{
+				throw new InvalidNoteValueException();
+			}
+
+			MusicalTime duration = new MusicalTime(4 * MusicalTime.TicksPerQuarter / Denominator);
+
+			if (DurationModifier != null)
+			{
+				duration = DurationModifier.Apply(duration);
+			}
+
+
+			return duration;
+		}
+
+		public NoteValue Clone()
+		{
+			return (NoteValue) this.MemberwiseClone();
 		}
 	}
 }
