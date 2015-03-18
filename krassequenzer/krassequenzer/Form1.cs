@@ -22,7 +22,7 @@ namespace krassequenzer
 			// views which need access to the application state
 			this.context = new ViewContext();
 
-			this.compositionPropertiesFormManager = new ModelessDialogManager(this.CreateCompositionPropertiesForm);
+			this.compositionPropertiesFormManager = new ModelessDialogManager(this, this.CreateCompositionPropertiesForm);
 
 			this.SetApplicationStatus("Ready");
         }
@@ -46,7 +46,6 @@ namespace krassequenzer
 		private Form CreateCompositionPropertiesForm()
 		{
 			var form = new CompositionPropertiesForm();
-			form.Owner = this;
 			form.Context = this.Context;
 			return form;
 		}

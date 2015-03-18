@@ -21,15 +21,18 @@ namespace krassequenzer.Views
 		/// <summary>
 		/// Initializes a new instance.
 		/// </summary>
+		/// <param name="owner">The owner of the windows which are created.</param>
 		/// <param name="source">A function returning a new instance of the
 		/// form type that this manager should display. The form should not
 		/// have had its <see cref="Form.Show"/> method called.</param>
-		public ModelessDialogManager(Func<Form> source)
+		public ModelessDialogManager(Form owner, Func<Form> source)
 		{
+			this.owner = owner;
 			this.source = source.NotNull("source");
 			this.instantiationThread = Thread.CurrentThread;
 		}
 
+		private readonly Form owner;
 		/// <summary>
 		/// The thread which created this instance is stored to ensure that
 		/// the form is running on that thread, which is assumed to be the
@@ -50,7 +53,10 @@ namespace krassequenzer.Views
 
 			if (this.currentForm == null)
 			{
-				this.currentForm = this.source();
+				var form = this.source();
+				form.Owner = this.owner;
+				
+				this.currentForm = form;
 				this.currentForm.FormClosed += this.HandleCurrentFormClosed;
 				this.currentForm.Show();
 			}
