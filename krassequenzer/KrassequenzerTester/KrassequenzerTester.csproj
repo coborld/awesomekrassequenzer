@@ -64,6 +64,7 @@
     <Compile Include="AwesomeGeneratorTest.cs" />
     <Compile Include="MidiPlaybackTest.cs" />
     <Compile Include="ParseTheShit.cs" />
+    <Compile Include="PinoPlaybackTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

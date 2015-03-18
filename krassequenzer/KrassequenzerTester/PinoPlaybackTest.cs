@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace krassequenzer.ClassicalNotation
+namespace KrassequenzerTester
 {
-	class InvalidNoteValueException : Exception
+	class PinoPlaybackTest
 	{
 
 	}

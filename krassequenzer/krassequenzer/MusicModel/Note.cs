@@ -16,7 +16,7 @@ namespace krassequenzer.MusicModel
 
 		public bool DisplayInScore = true;
 
-		public MusicalTime ScoreDuration { get; set; }
+		public MusicalTime ScoreDuration { get { return calcBaseDuration(); } }
 		public MusicalTime DurationOffset { get; set; }
 
 		public MusicalTime ScoreStartPosition { get; set; }
@@ -25,6 +25,10 @@ namespace krassequenzer.MusicModel
 		public int Voice { get; set; }
 
 		public Pitch Pitch { get; set; }
+
+		public NoteValue NoteValue { get; set; }
+
+		public List<TiedNote> TiedNotes { get; set; }
 
 		public Note Clone()
 		{
@@ -42,5 +46,15 @@ namespace krassequenzer.MusicModel
 		{
 			return MusicalTime.Comparison(l.ScoreStartPosition, r.ScoreStartPosition);
 		}
+
+		private MusicalTime calcBaseDuration()
+		{
+			MusicalTime baseDuration = NoteValue.getAsMusicalTime();
+
+			MusicalTime sumOfTiedNotes = new MusicalTime(TiedNotes.Sum(x => x.NoteValue.getAsMusicalTime().Ticks));
+
+			return baseDuration + sumOfTiedNotes;
+		}
+
 	}
 }

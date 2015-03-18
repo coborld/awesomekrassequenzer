@@ -44,12 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MusicModel\TiedNote.cs" />
     <Compile Include="Stuff\ObservableProperty.cs" />
     <Compile Include="ViewContext.cs" />
-    <Compile Include="ClassicalNotation\ClassicalNote.cs" />
-    <Compile Include="ClassicalNotation\Modifier.cs" />
-    <Compile Include="ClassicalNotation\InvalidNoteValueException.cs" />
-    <Compile Include="ClassicalNotation\NoteValue.cs" />
+    <Compile Include="MusicModel\DurationModifier.cs" />
+    <Compile Include="MusicModel\InvalidNoteValueException.cs" />
+    <Compile Include="MusicModel\NoteValue.cs" />
     <Compile Include="GenerationStuff\AwesomeGenerator.cs" />
     <Compile Include="GenerationStuff\NoteProbabilites.cs" />
     <Compile Include="GenerationStuff\NoteProbabilityConfigurationException.cs" />
