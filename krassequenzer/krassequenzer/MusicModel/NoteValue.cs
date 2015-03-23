@@ -18,16 +18,18 @@ namespace krassequenzer.MusicModel
 		public static NoteValue ThirtySecond	= new NoteValue(32);
 		public static NoteValue SixtyFourth		= new NoteValue(64);
 
-		public static IEnumerable<NoteValue> Supported
+		public static List<NoteValue> Supported
 		{
 			get{
-				yield return Whole;
-				yield return Half;
-				yield return Quarter;
-				yield return Eigth;
-				yield return Sixteenth;
-				yield return ThirtySecond;
-				yield return SixtyFourth;
+				List<NoteValue> supported = new List<NoteValue>();
+				supported.Add(Whole);
+				supported.Add(Half);
+				supported.Add(Quarter);
+				supported.Add(Eigth);
+				supported.Add(Sixteenth);
+				supported.Add(ThirtySecond);
+				supported.Add(SixtyFourth);
+				return supported;
 			}
 		}
 
@@ -40,7 +42,23 @@ namespace krassequenzer.MusicModel
 			}
 		}
 
-		public DurationModifier DurationModifier { get; set; }
+		private DurationModifier _durationModifier;
+		public DurationModifier DurationModifier { get { return _durationModifier; } set { durationRecalcRequired = true; _durationModifier = value; } }
+
+		private MusicalTime _duration;
+		private bool durationRecalcRequired = true;
+		public MusicalTime Duration
+		{
+			get
+			{
+				if (durationRecalcRequired)
+				{
+					_duration = this.getAsMusicalTime();
+					durationRecalcRequired = false;
+				}
+				return _duration;
+			}
+		}
 
 		private NoteValue(int noteValue)
 		{
@@ -48,6 +66,10 @@ namespace krassequenzer.MusicModel
 			this._noteValue = noteValue;
 		}
 
+		public NoteValue(TimeSignature timeSignature) : this(timeSignature.BeatUnit)
+		{
+
+		}
 
 		public bool IsValid()
 		{
@@ -89,7 +111,7 @@ namespace krassequenzer.MusicModel
 			return this._noteValue;
 		}
 
-		public MusicalTime getAsMusicalTime()
+		private MusicalTime getAsMusicalTime()
 		{
 #warning sotix: Why did I built that check?
 			if (!IsValid())

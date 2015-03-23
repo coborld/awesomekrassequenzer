@@ -49,9 +49,9 @@ namespace krassequenzer.MusicModel
 
 		private MusicalTime calcBaseDuration()
 		{
-			MusicalTime baseDuration = NoteValue.getAsMusicalTime();
+			MusicalTime baseDuration = NoteValue.Duration;
 
-			MusicalTime sumOfTiedNotes = new MusicalTime(TiedNotes.Sum(x => x.NoteValue.getAsMusicalTime().Ticks));
+			MusicalTime sumOfTiedNotes = new MusicalTime(TiedNotes.Sum(x => x.NoteValue.Duration.Ticks));
 
 			return baseDuration + sumOfTiedNotes;
 		}

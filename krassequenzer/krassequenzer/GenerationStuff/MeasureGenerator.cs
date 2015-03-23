@@ -25,7 +25,7 @@ namespace krassequenzer.GenerationStuff
 
 		public List<Note> Generate()
 		{
-			/*
+			
 			List<Note> generatedNotes = new List<Note>();
 			Random rnd = new Random();
 
@@ -34,14 +34,14 @@ namespace krassequenzer.GenerationStuff
 			// find the longest note, that fits in the measure
 #warning CheckUseful: once the generator is working, check if biggestFitIndex is used
 			int biggestFitIndex = -1;
-			List<ObjectWithProbability<Note>> fittingNotes = new List<ObjectWithProbability<Note>>();
-			for (int i = 0; i < Note.StandardNotes.Count; i++)
+			List<ObjectWithProbability<NoteValue>> fittingNoteValues = new List<ObjectWithProbability<NoteValue>>();
+			for (int i = 0; i < NoteValue.Supported.Count; i++)
 			{
-				Note note = Note.StandardNotes[i];
-				if (note.Duration <= measureLength)
+				NoteValue nv = NoteValue.Supported[i];
+				if (nv.Duration <= measureLength)
 				{
-					int noteProb = probConfig.NoteProbs.getProbabilityByRelativeNodeLength(note.RelativeNoteLength);
-					fittingNotes.Add(new ObjectWithProbability<Note>(noteProb, note));
+					int noteProb = probConfig.NoteProbs.getProbabilityByRelativeNodeLength(nv.Denominator);
+					fittingNoteValues.Add(new ObjectWithProbability<NoteValue>(noteProb, nv));
 					biggestFitIndex = i;
 					break;
 				}
@@ -59,7 +59,7 @@ namespace krassequenzer.GenerationStuff
 
 			MusicalTime remainingTimeInMeasure = measureLength;
 			MusicalTime nextOnBeat = remainingTimeInMeasure;
-			MusicalTime smallestPossibleDuration = Note.StandardNotes.Last().Duration;
+			MusicalTime smallestPossibleDuration = NoteValue.Supported.Last().Duration;
 
 #warning TODO: implement generation of notes that span over multiple measures
 			// Indication if the next note would fall on the beat set by the TimeSignature.
@@ -68,12 +68,12 @@ namespace krassequenzer.GenerationStuff
 
 			
 
-			List<ObjectWithProbability<Note>> notesSmallerThanBeatsUnit = new List<ObjectWithProbability<Note>>();
-			foreach (ObjectWithProbability<Note> note in fittingNotes)
+			List<ObjectWithProbability<NoteValue>> notesSmallerThanBeatsUnit = new List<ObjectWithProbability<NoteValue>>();
+			foreach (ObjectWithProbability<NoteValue> nv in fittingNoteValues)
 			{
-				if (note.TheObject.RelativeNoteLength < timeSignature.BeatUnit)
+				if (nv.TheObject.Denominator < timeSignature.BeatUnit)
 				{
-					notesSmallerThanBeatsUnit.Add(note);
+					notesSmallerThanBeatsUnit.Add(nv);
 				}
 			}
 			ObjectWithProbability<Object> offbeatPlayer = new ObjectWithProbability<object>(probConfig.Offbeat, null);
@@ -81,7 +81,7 @@ namespace krassequenzer.GenerationStuff
 			ObjectWithProbability<Object> tripletPlayer = new ObjectWithProbability<object>(probConfig.Triplet, null);
 			while (remainingTimeInMeasure > MusicalTime.Zero)
 			{
-				Note nextNote; // to be generated
+				NoteValue nextNoteValue; // to be generated
 
 				if (remainingTimeInMeasure < smallestPossibleDuration)
 				// we don't have a small enough note to put in the measure
@@ -92,8 +92,8 @@ namespace krassequenzer.GenerationStuff
 				else if (remainingTimeInMeasure == smallestPossibleDuration)
 				// there is just enough space for the smallest note we have
 				{
-					nextNote = new Note(Note.StandardNotes.Last().RelativeNoteLength);
-					nextOnBeat = nextOnBeat - nextNote.Duration; // should be 0
+					nextNoteValue = NoteValue.Supported.Last().Clone();
+					nextOnBeat = nextOnBeat - nextNoteValue.Duration; // should be 0
 				}
 				else
 				{
@@ -105,9 +105,9 @@ namespace krassequenzer.GenerationStuff
 						if (!(offbeatPlayer.Play(rnd)))
 						{
 							// no new offbeat, so add to the beat
-							nextNote = new Note(timeSignature.BeatUnit);
+							nextNoteValue = new NoteValue(timeSignature);
 
-							nextOnBeat = nextOnBeat - nextNote.Duration;
+							nextOnBeat = nextOnBeat - nextNoteValue.Duration;
 
 						}
 						else
@@ -131,7 +131,7 @@ namespace krassequenzer.GenerationStuff
 								// 
 
 								// choose a Note
-								nextNote = RandomUtil.PlayMultiple<Note>(notesSmallerThanBeatsUnit, rnd).Clone();
+								nextNoteValue = RandomUtil.PlayMultiple<NoteValue>(notesSmallerThanBeatsUnit, rnd).Clone();
 
 								// indicate that the next note will be offbeat
 								atRythm = false;
@@ -145,7 +145,7 @@ namespace krassequenzer.GenerationStuff
 					// not atRythm
 					{
 #warning TODO: how get out of the offbeat
-						nextNote = null; // just for the compiler; replace with real code!
+						nextNoteValue = null; // just for the compiler; replace with real code!
 
 						
 					}
@@ -153,17 +153,17 @@ namespace krassequenzer.GenerationStuff
 					//
 					// now really add the nextNote to the measure
 					//
+					Note noteToAdd = new Note();
+					noteToAdd.NoteValue = nextNoteValue;
+					generatedNotes.Add(noteToAdd);
 
-					generatedNotes.Add(nextNote);
-
-					remainingTimeInMeasure -= nextNote.Duration;
+					remainingTimeInMeasure -= nextNoteValue.Duration;
 
 				}
 			}
 
 			return generatedNotes;
-			 * */
-			return null;
+			
 		}
 
 

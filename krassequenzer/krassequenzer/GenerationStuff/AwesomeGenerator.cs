@@ -40,7 +40,7 @@ namespace krassequenzer.GenerationStuff
 				//
 				// create the internal note
 				//
-				MusicalTime duration = nv.getAsMusicalTime();
+				MusicalTime duration = nv.Duration;
 				MusicalTime newStart = curStart + duration;
 				part.Notes.Add(new Note { ScoreStartPosition = curStart, NoteValue = nv, Pitch = pitch });
 				curStart = newStart;
