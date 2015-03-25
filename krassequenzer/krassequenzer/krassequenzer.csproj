@@ -44,7 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MusicModel\Accidental.cs" />
+    <Compile Include="MusicModel\NoteList.cs" />
     <Compile Include="MusicModel\TiedNote.cs" />
+    <Compile Include="PlaybackStuff\CompositionPlayer.cs" />
     <Compile Include="Stuff\ObservableProperty.cs" />
     <Compile Include="ViewContext.cs" />
     <Compile Include="MusicModel\DurationModifier.cs" />

@@ -6,13 +6,8 @@ using System.Threading.Tasks;
 
 namespace krassequenzer.MusicModel
 {
-	public class TiedNote
+	public enum Accidental
 	{
-		public NoteValue NoteValue { get; set; }
-
-		public TiedNote Clone()
-		{
-			return (TiedNote)this.MemberwiseClone();
-		}
+		sharp, flat, natural
 	}
 }

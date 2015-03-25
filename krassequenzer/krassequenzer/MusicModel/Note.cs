@@ -16,7 +16,7 @@ namespace krassequenzer.MusicModel
 
 		public bool DisplayInScore = true;
 
-		public MusicalTime ScoreDuration { get { return calcBaseDuration(); } }
+		public MusicalTime ScoreDuration { get { return calcScoreDuration(); } }
 		public MusicalTime DurationOffset { get; set; }
 
 		public MusicalTime ScoreStartPosition { get; set; }
@@ -47,7 +47,7 @@ namespace krassequenzer.MusicModel
 			return MusicalTime.Comparison(l.ScoreStartPosition, r.ScoreStartPosition);
 		}
 
-		private MusicalTime calcBaseDuration()
+		private MusicalTime calcScoreDuration()
 		{
 			MusicalTime baseDuration = NoteValue.Duration;
 
