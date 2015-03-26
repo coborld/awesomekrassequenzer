@@ -10,17 +10,25 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using krassequenzer.Stuff;
+
 namespace krassequenzer
 {
     public partial class Form1 : Form
     {
         public Form1()
         {
+			this.SuspendLayout();
             InitializeComponent();
+			this.trackOverviewControl = new TrackOverviewControl();
+			this.trackOverviewControl.Dock = DockStyle.Fill;
+			this.panelTrackOverviewContainer.Controls.Add(this.trackOverviewControl);
+			this.ResumeLayout();
 
 			// this is the thing that needs to be passed to all other
 			// views which need access to the application state
 			this.context = new ViewContext();
+			this.trackOverviewControl.Context = this.context;
 
 			this.compositionPropertiesFormManager = new ModelessDialogManager(this, this.CreateCompositionPropertiesForm);
 
@@ -29,6 +37,7 @@ namespace krassequenzer
 
 		private readonly ModelessDialogManager compositionPropertiesFormManager;
 		private readonly ViewContext context;
+		private readonly TrackOverviewControl trackOverviewControl;
 		
 		/// <summary>
 		/// Gets the invariant <see cref="ViewContext"/> of this application.
@@ -36,6 +45,15 @@ namespace krassequenzer
 		public ViewContext Context
 		{
 			get { return this.context; }
+		}
+
+		/// <summary>
+		/// Gets the window's currently active composition.
+		/// </summary>
+		public Composition CurrentComposition
+		{
+			get { return this.context.CurrentComposition.Value; }
+			private set { this.context.CurrentComposition.Value = value; }
 		}
 
 		private void SetApplicationStatus(string message)
@@ -52,14 +70,13 @@ namespace krassequenzer
 
 		private void toolStripButtonUpdate_Click(object sender, EventArgs e)
 		{
-			// do a manual explicit update of all views
-			// (no manual updates necessary yet)
+			this.trackOverviewControl.Rebuild();
 		}
 
 		private void CreateAndLoadNewComposition()
 		{
 			var composition = new Composition();
-			this.Context.CurrentComposition.Value = composition;
+			this.CurrentComposition = composition;
 		}
 
 		private void toolStripMenuItemCompositionProperties_Click(object sender, EventArgs e)
@@ -74,7 +91,18 @@ namespace krassequenzer
 
 		private void toolStripMenuItemExit_Click(object sender, EventArgs e)
 		{
+			// do not add anything else in this method, ever
 			this.Close();
+		}
+
+		private void toolStripMenuItemAddTrack_Click(object sender, EventArgs e)
+		{
+			this.CurrentComposition.Maybe(x => x.Tracks.Add(new Track()));
+		}
+
+		private void toolStripButtonDebugBreak_Click(object sender, EventArgs e)
+		{
+			System.Diagnostics.Debugger.Break();
 		}
     }
 }

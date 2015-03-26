@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,12 +17,11 @@ namespace krassequenzer.MusicModel
 		/// </summary>
 		public string Title { get; set; }
 
-		private readonly List<Track> _tracks = new List<Track>();
+		private readonly ObservableCollection<Track> _tracks = new ObservableCollection<Track>();
 		/// <summary>
-		/// Gets a list of tracks, each representing one instrument or instrument
-		/// group.
+		/// Gets a list of tracks, each representing one instrument or instrument group.
 		/// </summary>
-		public List<Track> Tracks { get { return this._tracks; } }
+		public ObservableCollection<Track> Tracks { get { return this._tracks; } }
 
 		private readonly TempoTrack _tempoTrack = new TempoTrack();
 		/// <summary>
