@@ -47,7 +47,7 @@ namespace krassequenzer.MusicModel
 		public override string ToString()
 		{
 			string sep = "; ";
-			return "(" + this.Pitch + sep + this.ScoreDuration + ")";
+			return "(" + this.ScoreStartPosition + sep + this.Pitch + sep + this.ScoreDuration + ")";
 		}
 
 		public static int Comparison(Note l, Note r)
@@ -58,7 +58,7 @@ namespace krassequenzer.MusicModel
 		private MusicalTime CalcScoreDuration()
 		{
 			MusicalTime baseDuration = NoteValue.Duration;
-
+			return baseDuration;
 			MusicalTime sumOfTiedNotes = new MusicalTime(TiedNotes.Sum(x => x.NoteValue.Duration.Ticks));
 
 			return baseDuration + sumOfTiedNotes;

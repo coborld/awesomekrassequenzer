@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 using krassequenzer.Stuff;
 using System.Threading;
+using System.Diagnostics;
 
 namespace krassequenzer.PlaybackStuff
 {
@@ -34,6 +35,9 @@ namespace krassequenzer.PlaybackStuff
 			// now everything is in one list - play the shit!
 			using (var stream = new MidiOutStream(msSynth))
 			{
+				stream.Open();
+				stream.RestartPlayback();
+				stream.SetTimeDiv(MusicalTime.TicksPerQuarter);
 				await stream.Play(mergedEvents, ct);
 			}
 		}
@@ -48,22 +52,33 @@ namespace krassequenzer.PlaybackStuff
 				{
 					foreach (var noteOff in notes)
 					{
-						f.NoteOff((uint)(noteOff.ScoreStartPosition.Ticks + noteOff.ScoreDuration.Ticks - currentTime), noteOff.MidiChannelIndex.Index, noteOff.Pitch.Value, noteOff.NoteOffVelocity.Velocity);
-						currentTime = noteOff.ScoreStartPosition.Ticks;
+						var deltaTime = noteOff.ScoreStartPosition.Ticks + noteOff.ScoreDuration.Ticks - currentTime;
+						Debug.Assert(deltaTime >= 0);
+						f.NoteOff((uint)deltaTime, noteOff.MidiChannelIndex.Index, noteOff.Pitch.Value, noteOff.NoteOffVelocity.Velocity);
+						currentTime = noteOff.ScoreStartPosition.Ticks + noteOff.ScoreDuration.Ticks;
 					}
 				};
 
 			foreach (var note in t.Notes)
 			{
 				// insert pending note off events that happened before this event first
-				insertNoteOffEvents(pendingNoteOffEvents.Where(x => x.ScoreStartPosition + x.ScoreDuration <= note.ScoreStartPosition));
-				f.NoteOn((uint)(note.ScoreStartPosition.Ticks - currentTime), note.MidiChannelIndex.Index, note.Pitch.Value, note.NoteOnVelocity.Velocity);
+				var elapsedNoteOffEvents = pendingNoteOffEvents.Where(x => x.ScoreStartPosition + x.ScoreDuration <= note.ScoreStartPosition).ToArray();
+				insertNoteOffEvents(elapsedNoteOffEvents);
+				foreach (var n in elapsedNoteOffEvents)
+				{
+					pendingNoteOffEvents.Remove(n);
+				}
+
+				var deltaTime = note.ScoreStartPosition.Ticks - currentTime;
+				Debug.Assert(deltaTime >= 0);
+				f.NoteOn((uint)deltaTime, note.MidiChannelIndex.Index, note.Pitch.Value, note.NoteOnVelocity.Velocity);
 				pendingNoteOffEvents.Add(note);
 				currentTime = note.ScoreStartPosition.Ticks;
 			}
 
 			// put in all the remaining note off events
 			insertNoteOffEvents(pendingNoteOffEvents);
+			pendingNoteOffEvents.Clear();
 
 			return f.Events;
 		}
