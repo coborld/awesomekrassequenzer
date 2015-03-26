@@ -11,7 +11,7 @@ namespace krassequenzer.MusicModel
 
 		public Note()
 		{
-
+			this.Voice = 0;
 		}
 
 		public bool DisplayInScore = true;
@@ -32,7 +32,10 @@ namespace krassequenzer.MusicModel
 
 		public Note Clone()
 		{
-			return (Note)this.MemberwiseClone();
+			var theClone = (Note)this.MemberwiseClone();
+			theClone.TiedNotes = new List<TiedNote>();
+			this.TiedNotes.ForEach(x => theClone.TiedNotes.Add(x.Clone()));
+			return theClone;
 		}
 
 

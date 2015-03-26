@@ -10,13 +10,13 @@ namespace krassequenzer.MusicModel
 	public class NoteValue
 	{
 		// the supported note values
-		public static NoteValue Whole			= new NoteValue(1);
-		public static NoteValue Half			= new NoteValue(2);
-		public static NoteValue Quarter			= new NoteValue(4);
-		public static NoteValue Eigth			= new NoteValue(8);
-		public static NoteValue Sixteenth		= new NoteValue(16);
-		public static NoteValue ThirtySecond	= new NoteValue(32);
-		public static NoteValue SixtyFourth		= new NoteValue(64);
+		public static NoteValue Whole { get { return new NoteValue(1); } }
+		public static NoteValue Half { get { return new NoteValue(2); } }
+		public static NoteValue Quarter { get { return new NoteValue(4); } }
+		public static NoteValue Eigth { get { return new NoteValue(8); } }
+		public static NoteValue Sixteenth { get { return new NoteValue(16); } }
+		public static NoteValue ThirtySecond { get { return new NoteValue(32); } }
+		public static NoteValue SixtyFourth { get { return new NoteValue(64); } }
 
 		public static List<NoteValue> Supported
 		{

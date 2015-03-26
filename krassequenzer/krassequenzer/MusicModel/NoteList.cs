@@ -9,35 +9,43 @@ namespace krassequenzer.MusicModel
 	/// <summary>
 	/// You can put Notes in here and let the durations and startpositions get calculated.
 	/// </summary>
-	class NoteList : List<Note>
+	public class NoteList : List<Note>
 	{
 		private List<Note> innerList = new List<Note>();
 
 		MusicalTime nextStart = MusicalTime.Zero;
 
+		private int mainVoice;
+		public NoteList(int mainVoice)
+		{
+			this.mainVoice = mainVoice;
+		}
+
 		public new void Add(Note note)
 		{
-			if (innerList.Count > 0)
-			{
-
-			}
-
+			
 			List<TiedNote> tiedNotesClone = new List<TiedNote>();
 			foreach (var tn in note.TiedNotes)
 			{
 				tiedNotesClone.Add(tn.Clone());
 			}
-			Note toAdd = new Note()
-			{
-				Pitch = note.Pitch.Clone(),
-				NoteValue = note.NoteValue.Clone(),
-				ScoreStartPosition = nextStart,
-				TiedNotes = tiedNotesClone
-			};
+
+			Note toAdd = note.Clone();
+			toAdd.ScoreStartPosition = nextStart;
+			//Note toAdd = new Note()
+			//{
+			//	NoteValue = note.NoteValue.Clone(),
+			//	Pitch = note.Pitch.Clone(),
+			//	ScoreStartPosition = nextStart,
+			//	TiedNotes = tiedNotesClone,
+			//	Voice = note.Voice
+			//};
 
 			innerList.Add(toAdd);
 
-			nextStart = toAdd.ScoreStartPosition + toAdd.ScoreDuration;
+			if(note.Voice == mainVoice ){
+				nextStart = toAdd.ScoreStartPosition + toAdd.ScoreDuration;
+			}
 		}
 
 		public void AddPause(MusicalTime length)
