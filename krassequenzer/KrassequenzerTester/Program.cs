@@ -14,8 +14,9 @@ namespace KrassequenzerTester
 		[STAThread]
 		static void Main(string[] args)
 		{
+			new PinoPlaybackTest().createMidiDemo();
 			//ParseTheShit.Run();
-			MidiPlaybackTest.Run();
+			//MidiPlaybackTest.Run();
 
 #if false
 			var test = new AwesomeGenerator();

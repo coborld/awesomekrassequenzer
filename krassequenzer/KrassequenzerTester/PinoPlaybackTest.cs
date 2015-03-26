@@ -1,4 +1,5 @@
 ﻿using krassequenzer.MusicModel;
+using krassequenzer.PlaybackStuff;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,6 +68,9 @@ namespace KrassequenzerTester
 			var aTrack = new Track();
 			theNotes.ForEach(x => aTrack.Notes.Add(x));
 			theDemo.Tracks.Add(aTrack);
+
+			var player = new CompositionPlayer();
+			player.Play(theDemo).Wait();
 
 			return theDemo;
 		}

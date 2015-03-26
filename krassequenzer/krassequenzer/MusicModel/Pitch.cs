@@ -27,6 +27,7 @@ namespace krassequenzer.MusicModel
 
 		public override string ToString()
 		{
+#warning this method is a bug.
 			return (Value % 12).ToString();
 		}
 
