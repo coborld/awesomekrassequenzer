@@ -14,7 +14,7 @@ namespace krassequenzer.MusicModel
 		public static readonly int f = c + 5;
 		public static readonly int g = c + 7;
 		public static readonly int a = c + 9;
-		public static readonly int h = c + 11;
+		public static readonly int b = c + 11;
 
 		public int Value { get { return this._value;} }
 		private readonly int _value;

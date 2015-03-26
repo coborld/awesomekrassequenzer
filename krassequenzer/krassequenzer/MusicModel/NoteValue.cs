@@ -13,7 +13,7 @@ namespace krassequenzer.MusicModel
 		public static NoteValue Whole { get { return new NoteValue(1); } }
 		public static NoteValue Half { get { return new NoteValue(2); } }
 		public static NoteValue Quarter { get { return new NoteValue(4); } }
-		public static NoteValue Eigth { get { return new NoteValue(8); } }
+		public static NoteValue Eighth { get { return new NoteValue(8); } }
 		public static NoteValue Sixteenth { get { return new NoteValue(16); } }
 		public static NoteValue ThirtySecond { get { return new NoteValue(32); } }
 		public static NoteValue SixtyFourth { get { return new NoteValue(64); } }
@@ -25,7 +25,7 @@ namespace krassequenzer.MusicModel
 				supported.Add(Whole);
 				supported.Add(Half);
 				supported.Add(Quarter);
-				supported.Add(Eigth);
+				supported.Add(Eighth);
 				supported.Add(Sixteenth);
 				supported.Add(ThirtySecond);
 				supported.Add(SixtyFourth);

@@ -25,7 +25,7 @@ namespace KrassequenzerTester
 
 			// set the scale
 			var scale = new Dictionary<char, Pitch>();
-			scale.Add('h', new Pitch(Pitch.AddAccidentalToPitchValue(Pitch.h, Accidental.flat)));
+			scale.Add('h', new Pitch(Pitch.AddAccidentalToPitchValue(Pitch.b, Accidental.flat)));
 			scale.Add('a', new Pitch(Pitch.AddAccidentalToPitchValue(Pitch.a, Accidental.flat)));
 			scale.Add('e', new Pitch(Pitch.AddAccidentalToPitchValue(Pitch.e, Accidental.flat)));
 			scale.Add('c', new Pitch(Pitch.c));
@@ -48,35 +48,36 @@ namespace KrassequenzerTester
 
 			
 			// Takt 1
-			theNotes.Add(noter(NoteValue.Eigth, scale['e']));
-			theNotes.Add(noter(NoteValue.Eigth, scale['f']));
+			theNotes.Add(noter(NoteValue.Eighth, scale['e']));
+			theNotes.Add(noter(NoteValue.Eighth, scale['f']));
 
 			// Takt 2
 			theNotes.Add(noter(NoteValue.Quarter, scale['g']));
-			theNotes.Add(noter(NoteValue.Eigth, scale['a']));
-			theNotes.Add(noter(NoteValue.Eigth, scale['g']));
-			NoteValue dottedEigth = NoteValue.Eigth;
-			dottedEigth.DurationModifier = DurationModifier.DottedSingle;
-			theNotes.Add(noter(dottedEigth, scale['f']));
-			theNotes.Add(noter(NoteValue.Eigth, scale['e']));
+			theNotes.Add(noter(NoteValue.Eighth, scale['a']));
+			theNotes.Add(noter(NoteValue.Eighth, scale['g']));
+			NoteValue dottedQuarter = NoteValue.Quarter;
+			dottedQuarter.DurationModifier = DurationModifier.DottedSingle;
+			theNotes.Add(noter(dottedQuarter, scale['f']));
+			theNotes.Add(noter(NoteValue.Eighth, scale['e']));
 
 			// Takt 3
-			theNotes.Add(noter(NoteValue.Eigth, scale['e']));
-			theNotes.Add(noter(NoteValue.Eigth, scale['d']));
+			theNotes.Add(noter(NoteValue.Eighth, scale['e']));
+			theNotes.Add(noter(NoteValue.Eighth, scale['d']));
 			theNotes.Add(noter(NoteValue.Quarter, scale['c']));
 			currentStartPosition += NoteValue.Quarter.Duration.Ticks;
-			theNotes.Add(noter(NoteValue.Eigth, scale['c']));
-			theNotes.Add(noter(NoteValue.Eigth, scale['d']));
+			theNotes.Add(noter(NoteValue.Eighth, scale['c']));
+			theNotes.Add(noter(NoteValue.Eighth, scale['d']));
 
 			// Takt 4
 			theNotes.Add(noter(NoteValue.Quarter, scale['e']));
-			theNotes.Add(noter(NoteValue.Eigth, scale['d']));
-			theNotes.Add(noter(NoteValue.Eigth, scale['c']));
+			theNotes.Add(noter(NoteValue.Eighth, scale['d']));
+			theNotes.Add(noter(NoteValue.Eighth, scale['c']));
 			theNotes.Add(noter(NoteValue.Quarter, scale['d']));
 			theNotes.Add(noter(NoteValue.Quarter, scale['e']));
 			//theNotes.Add(noter(NoteValue.Quarter, new Pitch(Pitch.h - 12), Voice = 1));
 			//theNotes.Add(noter(NoteValue.Quarter, scale['f'], Voice = 2));
 
+			theNotes.Add(noter(NoteValue.Whole, scale['c']));
 
 			// stuff the notes in the Track
 			var aTrack = new Track();
