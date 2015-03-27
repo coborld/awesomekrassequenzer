@@ -40,27 +40,53 @@ namespace krassequenzer.MidiPlayback
 			var list = new List<MidiOutDeviceInfo>();
 
 			var numDevices = NativeMethods.midiOutGetNumDevs();
-			for (uint i = 0; i < numDevices; ++i)
+			for (int i = 0; i < numDevices; ++i)
 			{
-				var handle = new IntPtr(i);
-				var caps = new MidiOutCaps();
-				
-				var result = NativeMethods.midiOutGetDevCaps(handle, ref caps, (uint)InteropStructSizes.SizeOfMidiOutCaps);
-				if (result == NativeMethods.MMSYSERR_BADDEVICEID)
+				MidiOutDeviceInfo info;
+				var ex = QueryOutDeviceInternal(i, out info);
+				var midiException = ex as MidiException;
+				if (midiException != null && midiException.Mmsyserr == NativeMethods.MMSYSERR_BADDEVICEID)
 				{
 					// looks like someone disconnected a device after the midiOutGetNumDevs call.
 					continue;
 				}
-				if (result != NativeMethods.MMSYSERR_NOERROR)
-				{
-					ThrowMmsyserr(result);
-				}
-
-				var info = new MidiOutDeviceInfo(i, caps);
 				list.Add(info);
 			}
 
 			return list;
+		}
+
+		private static Exception QueryOutDeviceInternal(int deviceId, out MidiOutDeviceInfo info)
+		{
+			if (deviceId < 0) throw new ArgumentOutOfRangeException("deviceId");
+
+			var handle = new IntPtr(deviceId);
+			var caps = new MidiOutCaps();
+
+			var result = NativeMethods.midiOutGetDevCaps(handle, ref caps, (uint)InteropStructSizes.SizeOfMidiOutCaps);
+			if (result != NativeMethods.MMSYSERR_NOERROR)
+			{
+				info = null;
+				return new MidiException(GetMmsyserrString(result), result);
+			}
+
+			info = new MidiOutDeviceInfo((uint)deviceId, caps);
+			return null;
+		}
+
+		/// <summary>
+		/// Gets a <see cref="MidiOutDeviceInfo"/> instance associated with the specified <paramref name="deviceId"/>.
+		/// This function may throw if the device is not available.
+		/// </summary>
+		public static MidiOutDeviceInfo QueryOutDevice(int deviceId)
+		{
+			MidiOutDeviceInfo info;
+			var ex = QueryOutDeviceInternal(deviceId, out info);
+			if (ex != null)
+			{
+				throw new Exception(ex.Message, ex);
+			}
+			return info;
 		}
 
 		private static void ThrowMmsyserr(int mmsyserr)

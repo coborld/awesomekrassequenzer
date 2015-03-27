@@ -40,8 +40,10 @@
 			this.toolStripStatusLabelStatus = new System.Windows.Forms.ToolStripStatusLabel();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.toolStripButtonUpdate = new System.Windows.Forms.ToolStripButton();
-			this.panelTrackOverviewContainer = new System.Windows.Forms.Panel();
 			this.toolStripButtonDebugBreak = new System.Windows.Forms.ToolStripButton();
+			this.panelTrackOverviewContainer = new System.Windows.Forms.Panel();
+			this.toolStripMenuItemHardware = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItemDeviceSetup = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
@@ -51,7 +53,8 @@
 			// 
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.compositionToolStripMenuItem});
+            this.compositionToolStripMenuItem,
+            this.toolStripMenuItemHardware});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
 			this.menuStrip1.Size = new System.Drawing.Size(857, 24);
@@ -93,15 +96,15 @@
 			// toolStripMenuItemAddTrack
 			// 
 			this.toolStripMenuItemAddTrack.Name = "toolStripMenuItemAddTrack";
-			this.toolStripMenuItemAddTrack.Size = new System.Drawing.Size(128, 22);
+			this.toolStripMenuItemAddTrack.Size = new System.Drawing.Size(152, 22);
 			this.toolStripMenuItemAddTrack.Text = "Add &Track";
 			this.toolStripMenuItemAddTrack.Click += new System.EventHandler(this.toolStripMenuItemAddTrack_Click);
 			// 
 			// toolStripMenuItemCompositionProperties
 			// 
 			this.toolStripMenuItemCompositionProperties.Name = "toolStripMenuItemCompositionProperties";
-			this.toolStripMenuItemCompositionProperties.Size = new System.Drawing.Size(128, 22);
-			this.toolStripMenuItemCompositionProperties.Text = "&Properties";
+			this.toolStripMenuItemCompositionProperties.Size = new System.Drawing.Size(152, 22);
+			this.toolStripMenuItemCompositionProperties.Text = "&Properties...";
 			this.toolStripMenuItemCompositionProperties.Click += new System.EventHandler(this.toolStripMenuItemCompositionProperties_Click);
 			// 
 			// statusStrip1
@@ -141,6 +144,16 @@
 			this.toolStripButtonUpdate.Text = "Update";
 			this.toolStripButtonUpdate.Click += new System.EventHandler(this.toolStripButtonUpdate_Click);
 			// 
+			// toolStripButtonDebugBreak
+			// 
+			this.toolStripButtonDebugBreak.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolStripButtonDebugBreak.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonDebugBreak.Image")));
+			this.toolStripButtonDebugBreak.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButtonDebugBreak.Name = "toolStripButtonDebugBreak";
+			this.toolStripButtonDebugBreak.Size = new System.Drawing.Size(23, 22);
+			this.toolStripButtonDebugBreak.Text = "DEBUG BREAK";
+			this.toolStripButtonDebugBreak.Click += new System.EventHandler(this.toolStripButtonDebugBreak_Click);
+			// 
 			// panelTrackOverviewContainer
 			// 
 			this.panelTrackOverviewContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -151,15 +164,20 @@
 			this.panelTrackOverviewContainer.Size = new System.Drawing.Size(833, 364);
 			this.panelTrackOverviewContainer.TabIndex = 3;
 			// 
-			// toolStripButtonDebugBreak
+			// toolStripMenuItemHardware
 			// 
-			this.toolStripButtonDebugBreak.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolStripButtonDebugBreak.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonDebugBreak.Image")));
-			this.toolStripButtonDebugBreak.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolStripButtonDebugBreak.Name = "toolStripButtonDebugBreak";
-			this.toolStripButtonDebugBreak.Size = new System.Drawing.Size(23, 22);
-			this.toolStripButtonDebugBreak.Text = "DEBUG BREAK";
-			this.toolStripButtonDebugBreak.Click += new System.EventHandler(this.toolStripButtonDebugBreak_Click);
+			this.toolStripMenuItemHardware.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemDeviceSetup});
+			this.toolStripMenuItemHardware.Name = "toolStripMenuItemHardware";
+			this.toolStripMenuItemHardware.Size = new System.Drawing.Size(70, 20);
+			this.toolStripMenuItemHardware.Text = "&Hardware";
+			// 
+			// toolStripMenuItemDeviceSetup
+			// 
+			this.toolStripMenuItemDeviceSetup.Name = "toolStripMenuItemDeviceSetup";
+			this.toolStripMenuItemDeviceSetup.Size = new System.Drawing.Size(152, 22);
+			this.toolStripMenuItemDeviceSetup.Text = "&Device Setup...";
+			this.toolStripMenuItemDeviceSetup.Click += new System.EventHandler(this.toolStripMenuItemDeviceSetup_Click);
 			// 
 			// Form1
 			// 
@@ -200,6 +218,8 @@
 		private System.Windows.Forms.Panel panelTrackOverviewContainer;
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAddTrack;
 		private System.Windows.Forms.ToolStripButton toolStripButtonDebugBreak;
+		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemHardware;
+		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDeviceSetup;
     }
 }
 

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using krassequenzer.Stuff;
+using krassequenzer.DeviceSettings;
 
 namespace KrassequenzerTester
 {
@@ -139,8 +140,13 @@ namespace KrassequenzerTester
 			theNotes.Add(noter(NoteValue.Whole, scale['g'] - 12));
 			advance(NoteValue.Whole);
 
+
+			// output device setup
+			var midiOutDeviceId = (int)MidiSystemInfo.Query().OutDeviceInfo.First(x => x.Name.Contains("Microsoft")).Id;
+			var deviceSetup = new DeviceSetup(midiOutDeviceId);
+
 			var player = new CompositionPlayer();
-			player.Play(theDemo).Wait();
+			player.Play(theDemo, deviceSetup).Wait();
 
 			return theDemo;
 		}

@@ -1,4 +1,5 @@
-﻿using krassequenzer.MusicModel;
+﻿using krassequenzer.DeviceSettings;
+using krassequenzer.MusicModel;
 using krassequenzer.Stuff;
 using System;
 using System.Collections.Generic;
@@ -22,5 +23,11 @@ namespace krassequenzer
 		/// Gets or sets the composition that is currently active in the application.
 		/// </summary>
 		public ObservableProperty<Composition> CurrentComposition { get { return this._currentComposition; } }
+
+		private readonly ObservableProperty<DeviceSetup> _deviceSetup = new ObservableProperty<DeviceSetup>();
+		/// <summary>
+		/// Gets or sets the currently active <see cref="DeviceSetup"/>.
+		/// </summary>
+		public ObservableProperty<DeviceSetup> DeviceSetup { get { return this._deviceSetup; } }
 	}
 }

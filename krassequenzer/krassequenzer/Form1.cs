@@ -31,11 +31,13 @@ namespace krassequenzer
 			this.trackOverviewControl.Context = this.context;
 
 			this.compositionPropertiesFormManager = new ModelessDialogManager(this, this.CreateCompositionPropertiesForm);
+			this.deviceSetupFormManager = new ModelessDialogManager(this, this.CreateDeviceSetupForm);
 
 			this.SetApplicationStatus("Ready");
         }
 
 		private readonly ModelessDialogManager compositionPropertiesFormManager;
+		private readonly ModelessDialogManager deviceSetupFormManager;
 		private readonly ViewContext context;
 		private readonly TrackOverviewControl trackOverviewControl;
 		
@@ -64,6 +66,13 @@ namespace krassequenzer
 		private Form CreateCompositionPropertiesForm()
 		{
 			var form = new CompositionPropertiesForm();
+			form.Context = this.Context;
+			return form;
+		}
+
+		private Form CreateDeviceSetupForm()
+		{
+			var form = new DeviceSetupForm();
 			form.Context = this.Context;
 			return form;
 		}
@@ -103,6 +112,11 @@ namespace krassequenzer
 		private void toolStripButtonDebugBreak_Click(object sender, EventArgs e)
 		{
 			System.Diagnostics.Debugger.Break();
+		}
+
+		private void toolStripMenuItemDeviceSetup_Click(object sender, EventArgs e)
+		{
+			this.deviceSetupFormManager.Show();
 		}
     }
 }

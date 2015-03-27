@@ -9,20 +9,21 @@ using System.Threading.Tasks;
 using krassequenzer.Stuff;
 using System.Threading;
 using System.Diagnostics;
+using krassequenzer.DeviceSettings;
 
 namespace krassequenzer.PlaybackStuff
 {
 	public class CompositionPlayer
 	{
-		public async Task Play(Composition composition)
+		public async Task Play(Composition composition, DeviceSetup deviceSetup)
 		{
 			composition.NotNull("composition");
-			// TODO: pass in the output interface
+			deviceSetup.NotNull("deviceSetup");
+
 			// TODO: pass in the CancellationToken
 			var ct = CancellationToken.None;
 
-			var systemInfo = MidiSystemInfo.Query();
-			var msSynth = systemInfo.OutDeviceInfo.Single(x => x.Name.Contains("Microsoft"));
+			var outDeviceInfo = MidiSystemInfo.QueryOutDevice(deviceSetup.MidiOutputDeviceId);
 
 			// convert each track to a series of midi events
 			var midiEvents = new List<IEnumerable<IMidiStreamEvent>>();
@@ -34,7 +35,7 @@ namespace krassequenzer.PlaybackStuff
 			var mergedEvents = MidiStreamEventMerger.Merge(midiEvents).ToArray();
 
 			// now everything is in one list - play the shit!
-			using (var stream = new MidiOutStream(msSynth))
+			using (var stream = new MidiOutStream(outDeviceInfo))
 			{
 				stream.Open();
 				stream.RestartPlayback();
