@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using krassequenzer.Stuff;
+using System.Diagnostics;
 
 namespace krassequenzer
 {
@@ -117,6 +118,25 @@ namespace krassequenzer
 		private void toolStripMenuItemDeviceSetup_Click(object sender, EventArgs e)
 		{
 			this.deviceSetupFormManager.Show();
+		}
+
+		private void toolStripMenuItemListEditor_Click(object sender, EventArgs e)
+		{
+			// TODO actually get the selected track
+			var selectedTrack = this.CurrentComposition.Maybe(x => x.Tracks.FirstOrDefault());
+			if (selectedTrack == null)
+			{
+				Debug.WriteLine("No track selected");
+				return;
+			}
+
+			var form = new Form();
+			form.Owner = this;
+			var control = new ListEditorControl();
+			control.Track = selectedTrack;
+			control.Dock = DockStyle.Fill;
+			form.Controls.Add(control);
+			form.Show();
 		}
     }
 }

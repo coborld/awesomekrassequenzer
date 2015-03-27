@@ -36,14 +36,15 @@
 			this.compositionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItemAddTrack = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItemCompositionProperties = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItemHardware = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItemDeviceSetup = new System.Windows.Forms.ToolStripMenuItem();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStripStatusLabelStatus = new System.Windows.Forms.ToolStripStatusLabel();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.toolStripButtonUpdate = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButtonDebugBreak = new System.Windows.Forms.ToolStripButton();
 			this.panelTrackOverviewContainer = new System.Windows.Forms.Panel();
-			this.toolStripMenuItemHardware = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItemDeviceSetup = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItemListEditor = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
@@ -88,7 +89,8 @@
 			// 
 			this.compositionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemAddTrack,
-            this.toolStripMenuItemCompositionProperties});
+            this.toolStripMenuItemCompositionProperties,
+            this.toolStripMenuItemListEditor});
 			this.compositionToolStripMenuItem.Name = "compositionToolStripMenuItem";
 			this.compositionToolStripMenuItem.Size = new System.Drawing.Size(88, 20);
 			this.compositionToolStripMenuItem.Text = "&Composition";
@@ -106,6 +108,21 @@
 			this.toolStripMenuItemCompositionProperties.Size = new System.Drawing.Size(152, 22);
 			this.toolStripMenuItemCompositionProperties.Text = "&Properties...";
 			this.toolStripMenuItemCompositionProperties.Click += new System.EventHandler(this.toolStripMenuItemCompositionProperties_Click);
+			// 
+			// toolStripMenuItemHardware
+			// 
+			this.toolStripMenuItemHardware.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemDeviceSetup});
+			this.toolStripMenuItemHardware.Name = "toolStripMenuItemHardware";
+			this.toolStripMenuItemHardware.Size = new System.Drawing.Size(70, 20);
+			this.toolStripMenuItemHardware.Text = "&Hardware";
+			// 
+			// toolStripMenuItemDeviceSetup
+			// 
+			this.toolStripMenuItemDeviceSetup.Name = "toolStripMenuItemDeviceSetup";
+			this.toolStripMenuItemDeviceSetup.Size = new System.Drawing.Size(152, 22);
+			this.toolStripMenuItemDeviceSetup.Text = "&Device Setup...";
+			this.toolStripMenuItemDeviceSetup.Click += new System.EventHandler(this.toolStripMenuItemDeviceSetup_Click);
 			// 
 			// statusStrip1
 			// 
@@ -164,20 +181,12 @@
 			this.panelTrackOverviewContainer.Size = new System.Drawing.Size(833, 364);
 			this.panelTrackOverviewContainer.TabIndex = 3;
 			// 
-			// toolStripMenuItemHardware
+			// toolStripMenuItemListEditor
 			// 
-			this.toolStripMenuItemHardware.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemDeviceSetup});
-			this.toolStripMenuItemHardware.Name = "toolStripMenuItemHardware";
-			this.toolStripMenuItemHardware.Size = new System.Drawing.Size(70, 20);
-			this.toolStripMenuItemHardware.Text = "&Hardware";
-			// 
-			// toolStripMenuItemDeviceSetup
-			// 
-			this.toolStripMenuItemDeviceSetup.Name = "toolStripMenuItemDeviceSetup";
-			this.toolStripMenuItemDeviceSetup.Size = new System.Drawing.Size(152, 22);
-			this.toolStripMenuItemDeviceSetup.Text = "&Device Setup...";
-			this.toolStripMenuItemDeviceSetup.Click += new System.EventHandler(this.toolStripMenuItemDeviceSetup_Click);
+			this.toolStripMenuItemListEditor.Name = "toolStripMenuItemListEditor";
+			this.toolStripMenuItemListEditor.Size = new System.Drawing.Size(152, 22);
+			this.toolStripMenuItemListEditor.Text = "&List Editor...";
+			this.toolStripMenuItemListEditor.Click += new System.EventHandler(this.toolStripMenuItemListEditor_Click);
 			// 
 			// Form1
 			// 
@@ -220,6 +229,7 @@
 		private System.Windows.Forms.ToolStripButton toolStripButtonDebugBreak;
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemHardware;
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDeviceSetup;
+		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListEditor;
     }
 }
 

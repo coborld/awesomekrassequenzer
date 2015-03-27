@@ -98,6 +98,14 @@
     <Compile Include="Views\DeviceSetupForm.Designer.cs">
       <DependentUpon>DeviceSetupForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\ListEditorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\ListEditorControl.Designer.cs">
+      <DependentUpon>ListEditorControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ListVisualizer.cs" />
+    <Compile Include="Views\SensibleScrollBar.cs" />
     <Compile Include="Views\TrackContentControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -134,6 +142,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\DeviceSetupForm.resx">
       <DependentUpon>DeviceSetupForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\ListEditorControl.resx">
+      <DependentUpon>ListEditorControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\TrackContentControl.resx">
       <DependentUpon>TrackContentControl.cs</DependentUpon>
