@@ -25,10 +25,10 @@ namespace krassequenzer.PlaybackStuff
 			var msSynth = systemInfo.OutDeviceInfo.Single(x => x.Name.Contains("Microsoft"));
 
 			// convert each track to a series of midi events
-			var midiEvents = composition.Tracks.Select(x => ConvertTrack(x)).ToList();
-
-			var tempoChangeEvents = ConvertTempoTrack(composition.TempoTrack);
-			midiEvents.Add(tempoChangeEvents);
+			var midiEvents = new List<IEnumerable<IMidiStreamEvent>>();
+			midiEvents.Add(ConvertTempoTrack(composition.TempoTrack));
+			midiEvents.AddRange(composition.Tracks.Select(x => ConvertProgramChanges(x)));
+			midiEvents.AddRange(composition.Tracks.Select(x => ConvertTrack(x)).ToList());
 			
 			// merge the events from all tracks into a single stream
 			var mergedEvents = MidiStreamEventMerger.Merge(midiEvents).ToArray();
@@ -41,6 +41,20 @@ namespace krassequenzer.PlaybackStuff
 				stream.SetTimeDiv(MusicalTime.TicksPerQuarter);
 				await stream.Play(mergedEvents, ct);
 			}
+		}
+
+		private static IEnumerable<IMidiStreamEvent> ConvertProgramChanges(Track t)
+		{
+			var f = new MidiStreamEventFactory();
+			long currentTime = 0;
+			foreach (var pc in t.ProgramChanges)
+			{
+				var deltaTime = pc.Time.Ticks - currentTime;
+				Debug.Assert(deltaTime >= 0);
+				f.ProgramChange((uint)deltaTime, pc.MidiChannelIndex.Index, pc.Instrument);
+				currentTime = pc.Time.Ticks;
+			}
+			return f.Events;
 		}
 
 		private static IEnumerable<IMidiStreamEvent> ConvertTempoTrack(TempoTrack t)

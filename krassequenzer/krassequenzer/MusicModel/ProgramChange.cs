@@ -12,6 +12,7 @@ namespace krassequenzer.MusicModel
 	{
 		public int Instrument { get; set; }
 		public MusicalTime Time { get; set; }
+		public MidiChannelIndex MidiChannelIndex { get; set; }
 
 		public static int TimeComparison(ProgramChange x, ProgramChange y)
 		{

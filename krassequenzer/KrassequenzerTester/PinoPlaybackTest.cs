@@ -20,11 +20,13 @@ namespace KrassequenzerTester
 			theDemo.TempoTrack.InitialTempo = 100;
 
 			// add the track
-#warning NoteList is the bug
-			List<Note> theNotes = new NoteList(0);
+			// stuff the notes in the Track
+			var aTrack = new Track();
+			var theNotes = aTrack.Notes;
+			theDemo.Tracks.Add(aTrack);
 			
-
 			// put something in the track
+			aTrack.ProgramChanges.Add(new ProgramChange() { Instrument = (int)MidiGMInstrumentSet.Lead_1_square });
 
 			// set the scale
 			var scale = new Dictionary<char, Pitch>();
@@ -44,7 +46,7 @@ namespace KrassequenzerTester
 					note.NoteValue = noteValue;
 					note.Pitch = pitch;
 					note.ScoreStartPosition = new MusicalTime(currentStartPosition);
-					note.NoteOnVelocity = new MidiVelocity(100);
+					note.NoteOnVelocity = new MidiVelocity(90);
 					currentStartPosition += note.ScoreDuration.Ticks;
 					return note;
 				};
@@ -76,18 +78,12 @@ namespace KrassequenzerTester
 			theNotes.Add(noter(NoteValue.Eighth, scale['d']));
 			theNotes.Add(noter(NoteValue.Eighth, scale['c']));
 			theNotes.Add(noter(NoteValue.Quarter, scale['d']));
-			theNotes.Add(noter(NoteValue.Quarter, scale['e']));
-			//theNotes.Add(noter(NoteValue.Quarter, new Pitch(Pitch.h - 12), Voice = 1));
+			//theNotes.Add(noter(NoteValue.Quarter, scale['e']));
+			theNotes.Add(noter(NoteValue.Quarter, new Pitch(Pitch.b - 12)));
 			//theNotes.Add(noter(NoteValue.Quarter, scale['f'], Voice = 2));
 
 			theNotes.Add(noter(NoteValue.Whole, scale['c']));
 
-			// stuff the notes in the Track
-			var aTrack = new Track();
-			theNotes.ForEach(x => aTrack.Notes.Add(x));
-			theDemo.Tracks.Add(aTrack);
-
-			aTrack.ProgramChanges.Add(new ProgramChange() { Instrument = (int)MidiGMInstrumentSet.Lead_1_square });
 
 			var player = new CompositionPlayer();
 			player.Play(theDemo).Wait();
