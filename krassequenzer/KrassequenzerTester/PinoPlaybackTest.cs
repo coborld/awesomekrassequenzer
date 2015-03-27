@@ -1,4 +1,5 @@
-﻿using krassequenzer.MusicModel;
+﻿using krassequenzer.MidiPlayback;
+using krassequenzer.MusicModel;
 using krassequenzer.PlaybackStuff;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,8 @@ namespace KrassequenzerTester
 			// build the composition
 			var theDemo = new Composition();
 			theDemo.Title = "MidiDemo";
+
+			theDemo.TempoTrack.InitialTempo = 100;
 
 			// add the track
 #warning NoteList is the bug
@@ -83,6 +86,8 @@ namespace KrassequenzerTester
 			var aTrack = new Track();
 			theNotes.ForEach(x => aTrack.Notes.Add(x));
 			theDemo.Tracks.Add(aTrack);
+
+			aTrack.ProgramChanges.Add(new ProgramChange() { Instrument = (int)MidiGMInstrumentSet.Lead_1_square });
 
 			var player = new CompositionPlayer();
 			player.Play(theDemo).Wait();

@@ -14,6 +14,9 @@ namespace krassequenzer.MusicModel
 		private readonly OrderedCollection<Note> _notes = new OrderedCollection<Note>((x, y) => Note.Comparison(x, y));
 		public ICollection<Note> Notes { get { return this._notes; } }
 
+		private readonly OrderedCollection<ProgramChange> _programChanges = new OrderedCollection<ProgramChange>((x, y) => ProgramChange.TimeComparison(x, y));
+		public ICollection<ProgramChange> ProgramChanges { get { return this._programChanges; } }
+
 		public override string ToString()
 		{
 			MusicalTime prevEnd = MusicalTime.Zero;

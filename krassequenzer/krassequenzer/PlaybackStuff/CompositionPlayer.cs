@@ -21,16 +21,17 @@ namespace krassequenzer.PlaybackStuff
 			// TODO: pass in the CancellationToken
 			var ct = CancellationToken.None;
 
-			// TODO: tempo
-
 			var systemInfo = MidiSystemInfo.Query();
 			var msSynth = systemInfo.OutDeviceInfo.Single(x => x.Name.Contains("Microsoft"));
 
 			// convert each track to a series of midi events
-			var midiEvents = composition.Tracks.Select(x => ConvertTrack(x)).ToArray();
+			var midiEvents = composition.Tracks.Select(x => ConvertTrack(x)).ToList();
+
+			var tempoChangeEvents = ConvertTempoTrack(composition.TempoTrack);
+			midiEvents.Add(tempoChangeEvents);
 			
 			// merge the events from all tracks into a single stream
-			var mergedEvents = MidiStreamEventMerger.Merge(midiEvents);
+			var mergedEvents = MidiStreamEventMerger.Merge(midiEvents).ToArray();
 
 			// now everything is in one list - play the shit!
 			using (var stream = new MidiOutStream(msSynth))
@@ -40,6 +41,26 @@ namespace krassequenzer.PlaybackStuff
 				stream.SetTimeDiv(MusicalTime.TicksPerQuarter);
 				await stream.Play(mergedEvents, ct);
 			}
+		}
+
+		private static IEnumerable<IMidiStreamEvent> ConvertTempoTrack(TempoTrack t)
+		{
+			var f = new MidiStreamEventFactory();
+			f.TempoChange(0, BpmToMidiTempoValue(t.InitialTempo));
+			long currentTime = 0;
+			foreach (var change in t.TempoChanges)
+			{
+				var deltaTime = change.Position.Ticks - currentTime;
+				Debug.Assert(deltaTime >= 0);
+				f.TempoChange((uint)deltaTime, BpmToMidiTempoValue(change.NewTempo));
+				currentTime = change.Position.Ticks;
+			}
+			return f.Events;
+		}
+
+		private static int BpmToMidiTempoValue(Tempo tempo)
+		{
+			return (int)Math.Round(60.0 / tempo.TempoValue * 1000000.0);
 		}
 
 		private static IEnumerable<IMidiStreamEvent> ConvertTrack(Track t)
