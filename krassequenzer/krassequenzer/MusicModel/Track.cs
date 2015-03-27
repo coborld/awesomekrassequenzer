@@ -17,6 +17,11 @@ namespace krassequenzer.MusicModel
 		private readonly OrderedCollection<ProgramChange> _programChanges = new OrderedCollection<ProgramChange>((x, y) => ProgramChange.TimeComparison(x, y));
 		public ICollection<ProgramChange> ProgramChanges { get { return this._programChanges; } }
 
+		/// <summary>
+		/// Gets or sets the MIDI channel that is used for all events in this track which do not have their MIDI channel specified.
+		/// </summary>
+		public MidiChannelIndex DefaultMidiChannel { get; set; }
+
 		public override string ToString()
 		{
 			MusicalTime prevEnd = MusicalTime.Zero;

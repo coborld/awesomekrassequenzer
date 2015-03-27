@@ -47,6 +47,16 @@ namespace krassequenzer.MusicModel
 			}
 		}
 
+		public static Pitch operator +(Pitch p, int offset)
+		{
+			return new Pitch(p.Value + offset);
+		}
+
+		public static Pitch operator -(Pitch p, int offset)
+		{
+			return new Pitch(p.Value - offset);
+		}
+
 		public Pitch Clone()
 		{
 			return (Pitch) this.MemberwiseClone();

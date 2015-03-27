@@ -51,7 +51,7 @@ namespace krassequenzer.PlaybackStuff
 			{
 				var deltaTime = pc.Time.Ticks - currentTime;
 				Debug.Assert(deltaTime >= 0);
-				f.ProgramChange((uint)deltaTime, pc.MidiChannelIndex.Index, pc.Instrument);
+				f.ProgramChange((uint)deltaTime, (pc.MidiChannelIndex ?? t.DefaultMidiChannel).Index, pc.Instrument);
 				currentTime = pc.Time.Ticks;
 			}
 			return f.Events;
@@ -89,7 +89,7 @@ namespace krassequenzer.PlaybackStuff
 					{
 						var deltaTime = noteOff.ScoreStartPosition.Ticks + noteOff.ScoreDuration.Ticks - currentTime;
 						Debug.Assert(deltaTime >= 0);
-						f.NoteOff((uint)deltaTime, noteOff.MidiChannelIndex.Index, noteOff.Pitch.Value, noteOff.NoteOffVelocity.Velocity);
+						f.NoteOff((uint)deltaTime, (noteOff.MidiChannelIndex ?? t.DefaultMidiChannel).Index, noteOff.Pitch.Value, noteOff.NoteOffVelocity.Velocity);
 						currentTime = noteOff.ScoreStartPosition.Ticks + noteOff.ScoreDuration.Ticks;
 					}
 				};
@@ -106,7 +106,7 @@ namespace krassequenzer.PlaybackStuff
 
 				var deltaTime = note.ScoreStartPosition.Ticks - currentTime;
 				Debug.Assert(deltaTime >= 0);
-				f.NoteOn((uint)deltaTime, note.MidiChannelIndex.Index, note.Pitch.Value, note.NoteOnVelocity.Velocity);
+				f.NoteOn((uint)deltaTime, (note.MidiChannelIndex ?? t.DefaultMidiChannel).Index, note.Pitch.Value, note.NoteOnVelocity.Velocity);
 				pendingNoteOffEvents.Add(note);
 				currentTime = note.ScoreStartPosition.Ticks;
 			}

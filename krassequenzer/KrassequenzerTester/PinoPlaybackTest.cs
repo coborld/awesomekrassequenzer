@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using krassequenzer.Stuff;
+
 namespace KrassequenzerTester
 {
 	class PinoPlaybackTest
@@ -26,11 +28,11 @@ namespace KrassequenzerTester
 			theDemo.Tracks.Add(aTrack);
 			
 			// put something in the track
-			aTrack.ProgramChanges.Add(new ProgramChange() { Instrument = (int)MidiGMInstrumentSet.Lead_1_square });
+			aTrack.ProgramChanges.Add(new ProgramChange() { Instrument = (int)MidiGMInstrumentSet.Koto });
 
 			// set the scale
 			var scale = new Dictionary<char, Pitch>();
-			scale.Add('h', new Pitch(Pitch.AddAccidentalToPitchValue(Pitch.b, Accidental.flat)));
+			scale.Add('b', new Pitch(Pitch.AddAccidentalToPitchValue(Pitch.b, Accidental.flat)));
 			scale.Add('a', new Pitch(Pitch.AddAccidentalToPitchValue(Pitch.a, Accidental.flat)));
 			scale.Add('e', new Pitch(Pitch.AddAccidentalToPitchValue(Pitch.e, Accidental.flat)));
 			scale.Add('c', new Pitch(Pitch.c));
@@ -44,13 +46,15 @@ namespace KrassequenzerTester
 				{
 					var note = new Note();
 					note.NoteValue = noteValue;
-					note.Pitch = pitch;
+					note.Pitch = pitch + 0;
 					note.ScoreStartPosition = new MusicalTime(currentStartPosition);
 					note.NoteOnVelocity = new MidiVelocity(90);
 					currentStartPosition += note.ScoreDuration.Ticks;
 					return note;
 				};
 
+			// startup offset
+			currentStartPosition += NoteValue.Half.Duration.Ticks;
 			
 			// Takt 1
 			theNotes.Add(noter(NoteValue.Eighth, scale['e']));
@@ -84,6 +88,56 @@ namespace KrassequenzerTester
 
 			theNotes.Add(noter(NoteValue.Whole, scale['c']));
 
+			
+			//
+			// the other track
+			//
+			var bTrack = new Track();
+			bTrack.Name = "bTrack";
+			bTrack.ProgramChanges.Add(new ProgramChange() { Instrument = (int)MidiGMInstrumentSet.Cello });
+			bTrack.DefaultMidiChannel = new MidiChannelIndex(1);
+			theDemo.Tracks.Add(bTrack);
+			theNotes = bTrack.Notes;
+
+			currentStartPosition = 0;
+			Action<NoteValue> advance = nv => currentStartPosition += nv.Duration.Ticks;
+
+			noter = (noteValue, pitch) =>
+				{
+					var note = new Note();
+					note.NoteValue = noteValue;
+					note.Pitch = pitch;
+					note.ScoreStartPosition = new MusicalTime(currentStartPosition);
+					note.NoteOnVelocity = new MidiVelocity(75);
+					return note;
+				};
+
+			advance(NoteValue.Half);
+			advance(NoteValue.Quarter);
+
+			theNotes.Add(noter(NoteValue.Half, scale['a'] - 24));
+			theNotes.Add(noter(NoteValue.Half, scale['e'] - 12));
+			advance(NoteValue.Half);
+
+			theNotes.Add(noter(NoteValue.Half, scale['b'] - 24));
+			theNotes.Add(noter(NoteValue.Half, scale['f'] - 12));
+			advance(NoteValue.Half);
+
+			theNotes.Add(noter(NoteValue.Whole, scale['c'] - 12));
+			theNotes.Add(noter(NoteValue.Whole, scale['g'] - 12));
+			advance(NoteValue.Whole);
+
+			theNotes.Add(noter(NoteValue.Half, scale['a'] - 24));
+			theNotes.Add(noter(NoteValue.Half, scale['e'] - 12));
+			advance(NoteValue.Half);
+
+			theNotes.Add(noter(NoteValue.Half, scale['g'] - 24));
+			theNotes.Add(noter(NoteValue.Half, scale['d'] - 12));
+			advance(NoteValue.Half);
+
+			theNotes.Add(noter(NoteValue.Whole, scale['c'] - 12));
+			theNotes.Add(noter(NoteValue.Whole, scale['g'] - 12));
+			advance(NoteValue.Whole);
 
 			var player = new CompositionPlayer();
 			player.Play(theDemo).Wait();

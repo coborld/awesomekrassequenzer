@@ -12,7 +12,12 @@ namespace krassequenzer.MusicModel
 	{
 		public int Instrument { get; set; }
 		public MusicalTime Time { get; set; }
-		public MidiChannelIndex MidiChannelIndex { get; set; }
+
+		/// <summary>
+		/// Specifies the MIDI channel index for this instance. If the value of this property is null,
+		/// the default channel for the <see cref="Track"/> is used.
+		/// </summary>
+		public MidiChannelIndex? MidiChannelIndex { get; set; }
 
 		public static int TimeComparison(ProgramChange x, ProgramChange y)
 		{
