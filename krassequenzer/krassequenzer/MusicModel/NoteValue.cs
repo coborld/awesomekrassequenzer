@@ -45,9 +45,9 @@ namespace krassequenzer.MusicModel
 		private DurationModifier _durationModifier;
 		public DurationModifier DurationModifier { get { return _durationModifier; } set { durationRecalcRequired = true; _durationModifier = value; } }
 
-		private MusicalTime _duration;
+		private StreamTime _duration;
 		private bool durationRecalcRequired = true;
-		public MusicalTime Duration
+		public StreamTime Duration
 		{
 			get
 			{
@@ -111,7 +111,7 @@ namespace krassequenzer.MusicModel
 			return this._noteValue;
 		}
 
-		private MusicalTime getAsMusicalTime()
+		private StreamTime getAsMusicalTime()
 		{
 #warning sotix: Why did I built that check?
 			if (!IsValid())
@@ -119,7 +119,7 @@ namespace krassequenzer.MusicModel
 				throw new InvalidNoteValueException();
 			}
 
-			MusicalTime duration = new MusicalTime(4 * MusicalTime.TicksPerQuarter / Denominator);
+			StreamTime duration = new StreamTime(4 * StreamTime.TicksPerQuarter / Denominator);
 
 			if (DurationModifier != null)
 			{

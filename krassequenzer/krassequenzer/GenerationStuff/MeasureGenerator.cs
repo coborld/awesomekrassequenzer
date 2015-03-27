@@ -29,7 +29,7 @@ namespace krassequenzer.GenerationStuff
 			List<Note> generatedNotes = new List<Note>();
 			Random rnd = new Random();
 
-			MusicalTime measureLength = new MusicalTime(timeSignature.Beats * MusicalTime.getByRelativeNoteLength(timeSignature.BeatUnit).Ticks);
+			StreamTime measureLength = new StreamTime(timeSignature.Beats * StreamTime.getByRelativeNoteLength(timeSignature.BeatUnit).Ticks);
 
 			// find the longest note, that fits in the measure
 #warning CheckUseful: once the generator is working, check if biggestFitIndex is used
@@ -57,9 +57,9 @@ namespace krassequenzer.GenerationStuff
 				// throw new WeFuckedUpException();
 			}
 
-			MusicalTime remainingTimeInMeasure = measureLength;
-			MusicalTime nextOnBeat = remainingTimeInMeasure;
-			MusicalTime smallestPossibleDuration = NoteValue.Supported.Last().Duration;
+			StreamTime remainingTimeInMeasure = measureLength;
+			StreamTime nextOnBeat = remainingTimeInMeasure;
+			StreamTime smallestPossibleDuration = NoteValue.Supported.Last().Duration;
 
 #warning TODO: implement generation of notes that span over multiple measures
 			// Indication if the next note would fall on the beat set by the TimeSignature.
@@ -79,7 +79,7 @@ namespace krassequenzer.GenerationStuff
 			ObjectWithProbability<Object> offbeatPlayer = new ObjectWithProbability<object>(probConfig.Offbeat, null);
 			ObjectWithProbability<Object> dottingPlayer = new ObjectWithProbability<object>(probConfig.Dotting, null);
 			ObjectWithProbability<Object> tripletPlayer = new ObjectWithProbability<object>(probConfig.Triplet, null);
-			while (remainingTimeInMeasure > MusicalTime.Zero)
+			while (remainingTimeInMeasure > StreamTime.Zero)
 			{
 				NoteValue nextNoteValue; // to be generated
 
@@ -135,7 +135,7 @@ namespace krassequenzer.GenerationStuff
 
 								// indicate that the next note will be offbeat
 								atRythm = false;
-								nextOnBeat = nextOnBeat - MusicalTime.getByRelativeNoteLength(timeSignature.BeatUnit);
+								nextOnBeat = nextOnBeat - StreamTime.getByRelativeNoteLength(timeSignature.BeatUnit);
 								
 							}
 						}

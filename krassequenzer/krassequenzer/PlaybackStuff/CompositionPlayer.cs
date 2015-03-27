@@ -39,7 +39,7 @@ namespace krassequenzer.PlaybackStuff
 			{
 				stream.Open();
 				stream.RestartPlayback();
-				stream.SetTimeDiv(MusicalTime.TicksPerQuarter);
+				stream.SetTimeDiv(StreamTime.TicksPerQuarter);
 				await stream.Play(mergedEvents, ct);
 			}
 		}

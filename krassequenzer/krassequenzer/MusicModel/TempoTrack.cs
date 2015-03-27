@@ -19,7 +19,7 @@ namespace krassequenzer.MusicModel
 		/// </summary>
 		public TempoTrack()
 		{
-			this._tempoChanges = new OrderedCollection<TempoChange>((x, y) => MusicalTime.Comparison(x.Position, y.Position));
+			this._tempoChanges = new OrderedCollection<TempoChange>((x, y) => StreamTime.Comparison(x.Position, y.Position));
 			this.InitialTempo = DefaultInitialTempo;
 		}
 
@@ -45,7 +45,7 @@ namespace krassequenzer.MusicModel
 		/// <summary>
 		/// Gets the interpolated time at the specified <paramref name="time"/>.
 		/// </summary>
-		public Tempo GetTempoAt(MusicalTime time)
+		public Tempo GetTempoAt(StreamTime time)
 		{
 			if (!this.TempoChanges.Any())
 			{

@@ -21,7 +21,7 @@ namespace krassequenzer.GenerationStuff
 		public void Generate(Track part)
 		{
 			Random rnd = new Random(0);
-			MusicalTime curStart = MusicalTime.Zero;
+			StreamTime curStart = StreamTime.Zero;
 			if (NrNotesToGenerate <= 0)
 			{
 				NrNotesToGenerate = 10;
@@ -40,8 +40,8 @@ namespace krassequenzer.GenerationStuff
 				//
 				// create the internal note
 				//
-				MusicalTime duration = nv.Duration;
-				MusicalTime newStart = curStart + duration;
+				StreamTime duration = nv.Duration;
+				StreamTime newStart = curStart + duration;
 				part.Notes.Add(new Note { ScoreStartPosition = curStart, NoteValue = nv, Pitch = pitch });
 				curStart = newStart;
 			}

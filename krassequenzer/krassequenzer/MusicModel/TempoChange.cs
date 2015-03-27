@@ -20,21 +20,21 @@ namespace krassequenzer.MusicModel
 		/// the previous tempo change and this tempo change.</param>
 		/// <param name="newTempo">The new tempo that is valid from the position of this
 		/// tempo change until the next tempo change.</param>
-		public TempoChange(MusicalTime position, bool linearInterpolation, Tempo newTempo)
+		public TempoChange(StreamTime position, bool linearInterpolation, Tempo newTempo)
 		{
 			this._position = position;
 			this._linearInterpolation = linearInterpolation;
 			this._newTempo = newTempo;
 		}
 
-		private readonly MusicalTime _position;
+		private readonly StreamTime _position;
 		private readonly bool _linearInterpolation;
 		private readonly Tempo _newTempo;
 
 		/// <summary>
 		/// Gets the position at which the tempo change occurs.
 		/// </summary>
-		public MusicalTime Position { get { return this._position; } }
+		public StreamTime Position { get { return this._position; } }
 		/// <summary>
 		/// Gets a value indicating whether to use linear interpolation between the
 		/// previous tempo change and this.

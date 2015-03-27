@@ -11,7 +11,7 @@ namespace krassequenzer.MusicModel
 	public class ProgramChange
 	{
 		public int Instrument { get; set; }
-		public MusicalTime Time { get; set; }
+		public StreamTime Time { get; set; }
 
 		/// <summary>
 		/// Specifies the MIDI channel index for this instance. If the value of this property is null,
@@ -21,7 +21,7 @@ namespace krassequenzer.MusicModel
 
 		public static int TimeComparison(ProgramChange x, ProgramChange y)
 		{
-			return MusicalTime.Comparison(x.NotNull("x").Time, y.NotNull("y").Time);
+			return StreamTime.Comparison(x.NotNull("x").Time, y.NotNull("y").Time);
 		}
 	}
 }

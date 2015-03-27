@@ -73,7 +73,7 @@
     <Compile Include="MusicModel\Composition.cs" />
     <Compile Include="MusicModel\TempoChange.cs" />
     <Compile Include="MusicModel\TempoTrack.cs" />
-    <Compile Include="MusicModel\MusicalTime.cs" />
+    <Compile Include="MusicModel\StreamTime.cs" />
     <Compile Include="MusicModel\TimeSignature.cs" />
     <Compile Include="MusicModel\TimeSignatureChange.cs" />
     <Compile Include="MusicModel\TimeSignatureTrack.cs" />

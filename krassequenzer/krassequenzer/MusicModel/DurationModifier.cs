@@ -22,9 +22,9 @@ namespace krassequenzer.MusicModel
 			this.denominator = denominator;
 		}
 
-		public MusicalTime Apply(MusicalTime on)
+		public StreamTime Apply(StreamTime on)
 		{
-			return new MusicalTime(on.Ticks / denominator * numerator);
+			return new StreamTime(on.Ticks / denominator * numerator);
 		}
 
 		public DurationModifier Clone()

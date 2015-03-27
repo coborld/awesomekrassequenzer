@@ -48,7 +48,7 @@ namespace KrassequenzerTester
 					var note = new Note();
 					note.NoteValue = noteValue;
 					note.Pitch = pitch + 0;
-					note.ScoreStartPosition = new MusicalTime(currentStartPosition);
+					note.ScoreStartPosition = new StreamTime(currentStartPosition);
 					note.NoteOnVelocity = new MidiVelocity(90);
 					currentStartPosition += note.ScoreDuration.Ticks;
 					return note;
@@ -108,7 +108,7 @@ namespace KrassequenzerTester
 					var note = new Note();
 					note.NoteValue = noteValue;
 					note.Pitch = pitch;
-					note.ScoreStartPosition = new MusicalTime(currentStartPosition);
+					note.ScoreStartPosition = new StreamTime(currentStartPosition);
 					note.NoteOnVelocity = new MidiVelocity(75);
 					return note;
 				};

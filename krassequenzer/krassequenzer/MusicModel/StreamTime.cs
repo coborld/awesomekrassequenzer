@@ -10,7 +10,7 @@ namespace krassequenzer.MusicModel
 	/// <summary>
 	/// Represents a musical time value, defined by ticks.
 	/// </summary>
-	public struct MusicalTime
+	public struct StreamTime
 	{
 		// this is so that 16th notes are evenly divisble by
 		// 2, 3, 4, 5, 6, 8, 10
@@ -20,14 +20,14 @@ namespace krassequenzer.MusicModel
 		/// </summary>
 		public const int TicksPerQuarter = 4 * 120;
 
-		public static MusicalTime Zero = new MusicalTime(0);
+		public static StreamTime Zero = new StreamTime(0);
 
 		/// <summary>
 		/// Initializes a new instance.
 		/// </summary>
 		/// <param name="ticks">The number of ticks since the start of the
 		/// track.</param>
-		public MusicalTime(long ticks)
+		public StreamTime(long ticks)
 		{
 			if (ticks < 0) throw new ArgumentOutOfRangeException("ticks");
 			this._ticks = ticks;
@@ -46,53 +46,53 @@ namespace krassequenzer.MusicModel
 		/// </summary>
 		/// <param name="beatUnit"></param>
 		/// <returns></returns>
-		public static MusicalTime getByRelativeNoteLength(int beatUnit){
-			return new MusicalTime(4 / beatUnit * TicksPerQuarter);
+		public static StreamTime getByRelativeNoteLength(int beatUnit){
+			return new StreamTime(4 / beatUnit * TicksPerQuarter);
 		}
 
-		public static int Comparison(MusicalTime x, MusicalTime y)
+		public static int Comparison(StreamTime x, StreamTime y)
 		{
 			return Math.Sign(x.Ticks - y.Ticks);
 		}
 
-		public static bool operator >(MusicalTime l, MusicalTime r)
+		public static bool operator >(StreamTime l, StreamTime r)
 		{
 			return Comparison(l, r) > 0;
 		}
 
-		public static bool operator >=(MusicalTime l, MusicalTime r)
+		public static bool operator >=(StreamTime l, StreamTime r)
 		{
 			return Comparison(l, r) >= 0;
 		}
 
-		public static bool operator <(MusicalTime l, MusicalTime r)
+		public static bool operator <(StreamTime l, StreamTime r)
 		{
 			return Comparison(l, r) < 0;
 		}
 
-		public static bool operator <=(MusicalTime l, MusicalTime r)
+		public static bool operator <=(StreamTime l, StreamTime r)
 		{
 			return Comparison(l, r) <= 0;
 		}
 
-		public static bool operator ==(MusicalTime l, MusicalTime r)
+		public static bool operator ==(StreamTime l, StreamTime r)
 		{
 			return l.Ticks == r.Ticks;
 		}
 
-		public static bool operator !=(MusicalTime l, MusicalTime r)
+		public static bool operator !=(StreamTime l, StreamTime r)
 		{
 			return l.Ticks != r.Ticks;
 		}
 
-		public static MusicalTime operator -(MusicalTime l, MusicalTime r)
+		public static StreamTime operator -(StreamTime l, StreamTime r)
 		{
-			return new MusicalTime(l.Ticks - r.Ticks);
+			return new StreamTime(l.Ticks - r.Ticks);
 		}
 
-		public static MusicalTime operator +(MusicalTime l, MusicalTime r)
+		public static StreamTime operator +(StreamTime l, StreamTime r)
 		{
-			return new MusicalTime(l.Ticks + r.Ticks);
+			return new StreamTime(l.Ticks + r.Ticks);
 		}
 
 		public override int GetHashCode()
@@ -102,11 +102,11 @@ namespace krassequenzer.MusicModel
 
 		public override bool Equals(object obj)
 		{
-			if (!(obj is MusicalTime))
+			if (!(obj is StreamTime))
 			{
 				return false;
 			}
-			var o = (MusicalTime)obj;
+			var o = (StreamTime)obj;
 			return this.Ticks == o.Ticks;
 		}
 

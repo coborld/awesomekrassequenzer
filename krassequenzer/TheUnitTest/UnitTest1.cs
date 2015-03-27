@@ -16,13 +16,13 @@ namespace KrassequenzerTester
 			var score = new Composition();
 			var tt = score.TempoTrack;
 			tt.InitialTempo = new Tempo(20);
-			tt.TempoChanges.Add(new TempoChange(new MusicalTime(100), false, 40));
-			tt.TempoChanges.Add(new TempoChange(new MusicalTime(300), false, 60));
+			tt.TempoChanges.Add(new TempoChange(new StreamTime(100), false, 40));
+			tt.TempoChanges.Add(new TempoChange(new StreamTime(300), false, 60));
 
 			// no linear interpolation
 			{
-				var t50 = tt.GetTempoAt(new MusicalTime(50));
-				var t200 = tt.GetTempoAt(new MusicalTime(200));
+				var t50 = tt.GetTempoAt(new StreamTime(50));
+				var t200 = tt.GetTempoAt(new StreamTime(200));
 
 				Assert.AreEqual(new Tempo(20), t50);
 				Assert.AreEqual(new Tempo(40), t200);
@@ -30,13 +30,13 @@ namespace KrassequenzerTester
 
 			tt.TempoChanges.Clear();
 
-			tt.TempoChanges.Add(new TempoChange(new MusicalTime(100), true, 40));
-			tt.TempoChanges.Add(new TempoChange(new MusicalTime(300), true, 60));
+			tt.TempoChanges.Add(new TempoChange(new StreamTime(100), true, 40));
+			tt.TempoChanges.Add(new TempoChange(new StreamTime(300), true, 60));
 
 			// with linear interpolation
 			{
-				var t50 = tt.GetTempoAt(new MusicalTime(50));
-				var t200 = tt.GetTempoAt(new MusicalTime(200));
+				var t50 = tt.GetTempoAt(new StreamTime(50));
+				var t200 = tt.GetTempoAt(new StreamTime(200));
 
 				Assert.AreEqual(new Tempo(30), t50);
 				Assert.AreEqual(new Tempo(50), t200);

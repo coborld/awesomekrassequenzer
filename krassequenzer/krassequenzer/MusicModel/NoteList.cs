@@ -13,7 +13,7 @@ namespace krassequenzer.MusicModel
 	{
 		private List<Note> innerList = new List<Note>();
 
-		MusicalTime nextStart = MusicalTime.Zero;
+		StreamTime nextStart = StreamTime.Zero;
 
 		private int mainVoice;
 		public NoteList(int mainVoice)
@@ -48,7 +48,7 @@ namespace krassequenzer.MusicModel
 			}
 		}
 
-		public void AddPause(MusicalTime length)
+		public void AddPause(StreamTime length)
 		{
 			nextStart += length;
 		}

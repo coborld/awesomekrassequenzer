@@ -39,15 +39,15 @@ namespace KrassequenzerTester
 
 			var vTrack = new Track();
 			vTrack.Name = "v";
-			var q2 = MusicalTime.TicksPerQuarter / 2;
-			var q = MusicalTime.TicksPerQuarter;
+			var q2 = StreamTime.TicksPerQuarter / 2;
+			var q = StreamTime.TicksPerQuarter;
 			var qd = q + q2;
 
 			int startPosition = 0;
 
 			Func<int, Note> vAdder = x =>
 				{
-					var n = new Note() { StartPositionOffset = new MusicalTime(startPosition), DurationOffset = new MusicalTime(x) };
+					var n = new Note() { StartPositionOffset = new StreamTime(startPosition), DurationOffset = new StreamTime(x) };
 					vTrack.Notes.Add(n);
 					startPosition += x;
 					return n;

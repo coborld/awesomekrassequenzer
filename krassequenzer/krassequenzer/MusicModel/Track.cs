@@ -12,6 +12,10 @@ namespace krassequenzer.MusicModel
 		public string Name { get; set; }
 
 		private readonly OrderedCollection<Note> _notes = new OrderedCollection<Note>((x, y) => Note.Comparison(x, y));
+		/// <summary>
+		/// Gets a collection of <see cref="Note"/> instances that belong to this track.
+		/// The order of items in this collection is automatically sorted.
+		/// </summary>
 		public ICollection<Note> Notes { get { return this._notes; } }
 
 		private readonly OrderedCollection<ProgramChange> _programChanges = new OrderedCollection<ProgramChange>((x, y) => ProgramChange.TimeComparison(x, y));
@@ -24,7 +28,7 @@ namespace krassequenzer.MusicModel
 
 		public override string ToString()
 		{
-			MusicalTime prevEnd = MusicalTime.Zero;
+			StreamTime prevEnd = StreamTime.Zero;
 			StringBuilder sb = new StringBuilder();
 			sb.Append("\"");
 			sb.Append(Name);
