@@ -33,12 +33,14 @@ namespace krassequenzer
 
 			this.compositionPropertiesFormManager = new ModelessDialogManager(this, this.CreateCompositionPropertiesForm);
 			this.deviceSetupFormManager = new ModelessDialogManager(this, this.CreateDeviceSetupForm);
+			this.objectPropertiesFormManager = new ModelessDialogManager(this, this.CreateObjectPropertiesForm);
 
 			this.SetApplicationStatus("Ready");
         }
 
 		private readonly ModelessDialogManager compositionPropertiesFormManager;
 		private readonly ModelessDialogManager deviceSetupFormManager;
+		private readonly ModelessDialogManager objectPropertiesFormManager;
 		private readonly ViewContext context;
 		private readonly TrackOverviewControl trackOverviewControl;
 		
@@ -75,6 +77,13 @@ namespace krassequenzer
 		{
 			var form = new DeviceSetupForm();
 			form.Context = this.Context;
+			return form;
+		}
+
+		private Form CreateObjectPropertiesForm()
+		{
+			var form = new ObjectPropertiesForm();
+			form.Context = this.context;
 			return form;
 		}
 

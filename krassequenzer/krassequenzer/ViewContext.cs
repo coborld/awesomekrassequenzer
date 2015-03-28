@@ -29,5 +29,11 @@ namespace krassequenzer
 		/// Gets or sets the currently active <see cref="DeviceSetup"/>.
 		/// </summary>
 		public ObservableProperty<DeviceSetup> DeviceSetup { get { return this._deviceSetup; } }
+
+		private readonly ObservableProperty<object> _selectedObject = new ObservableProperty<object>();
+		/// <summary>
+		/// Gets or sets the object that is currently selected for editing.
+		/// </summary>
+		public ObservableProperty<object> SelectedObject { get { return this._selectedObject; } }
 	}
 }

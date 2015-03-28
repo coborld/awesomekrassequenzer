@@ -37,19 +37,20 @@ namespace krassequenzer.Stuff
 				{
 					this.OnDetachCue();
 				}
+				var oldValue = this._value;
 				this._value = value;
 				if (this._value != null)
 				{
 					this.OnAttachCue();
 				}
-				this.OnValueChanged();
+				this.OnValueChanged(oldValue, value);
 			}
 		}
 
 		/// <summary>
 		/// Occurs when the value of this instance changes.
 		/// </summary>
-		public event EventHandler ValueChanged;
+		public event EventHandler<ObservablePropertyValueChangedEventArgs<T>> ValueChanged;
 
 		/// <summary>
 		/// Occurs after the value of this instance changes if it is
@@ -84,13 +85,42 @@ namespace krassequenzer.Stuff
 			}
 		}
 
-		private void OnValueChanged()
+		private void OnValueChanged(T oldValue, T newValue)
 		{
+			var e = new ObservablePropertyValueChangedEventArgs<T>(oldValue, newValue);
 			var handler = this.ValueChanged;
 			if (handler != null)
 			{
-				handler(this, EventArgs.Empty);
+				handler(this, e);
 			}
 		}
+	}
+
+	/// <summary>
+	/// Event arguments for the <see cref="ObservableProperty{T}.ValueChanged"/> event.
+	/// </summary>
+	public class ObservablePropertyValueChangedEventArgs<T> : EventArgs
+	{
+		/// <summary>
+		/// Initializes a new instance.
+		/// </summary>
+		/// <param name="oldValue">The value that was assigned previously.</param>
+		/// <param name="newValue">The currently assigned value.</param>
+		public ObservablePropertyValueChangedEventArgs(T oldValue, T newValue)
+		{
+			this._oldValue = oldValue;
+			this._newValue = newValue;
+		}
+
+		private readonly T _oldValue;
+		private readonly T _newValue;
+		/// <summary>
+		/// Gets the old property value. The property does not actually have this value anymore.
+		/// </summary>
+		public T OldValue { get { return this._oldValue; } }
+		/// <summary>
+		/// Gets the new property value. The new value is already assigned to the property.
+		/// </summary>
+		public T NewValue { get { return this._newValue; } }
 	}
 }

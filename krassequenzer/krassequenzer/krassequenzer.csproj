@@ -52,6 +52,7 @@
     <Compile Include="MusicModel\TiedNote.cs" />
     <Compile Include="PlaybackStuff\CompositionPlayer.cs" />
     <Compile Include="Stuff\ObservableProperty.cs" />
+    <Compile Include="Stuff\ObservingProperty.cs" />
     <Compile Include="ViewContext.cs" />
     <Compile Include="MusicModel\DurationModifier.cs" />
     <Compile Include="MusicModel\InvalidNoteValueException.cs" />
@@ -105,6 +106,18 @@
       <DependentUpon>ListEditorControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\ListVisualizer.cs" />
+    <Compile Include="Views\NotePropertiesControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\NotePropertiesControl.Designer.cs">
+      <DependentUpon>NotePropertiesControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ObjectPropertiesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\ObjectPropertiesForm.Designer.cs">
+      <DependentUpon>ObjectPropertiesForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\SensibleScrollBar.cs" />
     <Compile Include="Views\TrackContentControl.cs">
       <SubType>UserControl</SubType>
@@ -145,6 +158,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\ListEditorControl.resx">
       <DependentUpon>ListEditorControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\ObjectPropertiesForm.resx">
+      <DependentUpon>ObjectPropertiesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\TrackContentControl.resx">
       <DependentUpon>TrackContentControl.cs</DependentUpon>

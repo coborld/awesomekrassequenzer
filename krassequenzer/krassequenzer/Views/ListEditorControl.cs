@@ -78,6 +78,9 @@ namespace krassequenzer.Views
 			}
 		}
 
+#warning TODO: use this to show an editing interface for the currently selected object
+		internal ModelessDialogManager ObjectPropertiesDialogManager { get; set; }
+
 		private Track track;
 
 		public Track Track
