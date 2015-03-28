@@ -28,20 +28,14 @@ namespace krassequenzer
 
 			// this is the thing that needs to be passed to all other
 			// views which need access to the application state
-			this.context = new ViewContext();
-			this.trackOverviewControl.Context = this.context;
-
-			this.compositionPropertiesFormManager = new ModelessDialogManager(this, this.CreateCompositionPropertiesForm);
-			this.deviceSetupFormManager = new ModelessDialogManager(this, this.CreateDeviceSetupForm);
-			this.objectPropertiesFormManager = new ModelessDialogManager(this, this.CreateObjectPropertiesForm);
+			var viewContext = new ViewContext();
+			this.formController = new FormController(viewContext, this);
+			this.trackOverviewControl.Context = this.Context;
 
 			this.SetApplicationStatus("Ready");
         }
 
-		private readonly ModelessDialogManager compositionPropertiesFormManager;
-		private readonly ModelessDialogManager deviceSetupFormManager;
-		private readonly ModelessDialogManager objectPropertiesFormManager;
-		private readonly ViewContext context;
+		private readonly FormController formController;
 		private readonly TrackOverviewControl trackOverviewControl;
 		
 		/// <summary>
@@ -49,7 +43,7 @@ namespace krassequenzer
 		/// </summary>
 		public ViewContext Context
 		{
-			get { return this.context; }
+			get { return this.formController.Context; }
 		}
 
 		/// <summary>
@@ -57,34 +51,13 @@ namespace krassequenzer
 		/// </summary>
 		public Composition CurrentComposition
 		{
-			get { return this.context.CurrentComposition.Value; }
-			private set { this.context.CurrentComposition.Value = value; }
+			get { return this.Context.CurrentComposition.Value; }
+			private set { this.Context.CurrentComposition.Value = value; }
 		}
 
 		private void SetApplicationStatus(string message)
 		{
 			this.toolStripStatusLabelStatus.Text = message;
-		}
-
-		private Form CreateCompositionPropertiesForm()
-		{
-			var form = new CompositionPropertiesForm();
-			form.Context = this.Context;
-			return form;
-		}
-
-		private Form CreateDeviceSetupForm()
-		{
-			var form = new DeviceSetupForm();
-			form.Context = this.Context;
-			return form;
-		}
-
-		private Form CreateObjectPropertiesForm()
-		{
-			var form = new ObjectPropertiesForm();
-			form.Context = this.context;
-			return form;
 		}
 
 		private void toolStripButtonUpdate_Click(object sender, EventArgs e)
@@ -100,7 +73,7 @@ namespace krassequenzer
 
 		private void toolStripMenuItemCompositionProperties_Click(object sender, EventArgs e)
 		{
-			this.compositionPropertiesFormManager.Show();
+			this.formController.CompositionPropertiesFormManager.Show();
 		}
 
 		private void toolStripMenuItemNewComposition_Click(object sender, EventArgs e)
@@ -126,7 +99,7 @@ namespace krassequenzer
 
 		private void toolStripMenuItemDeviceSetup_Click(object sender, EventArgs e)
 		{
-			this.deviceSetupFormManager.Show();
+			this.formController.DeviceSetupFormManager.Show();
 		}
 
 		private void toolStripMenuItemListEditor_Click(object sender, EventArgs e)
@@ -144,6 +117,8 @@ namespace krassequenzer
 			var control = new ListEditorControl();
 			control.Track = selectedTrack;
 			control.Dock = DockStyle.Fill;
+			
+			control.ObjectPropertiesCaller = x => { this.Context.SelectedObject.Value = x; this.formController.ObjectPropertiesFormManager.Show(); };
 			form.Controls.Add(control);
 			form.Show();
 		}

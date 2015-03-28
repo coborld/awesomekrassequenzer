@@ -78,8 +78,10 @@ namespace krassequenzer.Views
 			}
 		}
 
-#warning TODO: use this to show an editing interface for the currently selected object
-		internal ModelessDialogManager ObjectPropertiesDialogManager { get; set; }
+		/// <summary>
+		/// Gets or sets an action that is called when the selected object changed.
+		/// </summary>
+		public Action<object> ObjectPropertiesCaller { get; set; }
 
 		private Track track;
 

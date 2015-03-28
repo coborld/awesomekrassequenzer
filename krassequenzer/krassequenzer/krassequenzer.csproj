@@ -99,6 +99,7 @@
     <Compile Include="Views\DeviceSetupForm.Designer.cs">
       <DependentUpon>DeviceSetupForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\FormController.cs" />
     <Compile Include="Views\ListEditorControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
